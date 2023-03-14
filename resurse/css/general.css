@@ -114,7 +114,58 @@ main {
     aspect-ratio: 16 / 9; /* inaltimea iframe-ului video in functie de latimea disponibila */
 }
 
-/* Section styling */
+/* Stiluri tabel */
+#table {
+    min-width: 0; /* permite overflow scroll pentru tabel */
+}
+
+#table table {
+    /* culori bordere */
+    --c1: var(--culoare-border);
+    --c2: var(--culoare-link);
+
+    /* pozitionare caption */
+    caption-side: bottom;
+}
+
+/* Border tabel, randuri si celule */
+#table table, #table table tr, #table table td, #table table th {
+    border: 2px solid black;
+    border-collapse: collapse;
+}
+
+/* Border intre thead si tbody si intre tbody si tfoot */
+#table table thead, #table table tbody {
+    border-bottom: 3px solid black;
+}
+
+#table table tbody, #table table tfoot {
+    border-top: 3px solid black;
+}
+
+/* Border intre coloane */
+#table table td:nth-child(odd), #table table th:nth-child(odd) {
+    border-left: 2px solid var(--c1);
+    border-right: 2px solid var(--c2);
+}
+
+#table table td:nth-child(even), #table table th:nth-child(even) {
+    border-left: 2px solid var(--c2);
+    border-right: 2px solid var(--c1);
+}
+
+/* Box shadow pe hover */
+#table table tr:hover {
+    box-shadow: 0px 0px 10px var(--culoare-text);
+    transition: 0.5s;
+}
+
+/* Scroll orizontal pe overflow */
+#table .container {
+    overflow-y: auto;
+}
+
+/* Stilizare sectiuni */
 /* :not(section) > section:not(#welcome), aside { */
 :not(section) > section, aside {
     /* padding: 1rem 1.5rem; */
