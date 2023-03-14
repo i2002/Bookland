@@ -1,0 +1,35 @@
+html {
+    font-size: 14px;
+    animation: none !important;
+}
+
+main {
+    grid-template-areas: 
+        "z-welcome"
+        "z-content"
+        "z-table"
+        "z-events"
+        "z-announcements"
+        "z-users"
+        "z-statistics"
+        "z-site-info";
+    grid-template-columns: 1fr;
+}
+
+#content {
+    grid-template-areas: 
+        "z-sales"
+        "z-bestseller"
+        "z-aside";
+    grid-template-columns: 1fr;
+}
+
+#content section.suport {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-auto-flow: row;
+}
+
+#content section.suport h2 {
+    grid-column: unset;
+}

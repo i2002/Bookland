@@ -1,0 +1,18 @@
+html {
+    font-size: 15px;
+}
+
+main {
+    grid-template-areas: 
+        "z-welcome z-welcome"
+        "z-content z-content"
+        "z-table z-table"
+        "z-events z-announcements"
+        "z-users z-statistics"
+        "z-site-info z-site-info";
+    grid-template-columns: 1fr 1fr;
+}
+
+#content {
+    grid-template-columns: 2fr 1fr;
+}

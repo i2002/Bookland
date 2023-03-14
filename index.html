@@ -17,6 +17,11 @@
     <meta name="msapplication-TileColor" content="#00a300">
     <meta name="msapplication-config" content="resurse/ico/browserconfig.xml">
     <meta name="theme-color" content="#ffffff">
+
+    <!-- styles -->
+    <link rel="stylesheet" type="text/css" href="resurse/css/general.css">
+    <link rel="stylesheet" type="text/css" href="resurse/css/general-medium.css" media="screen and (max-width: 1200px)">
+    <link rel="stylesheet" type="text/css" href="resurse/css/general-small.css" media="screen and (max-width: 700px)">
 </head>
 <body>
     <!-- Header -->
@@ -76,125 +81,154 @@
 
     <!-- Main content -->
     <main>
-        <section>
+        <section id="welcome">
             <h2 id="intampinare">Bine ai venit!</h2>
             <figure>
                 <picture>
                     <source media="(max-width: 600px)" srcset="resurse/img/ebook_640.jpg">
                     <source media="(max-width: 1000px)" srcset="resurse/img/ebook_1280.jpg">
-                    <img src="resurse/img/ebook_1920.jpg" alt="imagine ebook reader" title="Click pentru a lărgi imaginea">
+                    <img src="resurse/img/ebook_1920.jpg" alt="imagine ebook reader" title="Bookland">
                 </picture>
-                <figcaption>Descoperă lumea cărților digitale (<a href="resurse/img/ebook_1920.jpg" download>Descarcă imaginea</a>)</figcaption>
+                <!-- <figcaption>Descoperă lumea cărților digitale (<a href="resurse/img/ebook_1920.jpg" download>Descarcă imaginea</a>)</figcaption> -->
             </figure>
-            <p>La Bookland găsești <b>cărți în format digital</b> de la autori din toate colțurile lumii.</p>
+            <div class="messages">
+                <p>Descoperă lumea cărților digitale</p>
+                <p>La Bookland găsești <b>cărți în format digital</b> de la autori din toate colțurile lumii.</p>
+            </div>
         </section>
-        <aside>
-            <h2>Categorii cărți</h2>
-            <ul>
-                <li><a href="#">Autori români contemporani</a></li>
-                <li><a href="#">Literatură clasică</a></li>
-                <li><a href="#">Literatură școlară</a></li>
-                <li><a href="#">Literatură pentru copii</a></li>
-                <li><a href="#">Fantasy</a></li>
-                <li><a href="#">Science fiction</a></li>
-                <li><a href="#">Thriller</a></li>
-                <li><a href="#">Romance</a></li>
-                <li><a href="#">Memorialistică</a></li>
-                <li><a href="#">Literatură de specialitate</a></li>
-            </ul>
-        </aside>
-        <section>
-            <h2 id="oferte">Oferte</h2>
-            <p>Profită de cele mai avantajoase oferte la <i>ebook-uri</i>.</p>
-            <ul>
-                <li>Viața ca o pradă - Marin Preda
-                    <br>
-                    Preț: <s>5 lei</s> <ins>2 lei</ins>
-                </li>
-                <li>Harry Potter și piatra filosofală - J. K. Rolling
-                    <br>
-                    Preț: <s>15 lei</s> <ins>10 lei</ins>
-                </li>
-                <li>Aventurile lui Tom Sawyer - Mark Twain
-                    <br>
-                    Preț: <s>7 lei</s> <ins>3 lei</ins>
-                </li>
-                <li>Habarnam pe Lună - Nikolai Nosov
-                    <br>
-                    Preț: <s>12 lei</s> <ins>9 lei</ins>
-                </li>
-                <li>Inimă de samurai - Margi Preus
-                    <br>
-                    Preț: <s>10 lei</s> <ins>8 lei</ins>
-                </li>
-            </ul>
+        <section id="table">
+
         </section>
-        <section>
-            <h2 id="bestseller">Bestseller</h2>
-            <p>Nu lipsi din biblioteca ta cele mai căutate cărți ale momentului.</p>
-            <ul>
-                <li>Rezervă - Prințul Harry</li>
-                <li>Persoana întâi singular - Haruki Murakami</li>
-                <li>It ends with us - Colleen Hoover</li>
-                <li>Cele 5 răni care ne împiedică să fim ca noi înșine - Lise Bourbeau</li>
-                <li>Crima perfectă Vol.3: La un pas de moarte - Holly Jackson</li>
-            </ul>
+        <section id="calendar">
+            <h2>Calendar evenimente</h2>
+            Lorem ipsum, dolor sit amet consectetur adipisicing elit. Voluptatem possimus quod placeat tempora, velit, fuga voluptate commodi, dolorem praesentium illum ex eius animi ullam soluta ipsum magnam corrupti consequuntur? Odio!
         </section>
-        <section>
-            <h2 id="biblioteca-digitala">Biblioteca digitală</h2>
-            <p>Întreaga bibliotecă în palma ta. Cu ajutorul bibliotecii digitale poți </p>
-            <p>Alătură-te celor peste 10,000 de utilizatori mulțumiți:</p>
-            <blockquote>
-                De când folosesc Bookland am început să citesc mult mai mult întrucât e atât de simplu să am toate cărțile cu mine. - Andrei, client Bookland din 2019
-            </blockquote>
+        <section id="announcements">
+            <h2>Anunțuri</h2>
+            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Dicta, consequatur adipisci animi hic deserunt impedit minima temporibus quam delectus iusto! Voluptatibus voluptatem ad ut quibusdam rerum! Autem nesciunt tempora modi.
         </section>
-        <section>
-            <h2 id="suport">Suport</h2>
-            <section>
-                <h3 id="intrebari-frecvente">Întrebări frecvente</h3>
-                <ol>
-                    <li>
-                        <details>
-                            <summary>Ce dispozitive sunt suportate de biblioteca digitală?</summary>
-                            <p>Orice dispozitiv cu acces la internet și un <b>browser</b> modern (recomandăm folosirea <a href="https://www.google.com/chrome/" target="_blank">Google Chrome</a>). Aplicațiile de mobil au nevoie de iOS > 13 sau Android OS > 10. <strong>În cazul în care nu folosiți un dispozitiv suportat, nu ne asumăm răspunderea în cazul nefuncționării corespunzătoare a aplicației</strong></p>
-                        </details>
-                    </li>
-                    <li>
-                        <details>
-                            <summary>Ce fac dacă am uitat parola?</summary>
-                            <p>După completarea formularului de recuperare parolă veți primi un email cu un link pentru resetarea parolei. În cazul în care nu folosiți link-ul în decurs de o zi de la data cererii acesta se invalidează.</p>
-                        </details>
-                    </li>
-                    <li>
-                        <details>
-                            <summary>Ce fac dacă nu pot accesa platforma?</summary>
-                            <p>În primul rând verificați dacă <i>browser-ul</i> dumneavoastră suportă <abbr title="Hypertext Transfer Protocol Secure">HTTPS</abbr>. Dacă nu se rezolvă problema în acest mod, nu ezitați să ne cereți ajutorul folosind formularul de contact.</p>
-                        </details>
-                    </li>
-                </ol>
-            </section>
-            <section>
-                <h3 id="ghiduri-video">Ghiduri utilizare</h3>
+        <section id="users">
+            <h2>Utilizatori online</h2>
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Soluta veniam dolore mollitia dolorum? Magnam fugiat provident blanditiis perferendis esse accusantium laborum nesciunt, doloribus unde, error vel in, nemo vero modi!
+        </section>
+        <section id="statistics">
+            <h2>Statistici utilizator</h2>
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Alias, et nulla aliquam velit repellat, quasi cumque sunt doloremque tenetur placeat vitae, eligendi nesciunt commodi illum aliquid saepe expedita quia odit.
+        </section>
+        <section id="site-info">
+            <h2>Stare site</h2>
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquam, distinctio. Corporis quasi, sit dolorem sequi natus ipsum repudiandae animi vitae esse, ipsa asperiores tenetur repellat cum quibusdam, nobis assumenda accusamus.
+        </section>
+        <div id="content">
+            <aside>
+                <h2>Categorii cărți</h2>
                 <ul>
-                    <li><a href="https://www.youtube.com/embed/Ew_ReoK1zMc" target="video-iframe">Instalare Google Chrome</a></li>
-                    <li><a href="https://www.youtube.com/embed/dB9tAINMO2M" target="video-iframe">Instalare Adobe Acrobat Reader</a></li>
+                    <li><a href="#">Autori români contemporani</a></li>
+                    <li><a href="#">Literatură clasică</a></li>
+                    <li><a href="#">Literatură școlară</a></li>
+                    <li><a href="#">Literatură pentru copii</a></li>
+                    <li><a href="#">Fantasy</a></li>
+                    <li><a href="#">Science fiction</a></li>
+                    <li><a href="#">Thriller</a></li>
+                    <li><a href="#">Romance</a></li>
+                    <li><a href="#">Memorialistică</a></li>
+                    <li><a href="#">Literatură de specialitate</a></li>
                 </ul>
-                <iframe name="video-iframe" width="560" height="315" src="https://www.youtube.com/embed/Ew_ReoK1zMc" title="YouTube video player" style="border: none;" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
-            </section>
+            </aside>
             <section>
-                <h3 id="formular-contact">Formular contact</h3>
-                <!-- Formularele probabil că vor face parte dintr-un curs ulterior -->
-            </section>
-            <section>
-                <h3 id="date-contact">Date despre companie</h3>
-                <p>SC Bookland Services SRL, înregistrată cu CUI: , și sediul social în</p>
-                <p>Program suport telefonic și prin email</p>
+                <h2 id="oferte">Oferte</h2>
+                <p>Profită de cele mai avantajoase oferte la <i>ebook-uri</i>.</p>
                 <ul>
-                    <li>Luni - Vineri: 10 - 18</li>
-                    <li>Sâmbătă: 10 - 14</li>
+                    <li>Viața ca o pradă - Marin Preda
+                        <br>
+                        Preț: <s>5 lei</s> <ins>2 lei</ins>
+                    </li>
+                    <li>Harry Potter și piatra filosofală - J. K. Rolling
+                        <br>
+                        Preț: <s>15 lei</s> <ins>10 lei</ins>
+                    </li>
+                    <li>Aventurile lui Tom Sawyer - Mark Twain
+                        <br>
+                        Preț: <s>7 lei</s> <ins>3 lei</ins>
+                    </li>
+                    <li>Habarnam pe Lună - Nikolai Nosov
+                        <br>
+                        Preț: <s>12 lei</s> <ins>9 lei</ins>
+                    </li>
+                    <li>Inimă de samurai - Margi Preus
+                        <br>
+                        Preț: <s>10 lei</s> <ins>8 lei</ins>
+                    </li>
                 </ul>
             </section>
-        </section>
+            <section>
+                <h2 id="bestseller">Bestseller</h2>
+                <p>Nu lipsi din biblioteca ta cele mai căutate cărți ale momentului.</p>
+                <ul>
+                    <li>Rezervă - Prințul Harry</li>
+                    <li>Persoana întâi singular - Haruki Murakami</li>
+                    <li>It ends with us - Colleen Hoover</li>
+                    <li>Cele 5 răni care ne împiedică să fim ca noi înșine - Lise Bourbeau</li>
+                    <li>Crima perfectă Vol.3: La un pas de moarte - Holly Jackson</li>
+                </ul>
+            </section>
+            <section>
+                <h2 id="biblioteca-digitala">Biblioteca digitală</h2>
+                <p>Întreaga bibliotecă în palma ta. Cu ajutorul bibliotecii digitale poți </p>
+                <p>Alătură-te celor peste 10,000 de utilizatori mulțumiți:</p>
+                <blockquote>
+                    De când folosesc Bookland am început să citesc mult mai mult întrucât e atât de simplu să am toate cărțile cu mine. - Andrei, client Bookland din 2019
+                </blockquote>
+            </section>
+            <section class="suport">
+                <h2 id="suport">Suport</h2>
+                <section>
+                    <h3 id="intrebari-frecvente">Întrebări frecvente</h3>
+                    <ol>
+                        <li>
+                            <details>
+                                <summary>Ce dispozitive sunt suportate de biblioteca digitală?</summary>
+                                <p>Orice dispozitiv cu acces la internet și un <b>browser</b> modern (recomandăm folosirea <a href="https://www.google.com/chrome/" target="_blank">Google Chrome</a>). Aplicațiile de mobil au nevoie de iOS > 13 sau Android OS > 10. <strong>În cazul în care nu folosiți un dispozitiv suportat, nu ne asumăm răspunderea în cazul nefuncționării corespunzătoare a aplicației</strong></p>
+                            </details>
+                        </li>
+                        <li>
+                            <details>
+                                <summary>Ce fac dacă am uitat parola?</summary>
+                                <p>După completarea formularului de recuperare parolă veți primi un email cu un link pentru resetarea parolei. În cazul în care nu folosiți link-ul în decurs de o zi de la data cererii acesta se invalidează.</p>
+                            </details>
+                        </li>
+                        <li>
+                            <details>
+                                <summary>Ce fac dacă nu pot accesa platforma?</summary>
+                                <p>În primul rând verificați dacă <i>browser-ul</i> dumneavoastră suportă <abbr title="Hypertext Transfer Protocol Secure">HTTPS</abbr>. Dacă nu se rezolvă problema în acest mod, nu ezitați să ne cereți ajutorul folosind formularul de contact.</p>
+                            </details>
+                        </li>
+                    </ol>
+                </section>
+                <section>
+                    <h3 id="ghiduri-video">Ghiduri utilizare</h3>
+                    <ul>
+                        <li><a href="https://www.youtube.com/embed/Ew_ReoK1zMc" target="video-iframe">Instalare Google Chrome</a></li>
+                        <li><a href="https://www.youtube.com/embed/dB9tAINMO2M" target="video-iframe">Instalare Adobe Acrobat Reader</a></li>
+                    </ul>
+                    <iframe name="video-iframe" src="https://www.youtube.com/embed/Ew_ReoK1zMc" title="YouTube video player" style="border: none;" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+                </section>
+                <section>
+                    <h3 id="formular-contact">Formular contact</h3>
+                    <!-- Formularele probabil că vor face parte dintr-un curs ulterior -->
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Nisi voluptas deleniti, doloremque, culpa laudantium aliquid doloribus veritatis tempora incidunt, veniam quasi ipsum. Omnis tenetur sit iste enim tempora suscipit porro!
+                </section>
+                <section>
+                    <h3 id="date-contact">Date despre companie</h3>
+                    <p>SC Bookland Services SRL, înregistrată cu CUI: , și sediul social în</p>
+                    <p>Program suport telefonic și prin email</p>
+                    <ul>
+                        <li>Luni - Vineri: 10 - 18</li>
+                        <li>Sâmbătă: 10 - 14</li>
+                    </ul>
+                </section>
+            </section>
+        </div>
     </main>
     <footer>
         Telefon: <a href="tel:+40711222333">+40 711 222 333</a>, 
