@@ -13,7 +13,13 @@ body {
 /* Text */
 html {
     font-size: 16px;
+    font-family: Nunito;
     transition: font-size linear 0.2s;
+}
+
+/* Header */
+header h1 {
+    font-family: Courgette;
 }
 
 /* Grid principal */
