@@ -109,9 +109,12 @@ main {
 }
 
 #content section.suport iframe {
+    display: block;
     width: 100%;
     max-width: 800px;
     aspect-ratio: 16 / 9; /* inaltimea iframe-ului video in functie de latimea disponibila */
+    /* border: 2px solid var(--culoare-border); */
+    margin: 0 auto;
 }
 
 /* Stiluri tabel */
@@ -230,3 +233,33 @@ h2 {
 a:visited {
     color: var(--culoare-link-vizitat);
 } */
+
+/* Stilizare tab-uri iframe */
+.iframe-tabs {
+    display: flex;
+    justify-content: center;
+    align-items: end;
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+}
+
+.iframe-tabs li a {
+    display: block;
+    max-width: 150px;
+    margin: 0 0.3rem;
+    padding: 0.5rem 1rem;
+    text-decoration: none;
+    text-align: center;
+    border: 1px solid var(--culoare-border);
+    box-shadow: 0 0 8px var(--culoare-border);
+    border-top-left-radius: 0.5rem;
+    border-top-right-radius: 0.5rem;
+    color: var(--culoare-text);
+    background-color: white;
+    transition: background-color linear 0.2s;
+}
+
+.iframe-tabs li a:hover {
+    background-color: var(--culoare-text-contrast);
+}
