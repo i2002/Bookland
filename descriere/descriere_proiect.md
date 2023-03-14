@@ -92,3 +92,6 @@ Amazon Kindle
 - site: https://play.google.com/store/books/
 - pro: secțiuni pe prima pagină sugerate în funcție de căutările anterioare, opțiunea de sample deschide interfața de citire (în așa fel poți să vezi exact experiența de citire înainte să cumperi)
 - contra: nu conține o secțiune curată manual (spre exemplu: “editor’s pick”), apar și cărți în alte limbi (fără un mod simplu de a filtra), căutarea nu are modalități de filtrare a rezultatelor (pe lângă cel referitor la preț)
+
+## 6. Schemă culori
+Am ales ca și culoare principală <span style="background-color:#18E000;color:black"> #18E000</span>, întrucât este o culoare caldă, luminoasă și care relaxează cititorul. Aceasta se potrivește cu tematica site-ului deoarece lectura este o activitate relaxantă, benefică pentru mintea cititorului. Pentru a alege restul culorilor am ales din schemele monocromatice și complementare.
