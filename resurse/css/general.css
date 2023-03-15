@@ -1,5 +1,6 @@
-/* Variabile culori */
+/* Variabile */
 body {
+    /* colors */
     --culoare-principala: #18E000;
     --culoare-background: #55E645;
     --culoare-text: #0A6100;
@@ -8,6 +9,16 @@ body {
     --culoare-link: #94005F;
     --culoare-link-vizitat: #E00090;
     --culoare-text-contrast: #CCFF9A;
+    
+    /* borders */
+    --border-size: 1px;
+    --border-radius: 0.5rem;
+
+    /* dimensiuni elemente */
+    --top-link-size: 2rem;
+    --top-link-spacing: 0.75rem;
+    --top-link-arrow-width: 1.25rem;
+    --top-link-arrow-height: 1.25rem;
 }
 
 /* Text */
@@ -111,7 +122,7 @@ main {
 #content section.suport iframe {
     display: block;
     width: 100%;
-    max-width: 800px;
+    max-width: 50rem;
     aspect-ratio: 16 / 9; /* inaltimea iframe-ului video in functie de latimea disponibila */
     /* border: 2px solid var(--culoare-border); */
     margin: 0 auto;
@@ -124,8 +135,13 @@ main {
 
 #table table {
     /* culori bordere */
+    --base-color: black;
     --c1: var(--culoare-border);
     --c2: var(--culoare-link);
+
+    /* dimensiuni bordere */
+    --border-width: 0.125rem;
+    --thick-border-width: 0.25rem;
 
     /* pozitionare caption */
     caption-side: bottom;
@@ -133,33 +149,33 @@ main {
 
 /* Border tabel, randuri si celule */
 #table table, #table table tr, #table table td, #table table th {
-    border: 2px solid black;
+    border: var(--border-width) solid var(--base-color);
     border-collapse: collapse;
 }
 
 /* Border intre thead si tbody si intre tbody si tfoot */
 #table table thead, #table table tbody {
-    border-bottom: 3px solid black;
+    border-bottom: var(--thick-border-width) solid var(--base-color);
 }
 
 #table table tbody, #table table tfoot {
-    border-top: 3px solid black;
+    border-top: var(--thick-border-width) solid var(--base-color);
 }
 
 /* Border intre coloane */
 #table table td:nth-child(odd), #table table th:nth-child(odd) {
-    border-left: 2px solid var(--c1);
-    border-right: 2px solid var(--c2);
+    border-left: var(--border-width) solid var(--c1);
+    border-right: var(--border-width) solid var(--c2);
 }
 
 #table table td:nth-child(even), #table table th:nth-child(even) {
-    border-left: 2px solid var(--c2);
-    border-right: 2px solid var(--c1);
+    border-left: var(--border-width) solid var(--c2);
+    border-right: var(--border-width) solid var(--c1);
 }
 
 /* Box shadow pe hover */
 #table table tr:hover {
-    box-shadow: 0px 0px 10px var(--culoare-text);
+    box-shadow: 0 0 1.5rem var(--culoare-text);
     transition: 0.5s;
 }
 
@@ -173,7 +189,7 @@ main {
 :not(section) > section, aside {
     /* padding: 1rem 1.5rem; */
     /* border-radius: 1rem; */
-    border: 1px solid var(--culoare-border);
+    border: var(--border-size) solid var(--culoare-border);
     /* background-color: white; */
 }
 
@@ -246,15 +262,15 @@ a:visited {
 
 .iframe-tabs li a {
     display: block;
-    max-width: 150px;
+    max-width: 10rem;
     margin: 0 0.3rem;
     padding: 0.5rem 1rem;
     text-decoration: none;
     text-align: center;
-    border: 1px solid var(--culoare-border);
-    box-shadow: 0 0 8px var(--culoare-border);
-    border-top-left-radius: 0.5rem;
-    border-top-right-radius: 0.5rem;
+    border: var(--border-size) solid var(--culoare-border);
+    box-shadow: 0 0 0.5rem var(--culoare-border);
+    border-top-left-radius: var(--border-radius);
+    border-top-right-radius: var(--border-radius);
     color: var(--culoare-text);
     background-color: white;
     transition: background-color linear 0.2s;
@@ -267,24 +283,25 @@ a:visited {
 /* Stilizare link top */
 .top-link {
     position: fixed;
-    bottom: 10px;
-    right: 10px;
+    bottom: var(--top-link-spacing);
+    right: var(--top-link-spacing);
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 30px;
-    height: 30px;
+    width: var(--top-link-size);
+    height: var(--top-link-size);
     border: 1px solid var(--culoare-border);
     transform: rotate(45deg);
-    opacity: 0.6;
+    background-color: white;
+    opacity: 0.4;
     transition: opacity, background-color linear 0.3s;
 }
 
 .top-link .triunghi {
     border-top: none;
-    border-left: 10px solid transparent;
-    border-right: 10px solid transparent;
-    border-bottom: 20px solid var(--culoare-border);
+    border-left: calc(var(--top-link-arrow-width) / 2) solid transparent;
+    border-right: calc(var(--top-link-arrow-width) / 2) solid transparent;
+    border-bottom: var(--top-link-arrow-height) solid var(--culoare-border);
     border-radius: 0.5rem;
     transform: rotate(-45deg);
     transition: border-bottom-color linear 0.3s;
