@@ -137,6 +137,7 @@ main {
     display: block;
     width: 100%;
     max-width: 50rem;
+    min-width: 5rem;
     aspect-ratio: 16 / 9; /* inaltimea iframe-ului video in functie de latimea disponibila */
     /* border: 2px solid var(--culoare-border); */
     margin: 0 auto;
