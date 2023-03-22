@@ -37,6 +37,7 @@ html {
 body {
     padding: 0 var(--spatiere-laterala);
     background-color: var(--culoare-background);
+    min-width: 450px;
 }
 
 body .full-width {
