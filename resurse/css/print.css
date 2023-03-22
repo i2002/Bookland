@@ -1,0 +1,79 @@
+/* banner */
+.banner {
+    position: absolute;
+    width: 80vw;
+    left: 10vw;
+    text-align: center;
+    border: 2px dashed black;
+}
+
+/* titlu pagina */
+header {
+    height: unset;
+    display: block;
+    margin: 0;
+    page-break-after: always;
+}
+
+header h1 {
+    text-align: center;
+    font-size: 2.5rem;
+    line-height: 100vh;
+    text-decoration: underline;
+}
+
+nav {
+    display: none;
+}
+
+footer {
+    page-break-before: always;
+}
+
+/* resetare link-uri */
+a {
+    text-decoration: none !important;
+    color: black !important;
+}
+
+/* disable grid */
+main, #content, #content section.suport {
+    display: block;
+}
+
+/* disable media */
+iframe, img, picture, figure, figcaption, #welcome {
+    display: none !important;
+}
+
+/* watermark */
+body::after {
+    content: "Butufei Tudor-David";
+    position: fixed;
+    display: block;
+    height: 2cm;
+    width: 100px;
+    bottom: 0;
+    left: 0;
+    border: 5px double black;
+    /* font-size: 7rem; */
+    /* transform: rotate(-55deg);
+    transform-origin: bottom left; */
+    opacity: 0.65;
+}
+
+/* disable top link */
+.top-link {
+    display: none;
+}
+
+/* page margin */
+@page :left {
+    margin-left: 2.5cm;
+    margin-right: 0.5cm;
+}
+
+@page :right {
+    margin-left: 0.5cm;
+    margin-right: 2.5cm;
+}
