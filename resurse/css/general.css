@@ -1,6 +1,7 @@
 /* Variabile */
 body {
     /* colors */
+    /* TODO: maybe selectat culori mai pastel */
     --culoare-principala: #18E000;
     --culoare-background: #55E645;
     --culoare-text: #0A6100;
@@ -38,6 +39,10 @@ body {
 }
 
 /* Header */
+header {
+    box-shadow: 0px 0px 3px;
+}
+
 header h1 {
     font-family: Courgette;
 }
@@ -203,9 +208,11 @@ main {
 }
 
 /* Stilizare imagine principala */
-/* #welcome {
+#welcome {
     position: relative;
-    margin: -1.5rem -1.5rem 0;
+    /* margin: -1.5rem -1.5rem 0; */
+    border-bottom-left-radius: var(--border-radius);
+    border-bottom-right-radius: var(--border-radius);
 }
 
 #welcome h2 {
@@ -222,7 +229,7 @@ main {
 #welcome figure {
     margin: 0;
     padding: 0;
-}*/
+}
 
 #welcome img {
     width: 100%;
@@ -323,4 +330,9 @@ a:visited {
 
 .top-link:hover .triunghi {
     border-bottom-color: white;
+}
+
+/* Footer */
+footer {
+    background-color: var(--culoare-link-vizitat); /* TODO: redenumit in culoare secundara */
 }
