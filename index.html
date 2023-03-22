@@ -24,6 +24,7 @@
     <link rel="stylesheet" type="text/css" href="resurse/css/general.css">
     <link rel="stylesheet" type="text/css" href="resurse/css/general-medium.css" media="screen and (max-width: 1200px)">
     <link rel="stylesheet" type="text/css" href="resurse/css/general-small.css" media="screen and (max-width: 700px)">
+    <link rel="stylesheet" type="text/css" href="resurse/css/meniu.css">
 
     <!-- Font Awesome -->
     <script src="https://kit.fontawesome.com/34666e46b6.js" crossorigin="anonymous"></script>
@@ -33,10 +34,14 @@
 </head>
 <body>
     <!-- Header -->
-    <header>
+    <header class="full-width">
         <h1><i class="fa-solid fa-book-open"></i> Bookland</h1>
         <nav>
-            <ul>
+            <label id="hamburger" for="ch-menu">
+                <img src="resurse/imagini/Hamburger_icon_alb.png" alt="menu">
+            </label>
+            <input id="ch-meniu" type="checkbox">
+            <ul class="meniu">
                 <li>
                     <div>Acasă</div>
                     <ul>

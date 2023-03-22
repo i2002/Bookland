@@ -36,7 +36,7 @@ html {
 /* Pagina */
 body {
     padding: 0 var(--spatiere-laterala);
-    background-color: var(--culoare-background);
+    background-color: var(--culoare-text-contrast);
     min-width: 450px;
 }
 
@@ -47,8 +47,15 @@ body .full-width {
 
 /* Header */
 header {
-    box-shadow: 0px 0px 3px;
-    background-color: white;
+    position: sticky;
+    top: 0;
+    height: var(--inaltime-meniu);
+    padding: 0 var(--spatiere-laterala);
+    display: flex;
+    align-items: center;
+    box-shadow: 0 0 5px;
+    background-color: var(--culoare-meniu);
+    z-index: 100;
 }
 
 header h1 {
@@ -218,6 +225,7 @@ main {
     position: relative;
     border-bottom-left-radius: var(--border-radius);
     border-bottom-right-radius: var(--border-radius);
+    margin-bottom: 1rem;
 }
 
 #welcome h2 {
