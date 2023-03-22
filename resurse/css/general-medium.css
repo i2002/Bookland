@@ -2,6 +2,11 @@ html {
     font-size: 15px;
 }
 
+body {
+    --spatiere-laterala: 0.5rem;
+    --gap-sectiuni: 0.2rem;
+}
+
 main {
     grid-template-areas: 
         "z-welcome z-welcome"

@@ -3,6 +3,11 @@ html {
     animation: none !important;
 }
 
+body {
+    --spatiere-laterala: 0.25rem;
+    --gap-sectiuni: 0.25rem;
+}
+
 main {
     grid-template-areas: 
         "z-welcome"
