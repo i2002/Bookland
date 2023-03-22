@@ -6,7 +6,7 @@
 /* variabile meniu */
 body {
     --inaltime-meniu: 48px;
-    --latime-buton: 180px;
+    --latime-buton: 160px;
     --culoare-meniu: var(--culoare-background);
     /* --culoare-border: var(--culoare-border); */
 }
@@ -35,15 +35,30 @@ ul.meniu {
 
 /* element meniu */
 ul.meniu li {
+    position: relative;
     width: var(--latime-buton);
     height: var(--inaltime-meniu);
     overflow: hidden;
     text-align: center;
     background-color: var(--culoare-background);
-    transition: background-color 0.3s ease-out;
+    transition: background-color 0.5s ease-out;
 }
 
-/* text meniu */
+/* meniu nivel 1 */
+ul.meniu > li::before {
+    content: "";
+    display: block;
+    position: absolute;
+    width: 0;
+    right: 0;
+    bottom: 0;
+    height: 0.3rem;
+    /* background-color: var(--culoare-text); */
+    background: linear-gradient(90deg, rgba(0,0,0,0) 0%, var(--culoare-text) 100%);
+    transition: width 0.3s linear;
+}
+
+/* text item meniu */
 ul.meniu li div, ul.meniu li a {
     display: block;
     width: 100%;
@@ -56,22 +71,42 @@ ul.meniu li div, ul.meniu li a {
     text-decoration: none;
     font-weight: bold;
     cursor: pointer;
+    transition: color 0.5s linear;
+}
+
+ul.meniu li div.icon {
+    display: none;
 }
 
 /* submeniuri */
 ul.meniu li ul {
-    opacity: 0;
-    transition: opacity 0.2s ease-in;
+    /* opacity: 0; */
+    transform: scaleY(0);
+    transition: transform 0.5s ease-in;
 }
 
 /* afisare pe hover */
 ul.meniu li:hover {
     overflow: visible;
-    background-color: var(--culoare-highlight);
 }
 
-ul.meniu li:hover ul {
-    opacity: 1;
+/* tranzitie hover meniu nivel principal */
+ul.meniu > li:hover::before {
+    width: var(--latime-buton);
+}
+
+/* tranzitie hover meniu nivele secundare */
+ul.meniu li li:hover {
+    background-color: var(--culoare-text);
+}
+
+ul.meniu li li:hover > a {
+    color: var(--culoare-text-contrast);
+}
+
+/* tranzitie afisare submeniu */
+ul.meniu li:hover > ul {
+    transform: scaleY(100%);
 }
 
 /* border sub meniuri */

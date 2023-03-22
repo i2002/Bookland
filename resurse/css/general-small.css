@@ -8,6 +8,10 @@ body {
     --gap-sectiuni: 0.25rem;
 }
 
+header {
+    height: var(--inaltime-meniu);
+}
+
 main {
     grid-template-areas: 
         "z-welcome"

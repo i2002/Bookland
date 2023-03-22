@@ -7,6 +7,17 @@ body {
     --gap-sectiuni: 0.75rem;
 }
 
+header {
+    height: calc(2 * var(--inaltime-meniu));
+    flex-wrap: wrap;
+}
+
+header h1 {
+    display: block;
+    width: 100%;
+    text-align: center;
+}
+
 main {
     grid-template-areas: 
         "z-welcome z-welcome"
