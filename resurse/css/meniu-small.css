@@ -1,3 +1,9 @@
+/*  */
+body {
+    --inaltime-meniu: 40px;
+    --latime-buton: 100%;
+}
+
 /* icon meniu */
 #hamburger {
     display: block;
@@ -31,8 +37,6 @@ ul.meniu {
 
 /* stiluri element */
 ul.meniu li {
-    width: 100%;
-    min-height: var(--inaltime-meniu);
     height: unset;
     border: 1px solid var(--culoare-border);
 }

@@ -33,6 +33,10 @@ main {
     grid-template-columns: 1fr;
 }
 
+#content > section {
+    grid-column: unset;
+}
+
 #content section.suport {
     display: grid;
     grid-template-columns: 1fr;
