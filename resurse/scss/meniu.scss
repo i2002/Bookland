@@ -1,3 +1,5 @@
+@use 'sass:math';
+
 // variabile meniu
 body {
     --inaltime-meniu: 48px;
@@ -9,6 +11,34 @@ body {
 // ascundere meniu mobil
 #hamburger, #ch-meniu {
     display: none;
+}
+
+// stilizare hamburger
+$hamburger-size: 1.75rem;
+$hamburger-line-thickness: 4px;
+#hamburger {
+    align-items: center;
+    height: var(--inaltime-meniu);
+    
+    .icon {
+        position: relative;
+        width: $hamburger-size;
+        height: $hamburger-size;
+
+        div {
+            position: absolute;
+            background-color: black;
+            height: $hamburger-line-thickness;
+            width: 100%;
+            border-radius: 0.4rem;
+        }
+
+        @for $i from 1 through 3 {
+            div.linie-#{$i} {
+                top: ($i - 1) * (math.div($hamburger-size - 3 * $hamburger-line-thickness,2) + $hamburger-line-thickness);
+            }
+        }
+    }
 }
 
 // container meniu

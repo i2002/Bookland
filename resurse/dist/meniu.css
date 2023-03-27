@@ -9,6 +9,32 @@ body {
   display: none;
 }
 
+#hamburger {
+  align-items: center;
+  height: var(--inaltime-meniu);
+}
+#hamburger .icon {
+  position: relative;
+  width: 1.75rem;
+  height: 1.75rem;
+}
+#hamburger .icon div {
+  position: absolute;
+  background-color: black;
+  height: 0.333rem;
+  width: 100%;
+  border-radius: 0.4rem;
+}
+#hamburger .icon div.linie-1 {
+  top: 0rem;
+}
+#hamburger .icon div.linie-2 {
+  top: 0.7085rem;
+}
+#hamburger .icon div.linie-3 {
+  top: 1.417rem;
+}
+
 nav {
   --text-meniu: black;
   position: absolute;

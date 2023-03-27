@@ -6,12 +6,13 @@ body {
 
 // icon meniu
 #hamburger {
-    display: block;
+    display: flex;
     margin-left: var(--spatiere-laterala);
 
-    i {
-        vertical-align: middle;
-        line-height: var(--inaltime-meniu);
+    @for $i from 1 through 3 {
+        .icon div:nth-child(#{$i}) {
+            animation: afisare_hamburger 0.5s linear $i * 100ms backwards;
+        }
     }
 }
 
@@ -76,5 +77,25 @@ ul.meniu {
     100% {
         transform: rotate(0deg);
         opacity: 1;
+    }
+}
+
+// animatie afisare hamburger
+@keyframes afisare_hamburger {
+    0% {
+        opacity: 0;
+        background-color: magenta;
+        transform: rotate(-90deg);
+    }
+
+    50% {
+        opacity: 0.7;
+        transform: rotate(-30deg);
+    }
+
+    100% {
+        opacity: 1;
+        background-color: black;
+        transform: rotate(0deg);
     }
 }
