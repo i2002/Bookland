@@ -1,0 +1,132 @@
+// variabile meniu
+body {
+    --inaltime-meniu: 48px;
+    --latime-buton: 160px;
+    --culoare-meniu: var(--culoare-background);
+    /* --culoare-border: var(--culoare-border); */
+}
+
+// ascundere meniu mobil
+#hamburger, #ch-meniu {
+    display: none;
+}
+
+// container meniu
+nav {
+    --text-meniu: black;
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: var(--inaltime-meniu);
+}
+
+// lista meniu
+ul.meniu {
+    display: flex;
+    justify-content: center;
+
+    // resetare liste
+    &, ul {
+        padding: 0;
+        margin: 0;
+        list-style-type: none;
+    }
+
+    // element meniu
+    li {
+        position: relative;
+        width: var(--latime-buton);
+        height: var(--inaltime-meniu);
+        overflow: hidden;
+        text-align: center;
+        background-color: var(--culoare-background);
+        transition: background-color 0.5s ease-out;
+
+        // afisare submeniu pe hover
+        &:hover {
+            overflow: visible;
+
+            > ul {
+                transform: scaleY(100%);
+            }
+            
+        }
+
+        // text element meniu
+        div, a {
+            display: block;
+            width: 100%;
+            height: 100%;
+            line-height: var(--inaltime-meniu);
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            color: var(--text-meniu);
+            text-decoration: none;
+            font-weight: bold;
+            cursor: pointer;
+            transition: color 0.5s linear;
+        }
+
+        // ascundere icon meniu
+        div.icon {
+            display: none;
+        }
+    }
+
+    // element meniu nivel 1
+    > li {
+        // subliniere
+        &::before {
+            content: "";
+            display: block;
+            position: absolute;
+            width: 0;
+            right: 0;
+            bottom: 0;
+            height: 0.3rem;
+            /* background-color: var(--culoare-text); */
+            background: linear-gradient(90deg, rgba(0,0,0,0) 0%, var(--culoare-text) 100%);
+            transition: width 0.3s linear;
+        }
+
+        // tranzitie hover
+        &:hover::before {
+            width: var(--latime-buton);
+        }
+    }
+
+    // submeniuri
+    ul {
+        transform: scaleY(0);
+        transition: transform 0.5s ease-in;
+
+        // element submeniu
+        li {
+            // border in jurul submeniului
+            border-bottom: var(--border-size) solid var(--culoare-border);
+            border-left: var(--border-size) solid var(--culoare-border);
+            border-right: var(--border-size) solid var(--culoare-border);
+
+            &:first-child {
+                border-top: 1px solid var(--culoare-border);
+            }
+
+            // efect hover
+            &:hover {
+                background-color: var(--culoare-text);
+    
+                > a {
+                    color: var(--culoare-text-contrast);
+                }
+            }
+        }
+
+        // sub sub meniu
+        ul li {
+            // resetare aliniere
+            position: relative;
+            left: calc(var(--border-size) * -1);
+        }
+    }
+}

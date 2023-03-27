@@ -1,0 +1,61 @@
+body {
+  --inaltime-meniu: 40px;
+  --latime-buton: 100%;
+}
+
+#hamburger {
+  display: block;
+  margin-left: var(--spatiere-laterala);
+}
+#hamburger i {
+  vertical-align: middle;
+  line-height: var(--inaltime-meniu);
+}
+
+nav {
+  position: absolute;
+}
+
+ul.meniu {
+  display: none;
+  flex-direction: column;
+  max-height: 100vh;
+  overflow: auto;
+  transform-origin: left top;
+}
+#ch-meniu:checked + ul.meniu {
+  display: block;
+  animation: afisare_meniu 0.5s linear;
+}
+ul.meniu li {
+  height: unset;
+  border: 1px solid var(--culoare-border);
+}
+ul.meniu li:hover {
+  background-color: var(--culoare-text);
+}
+ul.meniu li:hover > ul {
+  display: block;
+}
+ul.meniu li:hover > a, ul.meniu li:hover > div {
+  color: var(--culoare-text-contrast);
+}
+ul.meniu > li::before {
+  display: none;
+}
+ul.meniu ul {
+  display: none;
+}
+
+@keyframes afisare_meniu {
+  0% {
+    transform: rotate(-90deg);
+    opacity: 0;
+  }
+  100% {
+    transform: rotate(0deg);
+    opacity: 1;
+  }
+}
+
+/*# sourceMappingURL=meniu-small.css.map */

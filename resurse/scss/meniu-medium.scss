@@ -1,8 +1,10 @@
+// variabile meniu
 body {
     --latime-buton: 120px;
     /* --culoare-border: var(--culoare-border); */
 }
 
+// ajustare container
 nav {
     font-size: 14px;
     /* top: var(--inaltime-meniu); */
@@ -10,10 +12,13 @@ nav {
     width: 100%;
 }
 
-ul.meniu li div.icon {
-    display: block;
-}
+// afisare icon in loc de label
+ul.meniu li div {
+    &.icon {
+        display: block;
+    }
 
-ul.meniu li div.label {
-    display: none;
+    &.label {
+        display: none;
+    }
 }

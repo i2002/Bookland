@@ -1,0 +1,80 @@
+// variabile meniu
+body {
+    --inaltime-meniu: 40px;
+    --latime-buton: 100%;
+}
+
+// icon meniu
+#hamburger {
+    display: block;
+    margin-left: var(--spatiere-laterala);
+
+    i {
+        vertical-align: middle;
+        line-height: var(--inaltime-meniu);
+    }
+}
+
+// repozitionare meniu
+nav {
+    position: absolute;
+}
+
+// stiluri container
+ul.meniu {
+    display: none;
+    flex-direction: column;
+    max-height: 100vh;
+    overflow: auto;
+    transform-origin: left top;
+
+    // afisare meniu
+    #ch-meniu:checked + & {
+        display: block;
+        animation: afisare_meniu 0.5s linear;
+    }
+
+    // element meniu
+    li {
+        height: unset;
+        border: 1px solid var(--culoare-border);
+
+        // efect hover
+        &:hover {
+            background-color: var(--culoare-text);
+
+            // afisare submeniu pe hover
+            > ul {
+                display: block;
+            }
+
+            // tranzitie hover meniu nivele secundare
+            > a, > div {
+                color: var(--culoare-text-contrast);
+            }
+        }
+    }
+
+    // ascundere efect subliniere
+    > li::before {
+        display: none;
+    }
+
+    // ascundere submeniuri
+    ul {
+        display: none;
+    }
+}
+
+// animatie afisare meniu
+@keyframes afisare_meniu {
+    0% {
+        transform: rotate(-90deg);
+        opacity: 0;
+    }
+
+    100% {
+        transform: rotate(0deg);
+        opacity: 1;
+    }
+}
