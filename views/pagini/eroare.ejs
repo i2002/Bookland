@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <title>Bookland: Eroare</title>
+    <meta name="keywords" content="bookland, cărți digitale, ebook, bibliotecă virtuală">
+    <meta name="description" content="Magazin online de cărți digitale. Oferte. Bestsellere. Cărți nou apărute.">
+    <%- include("../fragmente/head.ejs"); %> 
+</head>
+<body>
+    <!-- Header -->
+    <%- include("../fragmente/header.ejs"); %> 
+
+    <!-- Main content -->
+    <main>
+        <div id="err-coloane">
+			<div id="err-imag">
+				<img src="<%- locals.imagine %>" />
+			</div>
+			<section>
+				<h2><%- locals.titlu %></h2>
+				<p><%- locals.text %></p>
+			</section>
+		</div>
+    </main>
+    
+    <!-- Footer -->
+    <%- include("../fragmente/footer.ejs");  %> 
+</body>
+</html>
