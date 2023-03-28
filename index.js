@@ -1,5 +1,6 @@
 const express = require("express");
 const fs = require("fs");
+const path = require("path");
 
 
 // Date aplicatie
@@ -16,14 +17,19 @@ console.log("Cale fisier", __filename);
 console.log("Director de lucru", process.cwd());
 app.set("view engine", "ejs");
 
-// app.get("/ceva", function(req, res){
-//     console.log("cale:", req.url);
-//     res.send("<h1>altceva</h1> ip: " + req.ip);
-// });
+// - creare foldere
+vectorFoldere = ["temp"];
+for (let folder of vectorFoldere) {
+    caleFolder = path.join(__dirname, folder)
+    if (! fs.existsSync(caleFolder)) {
+        fs.mkdirSync(caleFolder);
+    }
+}
+
 
 // Definire rutari
 // - incarcare resurse statice
-app.use("/resurse", express.static(__dirname + "/resurse"));
+app.use("/resurse", express.static(path.join(__dirname, "resurse")));
 
 // - prevenire accesul direct la resurse
 app.get(/^\/resurse(\/[a-zA-Z0-9]*)*$/, function(req, res) {
@@ -37,7 +43,7 @@ app.get("/*.ejs", function(req, res) { // sau ^\w+\.ejs$
 
 // - incarcarea unui favicon
 app.get("/favicon.ico", function(req, res) {
-    res.sendFile(__dirname + "/resurse/ico/favicon.ico"); 
+    res.sendFile(path.join(__dirname,"resurse", "ico", "favicon.ico"));
 });
 
 // - pagina principala cu alias
@@ -72,18 +78,18 @@ app.get("/*", function(req, res) {
 // Functii ajutatoare erori
 function initErori() {
     // citire fisier json
-    let continut = fs.readFileSync(__dirname + "/resurse/json/erori.json").toString("utf-8");
+    let continut = fs.readFileSync(path.join(__dirname, "resurse", "json", "erori.json")).toString("utf-8");
     obGlobal.obErori = JSON.parse(continut);
 
     // actualizare cale imagine
     let vErori = obGlobal.obErori.info_erori;
     for (let eroare of vErori) {
-        eroare.imagine = obGlobal.obErori.cale_baza + "/" + eroare.imagine;
+        eroare.imagine = path.join(obGlobal.obErori.cale_baza, eroare.imagine);
     }
 
     // actualizare cale imagine eroare default
     let eroareDefault = obGlobal.obErori.eroare_default;
-    eroareDefault.imagine = obGlobal.obErori.cale_baza + "/" + eroareDefault.imagine;
+    eroareDefault.imagine = path.join(obGlobal.obErori.cale_baza,eroareDefault.imagine);
 }
 initErori();
 
