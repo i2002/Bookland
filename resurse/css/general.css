@@ -251,6 +251,7 @@ main.home-page {
     width: 100%;
     min-height: 20rem;
     max-height: 50vh;
+    max-width: unset;
     object-fit: cover;
     filter: brightness(70%) blur(0.25rem) opacity(0.9);
 }
@@ -354,4 +355,18 @@ footer {
     padding-left: var(--spatiere-laterala);
     padding-right: var(--spatiere-laterala);
     background-color: var(--culoare-link-vizitat); /* TODO: redenumit in culoare secundara */
+}
+
+/* Responsive media */
+img, video, iframe {
+    width: 100%;
+    max-width: 50rem;
+    min-width: 10rem;
+}
+
+/* Stilizare sutitrari */
+::cue {
+    background: transparent;
+    color: white;
+    text-shadow: 2px 2px black;
 }
