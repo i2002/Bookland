@@ -12,7 +12,7 @@ header {
     height: var(--inaltime-meniu);
 }
 
-main {
+main.home-page {
     grid-template-areas: 
         "z-welcome"
         "z-content"
