@@ -275,13 +275,34 @@ h2 {
     color: var(--culoare-text);
 }
 
-/* a {
-    color: var(--culoare-link);
-}
-
+/* Style links */
 a:visited {
     color: var(--culoare-link-vizitat);
-} */
+}
+
+a[href^="http"]::before {
+    content: "\2BB3";
+}
+
+a[href^="http"]:hover:before {
+    color: var(--culoare-text);
+}
+
+main a {
+    background: radial-gradient(var(--culoare-text-contrast) 0%, var(--culoare-text-contrast) 40%, transparent 80%, transparent 100%);
+    background-size: 0;
+    background-position: center;
+    background-repeat: no-repeat;
+    transition: background linear 0.5s;
+}
+
+main a:hover {
+    background-size: 100%;
+}
+
+main a:focus {
+    border: 1px solid black;
+}
 
 /* Stilizare tab-uri iframe */
 .iframe-tabs {
