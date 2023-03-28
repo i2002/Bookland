@@ -65,13 +65,16 @@ header h1 {
 /* Grid principal */
 main {
     display: grid;
+    gap: var(--gap-sectiuni);
+}
+
+main.home-page {
     grid-template-areas: 
         "z-welcome z-welcome z-welcome"
         "z-content z-content z-content"
         "z-events z-table z-announcements"
         "z-users z-statistics z-site-info";
     grid-template-columns: 1fr 3fr 1fr;
-    gap: var(--gap-sectiuni);
 }
 
 /* - definire zone grid principal */
