@@ -4,23 +4,24 @@
     <title>Bookland: Eroare</title>
     <meta name="keywords" content="bookland, cărți digitale, ebook, bibliotecă virtuală">
     <meta name="description" content="Magazin online de cărți digitale. Oferte. Bestsellere. Cărți nou apărute.">
-    <%- include("../fragmente/head.ejs"); %> 
+    <%- include("../fragmente/head.ejs"); %>
+    <link rel="stylesheet" type="text/css" href="/resurse/css/erori.css">
 </head>
 <body>
     <!-- Header -->
-    <%- include("../fragmente/header.ejs"); %> 
+    <%- include("../fragmente/header.ejs"); %>
 
     <!-- Main content -->
     <main>
-        <div id="err-coloane">
+        <section class="erori">
 			<div id="err-imag">
-				<img src="<%- locals.imagine %>" />
+				<img src="<%- locals.imagine %>"/>
 			</div>
-			<section>
+			<div>
 				<h2><%- locals.titlu %></h2>
 				<p><%- locals.text %></p>
-			</section>
-		</div>
+            </div>
+		</section>
     </main>
     
     <!-- Footer -->

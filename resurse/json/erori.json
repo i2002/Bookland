@@ -1,9 +1,9 @@
 {
-    "cale_baza": "/resurse/imagini/erori",
+    "cale_baza": "/resurse/img/erori",
     "eroare_default":{
         "titlu":"Eroare !!!",
         "text": "A survenit eroare.",
-        "imagine":"interzis.png"
+        "imagine":"ban-solid.svg"
     },
     "info_erori": [
         {
@@ -11,22 +11,28 @@
             "status":true,
             "titlu":"404 - N-am, bre!",
             "text": "Nu-i pe serverul ăsta, sorry, caută în altă parte!",
-            "imagine":"lupa.png"
+            "imagine":"magnifying-glass-solid.svg"
         },
         {
             "identificator":403,
             "status":true,
             "titlu":"403 - Da, tu ce cauți aici?!!",
             "text": "Ai greșit ruta. Stânga-împrejur și pa!",
-            "imagine":"interzis.png"
+            "imagine":"ban-solid.svg"
         },
-        
+        {
+            "identificator": 400,
+            "status": true,
+            "titlu": "400 - Bad request",
+            "text": "Parametri cerere greșiți",
+            "imagine": "triangle-exclamation-solid.svg"
+        },
         {
             "identificator":1,
             "status":false,
             "titlu":"Site în lucru",
             "text": "Muncim, muncim!",
-            "imagine":"interzis.png"
+            "imagine":"ban-solid.svg"
         },
         
         {
@@ -34,7 +40,7 @@
             "status":false,
             "titlu":"Eroare baza date",
             "text": "Reveniti mai tarziu!",
-            "imagine":"interzis.png"
+            "imagine":"triangle-exclamation-solid.svg"
         },
         
         {
@@ -42,7 +48,7 @@
             "status":false,
             "titlu":"Date gresite",
             "text": "Verificati datele",
-            "imagine":"interzis.png"
+            "imagine":"triangle-exclamation-solid.svg"
         }
     ]
 }
