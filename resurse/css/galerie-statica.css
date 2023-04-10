@@ -1,0 +1,33 @@
+#galerie-statica {
+    padding-left: var(--padding-intern);
+    padding-right: var(--padding-intern);
+}
+
+#grid-galerie {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-row-gap: 0.5em;
+    grid-column-gap: 0.5em;
+    counter-reset: nrimag 1;
+    /* nrimag=2 */
+}
+
+#grid-galerie img {
+    width: 100%;
+}
+
+#grid-galerie figcaption {
+    text-align: center;
+    counter-increment: nrimag 2;
+    /* nrimag+=2 */
+}
+
+#grid-galerie figcaption::before {
+    content: counter(nrimag, upper-alpha) ")";
+}
+
+@media screen and (max-width:500px) {
+    #grid-galerie {
+        display: block;
+    }
+}

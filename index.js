@@ -1,6 +1,7 @@
 const express = require("express");
 const fs = require("fs");
 const path = require("path");
+const sharp = require("sharp");
 
 
 // Date aplicatie
@@ -48,7 +49,7 @@ app.get("/favicon.ico", function(req, res) {
 
 // - pagina principala cu alias
 app.get(["/index", "/", "/home"], function(req, res){
-    res.render("pagini/index", {ip: req.ip, a: 10, b: 20});
+    res.render("pagini/index", {ip: req.ip, a: 10, b: 20, imagini: obGlobal.obImagini.imagini});
 });
 
 // - afisare pagini dinamic + mesaje de eroare daca nu sunt gasite
@@ -76,6 +77,7 @@ app.get("/*", function(req, res) {
 
 
 // Functii ajutatoare erori
+// - initializare erori
 function initErori() {
     // citire fisier json
     let continut = fs.readFileSync(path.join(__dirname, "resurse", "json", "erori.json")).toString("utf-8");
@@ -92,6 +94,29 @@ function initErori() {
     eroareDefault.imagine = path.join(obGlobal.obErori.cale_baza,eroareDefault.imagine);
 }
 initErori();
+
+// - initializare imagini
+function initImagini() {
+    var continut = fs.readFileSync(__dirname + "/resurse/json/galerie.json").toString("utf-8");
+    obGlobal.obImagini = JSON.parse(continut);
+    let vImagini = obGlobal.obImagini.imagini;
+    let caleAbs = path.join(__dirname, obGlobal.obImagini.cale_galerie);
+    let caleAbsMediu = path.join(caleAbs, "mediu");
+
+    if(!fs.existsSync(caleAbsMediu)) {
+        fs.mkdirSync(caleAbsMediu);
+    }
+
+    for(let imag of vImagini) {
+        [numeFis, ext] = imag.fisier.split(".");
+        let caleFisAbs = path.join(caleAbs, imag.fisier);
+        let caleFisMediuAbs = path.join(caleAbsMediu, numeFis + ".webp");
+        sharp(caleFisAbs).resize(400).toFile(caleFisMediuAbs);
+        imag.fisier_mediu = "/" + path.join(obGlobal.obImagini.cale_galerie, "mediu", numeFis + ".webp");
+        imag.fisier = "/" + path.join(obGlobal.obImagini.cale_galerie, imag.fisier);
+    }
+}
+initImagini();
 
 function afisareEroare(res, _identificator, _titlu, _text, _imagine) {
     // incarcare erori
