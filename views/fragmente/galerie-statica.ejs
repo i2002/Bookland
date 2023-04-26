@@ -1,0 +1,27 @@
+<div id="grid-galerie">
+    <%
+        let count = 0;
+    %>
+    <% for (let imag of locals.galerie_statica) {
+        function check_time(time) {
+            let d = new Date();
+            let start = time.split("-")[0].split(":")
+            let end = time.split("-")[1].split(":")
+            
+            return (
+                (d.getHours() > start[0] || d.getHours() == start[0] && d.getMinutes() >= start[1]) &&
+                (d.getHours() < end[0] || d.getHours() == end[0] && d.getMinutes() <= end[1])
+            );
+        }
+
+        if ((imag.timp && check_time(imag.timp) || !imag.timp) && count++ < 10) { //FIXME: nu e clar din cerință dacă pot să nu am atributul timp
+    %>
+        <figure>
+            <picture>
+                <source srcset="<%- imag.fisier_mediu %>" media="(max-width:1000px)" />
+                <img src="<%- imag.fisier %>" alt="imagine">
+            </picture>
+            <figcaption><%- imag.titlu %><br><%- imag.descriere %></figcaption>
+        </figure>
+    <% }}  %>
+</div>

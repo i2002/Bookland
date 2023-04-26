@@ -48,10 +48,18 @@ app.get("/favicon.ico", function(req, res) {
 });
 
 // - pagina principala cu alias
-app.get(["/index", "/", "/home"], function(req, res){
-    res.render("pagini/index", {ip: req.ip, a: 10, b: 20, imagini: obGlobal.obImagini.imagini});
+app.get(["/index", "/", "/home"], function(req, res) {
+    res.render("pagini/index", {
+        ip: req.ip,
+        galerie_statica: obGlobal.obImagini.imagini
+    });
 });
 
+app.get("/biblioteca-virtuala", function(req, res) {
+    res.render("pagini/biblioteca-virtuala", {
+        galerie_statica: obGlobal.obImagini.imagini
+    });
+});
 // - afisare pagini dinamic + mesaje de eroare daca nu sunt gasite
 app.get("/*", function(req, res) {
     try {
@@ -95,29 +103,6 @@ function initErori() {
 }
 initErori();
 
-// - initializare imagini
-function initImagini() {
-    var continut = fs.readFileSync(__dirname + "/resurse/json/galerie.json").toString("utf-8");
-    obGlobal.obImagini = JSON.parse(continut);
-    let vImagini = obGlobal.obImagini.imagini;
-    let caleAbs = path.join(__dirname, obGlobal.obImagini.cale_galerie);
-    let caleAbsMediu = path.join(caleAbs, "mediu");
-
-    if(!fs.existsSync(caleAbsMediu)) {
-        fs.mkdirSync(caleAbsMediu);
-    }
-
-    for(let imag of vImagini) {
-        [numeFis, ext] = imag.fisier.split(".");
-        let caleFisAbs = path.join(caleAbs, imag.fisier);
-        let caleFisMediuAbs = path.join(caleAbsMediu, numeFis + ".webp");
-        sharp(caleFisAbs).resize(400).toFile(caleFisMediuAbs);
-        imag.fisier_mediu = "/" + path.join(obGlobal.obImagini.cale_galerie, "mediu", numeFis + ".webp");
-        imag.fisier = "/" + path.join(obGlobal.obImagini.cale_galerie, imag.fisier);
-    }
-}
-initImagini();
-
 function afisareEroare(res, _identificator, _titlu, _text, _imagine) {
     // incarcare erori
     let vErori = obGlobal.obErori.info_erori;
@@ -141,6 +126,32 @@ function afisareEroare(res, _identificator, _titlu, _text, _imagine) {
         res.render("pagini/eroare", {titlu: titlu1, text: text1, imagine: imagine1});
     }
 }
+
+
+// Galerie statica
+// - initializare imagini
+function initImagini() {
+    var continut = fs.readFileSync(path.join(__dirname,"resurse", "json", "galerie.json")).toString("utf-8");
+    obGlobal.obImagini = JSON.parse(continut);
+    let vImagini = obGlobal.obImagini.imagini;
+    let caleAbs = path.join(__dirname, obGlobal.obImagini.cale_galerie);
+    let caleAbsMediu = path.join(caleAbs, "mediu");
+
+    if(!fs.existsSync(caleAbsMediu)) {
+        fs.mkdirSync(caleAbsMediu);
+    }
+
+    for(let imag of vImagini) {
+        let numeFis = path.basename(imag.cale_imagine);
+        let caleFisAbs = path.join(caleAbs, imag.cale_imagine);
+        let caleFisMediuAbs = path.join(caleAbsMediu, numeFis + ".webp");
+        sharp(caleFisAbs).resize(400).toFile(caleFisMediuAbs);
+        imag.fisier_mediu = "/" + path.join(obGlobal.obImagini.cale_galerie, "mediu", numeFis + ".webp");
+        imag.fisier = "/" + path.join(obGlobal.obImagini.cale_galerie, imag.cale_imagine);
+    }
+}
+initImagini();
+
 
 // Pornire server
 app.listen(8080);

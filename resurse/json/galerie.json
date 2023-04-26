@@ -2,38 +2,76 @@
 	"cale_galerie":"resurse/img/galerie",
 	"imagini": [
 		{
-			"fisier":"briose-frisca.png",
-			"descriere":"Brioșe",
-			"luni":["martie","februarie","noiembrie"]
+			"cale_imagine":"Bookshelf.jpg",
+			"titlu":"Raft cu cărți vechi",
+			"descriere":"<a href=\"https://www.flickr.com/photos/stewart/99129170/\">Library</a> by <a href=\"https://www.flickr.com/people/stewart/\">Stewart Butterfield</a> is licensed under <a href=\"http://creativecommons.org/licenses/by/2.0/\">CC BY 2.0</a>",
+			"timp":"09:00-12:00"
 		},
 		{
-			"fisier":"clatite.png",
-			"descriere":"Clătite cu dulceață",
-			"luni":["ianuarie","februarie","iunie"]
-			
+			"cale_imagine":"dmitrij-paskevic-YjVa-F9P9kk-unsplash.jpg",
+			"titlu":"Bibilotecă cu scară",
+			"descriere":"Photo by <a href=\"https://unsplash.com/@zeak?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText\">Dmitrij Paskevic</a> on <a href=\"https://unsplash.com/photos/YjVa-F9P9kk?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText\">Unsplash</a>",
+			"timp":"20:00-23:30"
 		},
 		{
-			"fisier":"gogosi.png",
-			"descriere":"Gogoși glazurate",
-			"luni":["ianuarie","noiembrie","iunie","martie"]
+			"cale_imagine":"gabriel-ghnassia-VmS8VQ0n39Q-unsplash.jpg",
+			"titlu":"Bibliotecă regală",
+			"descriere":"Photo by <a href=\"https://unsplash.com/@gabrielghnassia?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText\">Gabriel Ghnassia</a> on <a href=\"https://unsplash.com/photos/VmS8VQ0n39Q?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText\">Unsplash</a>",
+			"timp":"21:00-23:59"
 		},
 		{
-			"fisier":"tort-scortisoara.png",
-			"descriere":"Tort cu scorțisoară",
-			
-			"luni":["noiembrie"]
+			"cale_imagine":"inaki-del-olmo-NIJuEQw0RKg-unsplash.jpg",
+			"titlu":"Rafturi cu volume",
+			"descriere":"Photo by <a href=\"https://unsplash.com/@inakihxz?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText\">Iñaki del Olmo</a> on <a href=\"https://unsplash.com/photos/NIJuEQw0RKg?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText\">Unsplash</a>",
+			"timp":"14:00-21:00"
 		},
 		{
-			"fisier":"prajitura-ciocolata.png",
-			"descriere":"Prăjitură cu ciocolată"
+			"cale_imagine":"loren-cutler-9C8cGN018C4-unsplash.jpg",
+			"titlu":"Bibliotecă personală",
+			"descriere":"Photo by <a href=\"https://unsplash.com/it/@lorencutler?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText\">Loren Cutler</a> on <a href=\"https://unsplash.com/photos/9C8cGN018C4?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText\">Unsplash</a>",
+			"timp":"19:00-23:00"
 		},
 		{
-			"fisier":"tarta-afine.png",
-			"descriere":"Tartă cu afine"
+			"cale_imagine":"max-bottinger-HPNdlWL2a3g-unsplash.jpg",
+			"titlu":"Raftul cu cărți al bunicii",
+			"descriere":"Photo by <a href=\"https://unsplash.com/@maxboettinger?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText\">Max Böttinger</a> on <a href=\"https://unsplash.com/photos/HPNdlWL2a3g?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText\">Unsplash</a>",
+			"timp":"05:00-10:00"
 		},
 		{
-			"fisier":"tort-trandafiri.png",
-			"descriere":"Tort special"
+			"cale_imagine":"peter-herrmann-aT88kga0g_M-unsplash.jpg",
+			"titlu":"Design rafturi modern",
+			"descriere":"Photo by <a href=\"https://unsplash.com/@tama66?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText\">Peter Herrmann</a> on <a href=\"https://unsplash.com/photos/aT88kga0g_M?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText\">Unsplash</a>",
+			"timp":"00:00-03:00"
+		},
+		{
+			"cale_imagine":"pickawood-YbLitAY8bPA-unsplash.jpg",
+			"titlu":"Bibliotecă luminoasă",
+			"descriere":"Photo by <a href=\"https://unsplash.com/@pickawood?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText\">Pickawood</a> on <a href=\"https://unsplash.com/photos/YbLitAY8bPA?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText\">Unsplash</a>",
+			"timp":"08:00-14:00"
+		},
+		{
+			"cale_imagine":"ria-OobxlWxuLaA-unsplash.jpg",
+			"titlu":"Cărți categorizate",
+			"descriere":"Photo by <a href=\"https://unsplash.com/@riapuskas?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText\">Ria</a> on <a href=\"https://unsplash.com/photos/OobxlWxuLaA?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText\">Unsplash</a>",
+			"timp":"10:00-12:00"
+		},
+		{
+			"cale_imagine":"tim-wildsmith-o2fc-C-Uotw-unsplash.jpg",
+			"titlu":"Perete cu cărți",
+			"descriere":"Photo by <a href=\"https://unsplash.com/es/@timwildsmith?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText\">Tim Wildsmith</a> on <a href=\"https://unsplash.com/photos/o2fc-C-Uotw?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText\">Unsplash</a>",
+			"timp":"00:00-23:59"
+		},
+		{
+			"cale_imagine":"vladimir-mokry-G-4wX5tZNuE-unsplash.jpg",
+			"titlu":"Aranjament cărți",
+			"descriere":"Photo by <a href=\"https://unsplash.com/@vmokry?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText\">Vladimir Mokry</a> on <a href=\"https://unsplash.com/photos/G-4wX5tZNuE?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText\">Unsplash</a>",
+			"timp":"07:45-12:10"
+		},
+		{
+			"cale_imagine":"wu-yi-3lJMJ3g37IE-unsplash.jpg",
+			"titlu":"Birou de lectură",
+			"descriere":"Photo by <a href=\"https://unsplash.com/@takeshi2?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText\">wu yi</a> on <a href=\"https://unsplash.com/photos/3lJMJ3g37IE?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText\">Unsplash</a>",
+			"timp":"16:40-18:34"
 		}
 	]
 }
