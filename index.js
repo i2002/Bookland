@@ -2,12 +2,16 @@ const express = require("express");
 const fs = require("fs");
 const path = require("path");
 const sharp = require("sharp");
+const sass = require("sass");
 
 
 // Date aplicatie
 obGlobal = {
     obErori: null,
-    obImagini: null
+    obImagini: null,
+    folderScss: path.join(__dirname, "resurse", "scss"),
+    folderCss: path.join(__dirname, "resurse", "dist"),
+    folderBackup: path.join(__dirname, "backup")
 };
 
 
@@ -19,13 +23,67 @@ console.log("Director de lucru", process.cwd());
 app.set("view engine", "ejs");
 
 // - creare foldere
-vectorFoldere = ["temp"];
+vectorFoldere = ["temp", "backup"];
 for (let folder of vectorFoldere) {
     caleFolder = path.join(__dirname, folder)
     if (! fs.existsSync(caleFolder)) {
         fs.mkdirSync(caleFolder);
     }
 }
+
+
+// Compilare automata scss
+// - functie compilare
+function compileazaScss(caleScss, caleCss) {
+    // - daca nu este specificat caleCss consideram aceeași denumire cu cea a sursei
+    if (!caleCss) {
+        let numeFis = path.parse(caleScss).name;
+        caleCss = numeFis + ".css";
+    }
+
+    // - transformare in cai absolute
+    if (!path.isAbsolute(caleScss)) {
+        caleScss = path.join(obGlobal.folderScss, caleScss);
+    }
+
+    if (!path.isAbsolute(caleCss)) {
+        caleCss = path.join(obGlobal.folderCss, caleCss);
+    }
+
+    // - creez subfolder de backup daca nu exista
+    let caleBackup = path.join(obGlobal.folderBackup, "resurse/css");
+    if (!fs.existsSync(caleBackup)) {
+        fs.mkdirSync(caleBackup, {recursive: true});
+    }
+
+    // - backup fisier css deja existent
+    let numeFisCss = path.basename(caleCss);
+    if (fs.existsSync(caleCss)) {
+        fs.copyFileSync(caleCss, path.join(obGlobal.folderBackup, "resurse/css", numeFisCss));
+    }
+
+    // - compilare fisier sass
+    let rez = sass.compile(caleScss, {"sourceMap": true});
+    fs.writeFileSync(caleCss, rez.css);
+}
+
+// - compilare initiala
+let vFisiere = fs.readdirSync(obGlobal.folderScss);
+for (let numeFis of vFisiere) {
+    if(path.extname(numeFis) == '.scss') {
+        compileazaScss(numeFis);
+    }
+}
+
+// - urmarire modificari sistem de fisiere
+fs.watch(obGlobal.folderScss, function(eveniment, numeFis) {
+    if (eveniment == "change" || eveniment == "rename") {
+        let caleCompleta = path.join(obGlobal.folderScss, numeFis);
+        if (fs.existsSync(caleCompleta) && path.extname(numeFis) == '.scss') {
+            compileazaScss(caleCompleta);
+        }
+    }
+});
 
 
 // Definire rutari
@@ -142,7 +200,7 @@ function initImagini() {
     }
 
     for(let imag of vImagini) {
-        let numeFis = path.basename(imag.cale_imagine);
+        let numeFis = path.parse(imag.cale_imagine).name;
         let caleFisAbs = path.join(caleAbs, imag.cale_imagine);
         let caleFisMediuAbs = path.join(caleAbsMediu, numeFis + ".webp");
         sharp(caleFisAbs).resize(400).toFile(caleFisMediuAbs);
