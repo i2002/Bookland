@@ -1,0 +1,31 @@
+$primary: #11AD00;
+$secondary: #94005F;
+$border-radius: 0.2rem;
+$display-font-family: Nunito;
+$display-font-sizes: (
+  1: 6rem,
+  2: 5.5rem,
+  3: 4rem,
+  4: 3.5rem,
+  5: 3rem,
+  6: 2.5rem
+);
+$btn-link-color: #0A6100;
+
+@import '../../node_modules/bootstrap/scss/functions';
+@import '../../node_modules/bootstrap/scss/variables';
+
+$custom-grid-breakpoints: (
+    md: 700px,
+    lg: 1000px,
+);
+
+$custom-container-max-widths: (
+    md: 680px,
+    lg: 970px,
+);
+
+$grid-breakpoints: map-merge($grid-breakpoints, $custom-grid-breakpoints);
+$container-max-widths: map-merge($container-max-widths, $custom-container-max-widths);
+
+@import '../../node_modules/bootstrap/scss/bootstrap.scss';
