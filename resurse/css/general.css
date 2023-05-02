@@ -431,3 +431,54 @@ img, video, iframe {
     mix-blend-mode: color-burn;
     right: 0;
 }
+
+/* - efect reflexie */
+.reflection {
+    --font-size: 2.25rem;
+    --shadow-spacing: 0.3rem;
+    --visible-size: 30px;
+    --white-size: 20px;
+
+    margin-top: 1.5rem;
+    display: block;
+    height: calc(var(--font-size) * 2);
+    position: relative;
+    text-align: center;
+    font-size: var(--font-size);
+}
+
+.reflection::before {
+    content: attr(data-message);
+}
+
+.reflection::after {
+    content: attr(data-message);
+    position: absolute;
+	left: 0;
+    right: 0;
+	top: calc(var(--font-size) * 1.6 + var(--shadow-spacing));
+    transform-origin: 0 0;
+	transform: rotateX(180deg) skew(-45deg) scaleY(0.5) translate(15px,-10px); 
+	opacity: 0.55;
+    background-image: repeating-radial-gradient(ellipse at center bottom, black, black var(--visible-size), white var(--visible-size), white calc(var(--visible-size) + var(--white-size)));
+    background-size: 100% 300%;
+    background-clip: text;
+    -webkit-background-clip: text;
+    -moz-background-clip: text;
+    -webkit-text-fill-color: transparent; 
+    -moz-text-fill-color: transparent;
+}
+
+.reflection:hover::after {
+    animation: ripple_effect 10s linear 0s backwards infinite;
+}
+
+@keyframes ripple_effect {
+    0% {
+        background-position-y: 0px;
+    }
+
+    100% {
+        background-position-y: 100%;
+    }
+}
