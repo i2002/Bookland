@@ -391,3 +391,43 @@ img, video, iframe {
     color: white;
     text-shadow: 2px 2px black;
 }
+
+/* Efecte css */
+/* - efect duotone */
+.banner {
+    background: url("/resurse/img/banner-saptamana-aventurii.jpg");
+    background-size: cover;
+    background-position: center center;
+    margin-left: auto;
+    margin-right: auto;
+    width: 80%;
+    height: 400px;
+    position: relative;
+}
+
+.banner::before, .banner::after {
+    position:absolute;
+    display: block;
+    width: 0%;
+    height: 100%;
+    top: 0;
+    opacity: 0.5;
+    content: "";
+    transition: 1s linear all;
+}
+
+.banner:hover::before, .banner:hover::after {
+    width: 100%;
+}
+
+.banner::before {
+    background-color: var(--culoare-highlight);
+    mix-blend-mode: exclusion;
+    left: 0;
+}
+
+.banner::after {
+    background-color: var(--culoare-link-vizitat);
+    mix-blend-mode: color-burn;
+    right: 0;
+}

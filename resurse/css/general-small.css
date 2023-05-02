@@ -46,3 +46,8 @@ main.home-page {
 #content section.suport h2 {
     grid-column: unset;
 }
+
+.banner {
+    width: 100%;
+    height: 250px;
+}
