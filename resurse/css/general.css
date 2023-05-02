@@ -482,3 +482,29 @@ img, video, iframe {
         background-position-y: 100%;
     }
 }
+
+/* - stilizare hr */
+hr {
+    --hr-height: 6px;
+
+    position: relative;
+    height: var(--hr-height);
+    opacity: 1;
+    background: linear-gradient(to right, black 0%, black 45%, transparent 45%, transparent 55%, black 55%, black 100%);
+    border: none;
+    border-radius: var(--hr-height);
+    overflow: visible;
+}
+
+hr::after {
+    --ornament-height: 30px;
+
+    content: "✽";
+    position: absolute;
+    height: var(--ornament-height);
+    width: 100%;
+    top: calc(-0.5 * (var(--hr-height) + var(--ornament-height)));
+    font-size: 25px;
+    text-align: center;
+    color: var(--culoare-highlight);
+}
