@@ -7,7 +7,7 @@
 
     <%- include("../fragmente/head") %>     
     <link rel="stylesheet" href="/resurse/css/produse.css" type="text/css" />
-    <!-- <script type="text/javascript" src=/resurse/js/produse.js></script> -->
+    <script type="text/javascript" src=/resurse/js/produse.js></script>
 </head>
 <body>
     <!-- Header -->
@@ -19,42 +19,72 @@
         
         <!-- Product filtering -->
         <section>
-            <label> Nume: <input type="text" id="inp-nume"></label>
+            <label>Titlu: <input type="text" id="inp-titlu"></label>
             <!--<label> Maxim calorii: <input type="number" id="inp-calorii" value="10000"></label>-->
-            <div> Calorii:<!-- trebuie sa aiba acelasi name ca sa formeze un grup -->
-                <p><label>Dietetic (calorii &lt; 350)
-                    <input id="i_rad1"  name="gr_rad" value="0:350" type="radio"/>
+            <div>Anul apariției:<!-- trebuie sa aiba acelasi name ca sa formeze un grup -->
+                <p><label>înainte de 2000
+                    <input id="i_rad1" name="gr_rad" value="0:2000" type="radio"/>
                 </label></p>
-                <p><label>Mediu (350 &le; calorii &lt; 700)
-                    <input id="i_rad2"  name="gr_rad" value="350:750" type="radio"/>
-                </label>
-                <p><label>Ridicat caloric (700 &le; calorii)
-                    <input id="i_rad3" name="gr_rad" value="700:1000000000" type="radio"/>
-                </label>
+                <p><label>între 2001 și 2010
+                    <input id="i_rad2"  name="gr_rad" value="2001:2010" type="radio"/>
+                </label></p>
+                <p><label>după 2011
+                    <input id="i_rad3" name="gr_rad" value="2011:1000000000" type="radio"/>
+                </label></p>
                 <p><label>Toate
-                    <input id="i_rad4" checked name="gr_rad" value="toate" type="radio"/>
+                    <input id="i_rad4" name="gr_rad" value="toate" type="radio" checked/>
+                </label></p>
+            </div>
+            <div>
+                Formate:
+                <label>
+                    Bookland 
+                    <input id="i_chk1" name="gr_chk" value="bookland" type="checkbox"/>
+                </label>,
+                <label>
+                    pdf 
+                    <input id="i_chk2" name="gr_chk" value="pdf" type="checkbox"/>
+                </label>,
+                <label>
+                    epub 
+                    <input id="i_chk3" name="gr_chk" value="epub" type="checkbox"/>
+                </label>,
+                <label>
+                    mobi 
+                    <input id="i_chk4" name="gr_chk" value="mobi" type="checkbox"/>
+                </label>,
+                <label>
+                    mp3 
+                    <input id="i_chk5" name="gr_chk" value="mp3" type="checkbox"/>
                 </label>
             </div>
 
-            <label> Pret minim: <input type="range" id="inp-pret" value="0" min="0" max="70"> <span id="infoRange">(0)</span></label>
-            <label>Select simplu:
-                <select id="inp-categorie">
-                    <option id="sel-toate" selected value="toate">toate</option>
+            <label>Număr minim de pagini: <input type="range" id="inp-pagini" step="10" value="100" min="100" max="400"> <span id="infoRange">(100)</span></label>
+            <label>Colecție:
+                <select id="inp-colectie">
+                    <option id="sel-toate" value="toate" selected>toate</option>
                     <% for (let opt of locals.optiuni) { %>
-                        <option value="<%- opt.unnest %>"><%- opt.unnest %> </option>
+                        <option value="<%- opt.unnest %>"><%- opt.unnest %></option>
                     <% } %>
                 </select>
             </label>
-            <p>
-            <button id="filtrare">Filtreaza</button> 
 
-            <button id="resetare">Reseteaza</button><br/>
-            <button id="sortCrescNume">Sorteaza crescator dupa pret si nume</button>
-            <button id="sortDescrescNume">Sorteaza descrescator dupa pret si nume</button>
-            
+            <label>Limba:
+                <select id="inp-limba" multiple>
+                    <option id="romana" value="română">Română</option>
+                    <option id="engleza" value="engleză">Engleză</option>
+                </select>
+            </label>
+
+            <p>
+                <button id="filtrare">Filtreaza</button> 
+                <button id="resetare">Reseteaza</button>
+                <br/>
+                <button id="sortCresc">Sortează crescător după raportul pagini / preț și colecție</button>
+                <button id="sortDescresc">Sortează descrescător după raportul pagini / preț și colecție</button>            
+                <br/>
+                <button id="calcul">Calculează media produselor</button>
             </p>
-            
-            <p id="p-suma">Apăsați Alt+"c" pentru suma preturilor produselor afișate. </p>
             
         </section>
 
@@ -91,7 +121,7 @@
                     <article id="elem_<%- prod.id %>" class="produs <%- normalizareNumeColectie(prod.colectie) %>">
                         <h3 class="titlu">
                             <a href="/produs/<%- prod.id %>">
-                            <span class="val-nume"><%- prod.titlu %></span></a>
+                            <span class="val-titlu"><%- prod.titlu %></span></a>
                         </h3>
                         <!-- <div class="info-prod">
                             <p class="pret">Pret: <span class="val-pret"><%- prod.pret%></span></p>
@@ -102,15 +132,19 @@
                             <table>
                                 <tr>
                                     <td>Preț</td>
-                                    <td><%- prod.pret %></td>
+                                    <td class="val-pret"><%- prod.pret %></td>
+                                </tr>
+                                <tr>
+                                    <td>Număr pagini</td>
+                                    <td class="val-pagini"><%- prod.nr_pagini %></td>
                                 </tr>
                                 <tr>
                                     <td>Limba</td>
-                                    <td><%- prod.limba %></td>
+                                    <td class="val-limba"><%- prod.limba %></td>
                                 </tr>
                                 <tr>
                                     <td>Formate</td>
-                                    <td><%- prod.format %></td>
+                                    <td class="val-formate"><%- prod.format %></td>
                                 </tr>
                                 <tr>
                                     <td>Data adăugării</td>
@@ -122,6 +156,10 @@
                                     <td>Ofertă</td>
                                     <td><%- prod.oferta %></td>
                                 </tr>
+                                <tr>
+                                    <td>Anul apariției</td>
+                                    <td class="val-an-aparitie"><%- prod.anul_aparitiei %></td>
+                                </tr>
                             </table>
                         </div>
                         <figure class="imagine-prod">
@@ -130,7 +168,7 @@
                             </a>
                         </figure>
                         <div class="descriere-prod"><%- prod.descriere %></div>
-                        <p class="categorie">Colecție: <span class="val-categorie"><%- prod.colectie %></span></p>
+                        <p class="colectie">Colecție: <span class="val-colectie"><%- prod.colectie %></span></p>
                         <!-- <label class="selecteaza-cos">
                             Selectează:<br/>
                             <input type="checkbox" class="select-cos" value="<%- prod.id %>" autocomplete="off">
