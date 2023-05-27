@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <title>Bookland | Produse</title>
+    <meta name="keywords" content="bookland, cărți digitale, ebook, bibliotecă virtuală, produse">
+    <meta name="description" content="Magazin online de cărți digitale. Oferte. Bestsellere. Cărți nou apărute.">
+
+    <%- include("../fragmente/head") %>     
+    <link rel="stylesheet" href="/resurse/css/produse.css" type="text/css" />
+    <!-- <script type="text/javascript" src=/resurse/js/produse.js></script> -->
+</head>
+<body>
+    <!-- Header -->
+    <%- include("../fragmente/header") %>
+
+    <!-- Main content -->
+    <main>
+        <h1 style="margin-top: 2rem">Produse</h1>
+        
+        <!-- Product filtering -->
+        <section>
+            <label> Nume: <input type="text" id="inp-nume"></label>
+            <!--<label> Maxim calorii: <input type="number" id="inp-calorii" value="10000"></label>-->
+            <div> Calorii:<!-- trebuie sa aiba acelasi name ca sa formeze un grup -->
+                <p><label>Dietetic (calorii &lt; 350)
+                    <input id="i_rad1"  name="gr_rad" value="0:350" type="radio"/>
+                </label></p>
+                <p><label>Mediu (350 &le; calorii &lt; 700)
+                    <input id="i_rad2"  name="gr_rad" value="350:750" type="radio"/>
+                </label>
+                <p><label>Ridicat caloric (700 &le; calorii)
+                    <input id="i_rad3" name="gr_rad" value="700:1000000000" type="radio"/>
+                </label>
+                <p><label>Toate
+                    <input id="i_rad4" checked name="gr_rad" value="toate" type="radio"/>
+                </label>
+            </div>
+
+            <label> Pret minim: <input type="range" id="inp-pret" value="0" min="0" max="70"> <span id="infoRange">(0)</span></label>
+            <label>Select simplu:
+                <select id="inp-categorie">
+                    <option id="sel-toate" selected value="toate">toate</option>
+                    <% for (let opt of locals.optiuni) { %>
+                        <option value="<%- opt.unnest %>"><%- opt.unnest %> </option>
+                    <% } %>
+                </select>
+            </label>
+            <p>
+            <button id="filtrare">Filtreaza</button> 
+
+            <button id="resetare">Reseteaza</button><br/>
+            <button id="sortCrescNume">Sorteaza crescator dupa pret si nume</button>
+            <button id="sortDescrescNume">Sorteaza descrescator dupa pret si nume</button>
+            
+            </p>
+            
+            <p id="p-suma">Apăsați Alt+"c" pentru suma preturilor produselor afișate. </p>
+            
+        </section>
+
+        <!-- Product listing -->
+        <section id="produse">
+            <h2>Produse</h2>
+            <div class="grid-produse">
+                <% for (let prod of locals.produse) { %>
+                    <% 
+                        function formatareData(data) {
+                            let d = new Date(data);
+
+                            let zi = d.getDate();
+                            let luna = new Intl.DateTimeFormat("ro-RO", {month: "long"}).format(d);
+                            luna = luna[0].toUpperCase() + luna.slice(1);
+                            let an = d.getFullYear();
+                            let zi_sapt = new Intl.DateTimeFormat("ro-RO", {weekday: "long"}).format(d);
+                            zi_sapt = zi_sapt[0].toUpperCase() + zi_sapt.slice(1);
+
+                            return `${zi} ${luna} ${an} (${zi_sapt})`;
+                        }
+
+                        function normalizareNumeColectie(colectie) {
+                            return colectie
+                                .toLowerCase()
+                                .replaceAll(' ', '_')
+                                .replaceAll('ă', 'a')
+                                .replaceAll('â', 'a')
+                                .replaceAll('î', 'i')
+                                .replaceAll('ș', 's')
+                                .replaceAll('ț', 't');
+                        }
+                    %>
+                    <article id="elem_<%- prod.id %>" class="produs <%- normalizareNumeColectie(prod.colectie) %>">
+                        <h3 class="titlu">
+                            <a href="/produs/<%- prod.id %>">
+                            <span class="val-nume"><%- prod.titlu %></span></a>
+                        </h3>
+                        <!-- <div class="info-prod">
+                            <p class="pret">Pret: <span class="val-pret"><%- prod.pret%></span></p>
+                            <p class="calorii">Calorii: <span class="val-calorii"><%- prod.calorii%></span></p>
+                            <p class="gramaj">Gramaj: <span class="val-gramaj"><%- prod.gramaj%></span></p>
+                        </div> -->
+                        <div class="info-prod">
+                            <table>
+                                <tr>
+                                    <td>Preț</td>
+                                    <td><%- prod.pret %></td>
+                                </tr>
+                                <tr>
+                                    <td>Limba</td>
+                                    <td><%- prod.limba %></td>
+                                </tr>
+                                <tr>
+                                    <td>Formate</td>
+                                    <td><%- prod.format %></td>
+                                </tr>
+                                <tr>
+                                    <td>Data adăugării</td>
+                                    <td>
+                                        <time datetime="<%- (new Date(prod.data_adaugare)).toISOString() %>"><%- formatareData(prod.data_adaugare) %></time>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Ofertă</td>
+                                    <td><%- prod.oferta %></td>
+                                </tr>
+                            </table>
+                        </div>
+                        <figure class="imagine-prod">
+                            <a href="/produs/<%- prod.id %>">
+                                <img src="/resurse/img/produse/<%- prod.imagine ? prod.imagine : "book-cover.jpg" %>" style="width:150px;height:auto;" alt="[imagine <%- prod.titlu %>]"/>
+                            </a>
+                        </figure>
+                        <div class="descriere-prod"><%- prod.descriere %></div>
+                        <p class="categorie">Colecție: <span class="val-categorie"><%- prod.colectie %></span></p>
+                        <!-- <label class="selecteaza-cos">
+                            Selectează:<br/>
+                            <input type="checkbox" class="select-cos" value="<%- prod.id %>" autocomplete="off">
+                        </label> -->
+                    </article>
+                <% } %>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <%- include("../fragmente/footer") %>
+</body>
+</html>

@@ -150,6 +150,43 @@ app.get("/biblioteca-virtuala", function(req, res) {
         galerie_statica: obGlobal.obImagini.imagini
     });
 });
+
+// - listare produse
+app.get("/produse", function(req, res) {
+    //TO DO query pentru a selecta toate produsele
+    //TO DO se adauaga filtrarea dupa tipul produsului
+    //TO DO se selecteaza si toate valorile din enum-ul categ_prajitura
+
+    // preluare colecții carte
+    // FIXME: probabil mai frumos cu async și promise-uri
+    client.query("SELECT * FROM unnest(enum_range(null::colectii_carte))", function(err, rezCategorie) {
+        if (err) {
+            console.log(err);
+            afisareEroare(res, 2);
+        } else {
+            let conditieWhere = "";
+
+            // filtrare după tip
+            if (req.query.tip) {
+                conditieWhere = ` WHERE tip_carte='${req.query.tip}'`; // FIXME: SQL injection
+            }
+
+            // preluare listă de cărți
+            client.query("SELECT * FROM carti" + conditieWhere, function(err, rez) {
+                if (err) {
+                    console.log(err);
+                    afisareEroare(res, 2);
+                } else {
+                    res.render("pagini/produse", {
+                        produse: rez.rows,
+                        optiuni: rezCategorie.rows
+                    });
+                }
+            });
+        }
+    });
+});
+
 // - afisare pagini dinamic + mesaje de eroare daca nu sunt gasite
 app.get("/*", function(req, res) {
     try {
