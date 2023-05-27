@@ -3,12 +3,14 @@ const fs = require("fs");
 const path = require("path");
 const sharp = require("sharp");
 const sass = require("sass");
+const { Client } = require("pg");
 
 
 // Date aplicatie
 obGlobal = {
     obErori: null,
     obImagini: null,
+    optiuniMeniu: null,
     folderScss: path.join(__dirname, "resurse", "scss"),
     folderCss: path.join(__dirname, "resurse", "dist"),
     folderBackup: path.join(__dirname, "backup")
@@ -17,11 +19,33 @@ obGlobal = {
 
 // Initializare server
 app = express();
+app.set("view engine", "ejs");
+
 console.log("Folder proiect", __dirname);
 console.log("Cale fisier", __filename);
 console.log("Director de lucru", process.cwd());
-app.set("view engine", "ejs");
 
+// - conexiune baza de date
+var client = new Client({ //FIXME: datele de conectare în env
+    database: "Bookland",
+    user: "tudor",
+    password: "password",
+    host: "localhost",
+    port: 5432
+});
+client.connect();
+
+// - preluare tipuri produse pentru meniu
+client.query("SELECT * FROM UNNEST(ENUM_RANGE(NULL::TIPURI_CARTI))", function(err, rezCategorie) {
+    if (err) {
+        console.log(err);
+    } else {
+        obGlobal.optiuniMeniu = rezCategorie.rows;
+    }
+});
+
+
+// Organizare foldere
 // - creare foldere
 vectorFoldere = ["temp", "backup"];
 for (let folder of vectorFoldere) {
@@ -70,7 +94,7 @@ function compileazaScss(caleScss, caleCss) {
 // - compilare initiala
 let vFisiere = fs.readdirSync(obGlobal.folderScss);
 for (let numeFis of vFisiere) {
-    if(path.extname(numeFis) == '.scss') {
+    if (path.extname(numeFis) == '.scss') {
         compileazaScss(numeFis);
     }
 }
@@ -83,12 +107,20 @@ fs.watch(obGlobal.folderScss, function(eveniment, numeFis) {
             compileazaScss(caleCompleta);
         }
     }
+    console.log(`- ${numeFis} compiled successfully`);
 });
 
 
 // Definire rutari
 // - incarcare resurse statice
 app.use("/resurse", express.static(path.join(__dirname, "resurse")));
+app.use("/node_modules", express.static(path.join(__dirname, "node_modules")));
+
+// - categorii produse pentru meniu
+app.use("/*", function(req, res, next) {
+    res.locals.optiuniMeniu = obGlobal.optiuniMeniu;
+    next();
+});
 
 // - prevenire accesul direct la resurse
 app.get(/^\/resurse(\/[a-zA-Z0-9]*)*$/, function(req, res) {
@@ -213,4 +245,4 @@ initImagini();
 
 // Pornire server
 app.listen(8080);
-console.log("Serverul a pornit");
+console.log("Serverul a pornit: http://localhost:8080/");

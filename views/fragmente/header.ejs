@@ -33,16 +33,14 @@
             <li>
                 <a href="#">Produse</a>
                 <ul>
-                    <li><a href="#">Autori români contemporani</a></li>
-                    <li><a href="#">Literatură clasică</a></li>
-                    <li><a href="#">Literatură școlară</a></li>
-                    <li><a href="#">Literatură pentru copii</a></li>
-                    <li><a href="#">Fantasy</a></li>
-                    <li><a href="#">Science fiction</a></li>
-                    <li><a href="#">Thriller</a></li>
-                    <li><a href="#">Romance</a></li>
-                    <li><a href="#">Memorialistică</a></li>
-                    <li><a href="#">Literatură de specialitate</a></li>
+                    <li><a href="/produse">Toate</a></li>
+                    <% for(let optiune of locals.optiuniMeniu) { %>
+                        <li>
+                            <a href="/produse?tip=<%- optiune.unnest %>">
+                            <%- optiune.unnest[0].toUpperCase() + optiune.unnest.slice(1) %>
+                            </a>
+                        </li>
+                    <% } %>
                 </ul>
             </li>
             <li><a href="/biblioteca-virtuala">Bibliotecă virtuală</a></li>
