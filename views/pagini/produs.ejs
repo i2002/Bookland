@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html  lang="ro">
+    <head>
+        <meta name="description" content="Cofetaria Dulcelind ofera prajituri, torturi, produse de patiserie cu optiunea de achizitie online si livrare prin curier.">
+        <meta name="keywords" content="cofetarie, Dulcelind, prajituri, torturi, dulce, pateuri, produse">
+        
+        <title>Cofetăria Dulcelind - home</title>
+        <%- include("../fragmente/head") %>     
+        <link href="/resurse/css/produs.css" type="text/css" rel="stylesheet" />
+    </head>
+    <body>
+    <%- include("../fragmente/header") %>
+
+    <main>
+        <section>
+            <h2>Pagină produs</h2>
+                <article id="art-produs">
+                    <h3><span class="titlu"><%- locals.prod.titlu %></span></h3>
+                    <p>Pret: <span class="pret"><%- locals.prod.pret %> </span>lei</p>
+                    <p>ISBN: <span class="isbn"><%- locals.prod.isbn %> </span></p>
+                    <p>Autor: <span class="autor"><%- locals.prod.autor %> </span></p>
+                    <p>Editura: <span class="editura"><%- locals.prod.editura %> </span></p>
+                    <p>Descriere: <span class="descriere"><%- locals.prod.descriere %> </span></p>
+                    <p>Limba: <span class="limba"><%- locals.prod.limba %> </span></p>
+                    <p>Număr pagini: <span class="nr_pagini"><%- locals.prod.nr_pagini %> </span></p>
+                    <p>Formate: <span class="limba"><%- locals.prod.format %> </span></p>
+                    <p>Anul apariției: <span class="anul_aparitiei"><%- locals.prod.anul_aparitiei %> </span></p>
+                    <p>Categorie: <span class="colectie"><%- locals.prod.colectie %> </span></p>
+                    <p>La ofertă: <span class="oferta"><%- locals.prod.ofertă %> </span></p>
+                    <p>Data adăugare: <span class="data_adaugare"><%- locals.prod.data_adaugare %> </span></p>
+                    <figure class="imag-produs">
+                        <img  src="/resurse/imagini/produse/<%- locals.prod.imagine %>" alt="[imagine <%- locals.prod.titlu %>]" />
+                    </figure>    
+                </article>
+            
+        </section>
+    </main>
+
+    <%- include("../fragmente/footer") %>
+    </body>
+</html>

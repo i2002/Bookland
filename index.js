@@ -187,6 +187,20 @@ app.get("/produse", function(req, res) {
     });
 });
 
+app.get("/produs/:id", function(req, res) {
+     client.query(`SELECT * FROM carti WHERE id=${req.params.id}`, function(err, rezultat) {
+        if (err) {
+            console.log(err);
+            afisareEroare(res, 2);
+        }
+        else {
+            res.render("pagini/produs", {
+                prod: rezultat.rows[0]
+            });
+        }
+    });
+});
+
 // - afisare pagini dinamic + mesaje de eroare daca nu sunt gasite
 app.get("/*", function(req, res) {
     try {
