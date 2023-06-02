@@ -21,18 +21,25 @@
         <section>
             <label>Titlu: <input type="text" id="inp-titlu"></label>
             <!--<label> Maxim calorii: <input type="number" id="inp-calorii" value="10000"></label>-->
-            <div>Anul apariției:<!-- trebuie sa aiba acelasi name ca sa formeze un grup -->
-                <p><label>înainte de 2000
-                    <input id="i_rad1" name="gr_rad" value="0:2000" type="radio"/>
+            <datalist id="optiuni-autori">
+                <% for (let autor of locals.autori) { %>
+                    <option value="<%- autor.autor %>">
+                <% } %>
+            </datalist>
+            <label>Autor: <input type="text" id="inp-autor" list="optiuni-autori"></label>
+            <br>
+            <label for="i_textarea">Descriere:</label>
+            <br>
+            <textarea name="i_textarea" id="inp-descriere" cols="60" rows="4"></textarea>
+            <div>Produse la ofertă:<!-- trebuie sa aiba acelasi name ca sa formeze un grup -->
+                <p><label>Da
+                    <input id="i_rad1" name="gr_rad" value="1" type="radio"/>
                 </label></p>
-                <p><label>între 2001 și 2010
-                    <input id="i_rad2"  name="gr_rad" value="2001:2010" type="radio"/>
-                </label></p>
-                <p><label>după 2011
-                    <input id="i_rad3" name="gr_rad" value="2011:1000000000" type="radio"/>
+                <p><label>Nu
+                    <input id="i_rad2"  name="gr_rad" value="0" type="radio"/>
                 </label></p>
                 <p><label>Toate
-                    <input id="i_rad4" name="gr_rad" value="toate" type="radio" checked/>
+                    <input id="i_rad3" name="gr_rad" value="toate" type="radio" checked/>
                 </label></p>
             </div>
             <div>
@@ -83,7 +90,7 @@
                 <button id="sortCresc">Sortează crescător după raportul pagini / preț și colecție</button>
                 <button id="sortDescresc">Sortează descrescător după raportul pagini / preț și colecție</button>            
                 <br/>
-                <button id="calcul">Calculează media produselor</button>
+                <button id="calcul">Calculează media prețurilor</button>
             </p>
             
         </section>
@@ -131,6 +138,10 @@
                         <div class="info-prod">
                             <table>
                                 <tr>
+                                    <td>Autor</td>
+                                    <td class="val-autor"><%- prod.autor %></td>
+                                </tr>
+                                <tr>
                                     <td>Preț</td>
                                     <td class="val-pret"><%- prod.pret %></td>
                                 </tr>
@@ -154,7 +165,7 @@
                                 </tr>
                                 <tr>
                                     <td>Ofertă</td>
-                                    <td><%- prod.oferta %></td>
+                                    <td class="val-oferta"><%- prod.oferta ? 'Da' : 'Nu' %></td>
                                 </tr>
                                 <tr>
                                     <td>Anul apariției</td>

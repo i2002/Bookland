@@ -153,17 +153,24 @@ app.get("/biblioteca-virtuala", function(req, res) {
 
 // - listare produse
 app.get("/produse", function(req, res) {
-    //TO DO query pentru a selecta toate produsele
-    //TO DO se adauaga filtrarea dupa tipul produsului
-    //TO DO se selecteaza si toate valorile din enum-ul categ_prajitura
-
     // preluare colecții carte
     // FIXME: probabil mai frumos cu async și promise-uri
     client.query("SELECT * FROM unnest(enum_range(null::colectii_carte))", function(err, rezCategorie) {
+        // eroare cerere baza de date
         if (err) {
             console.log(err);
             afisareEroare(res, 2);
-        } else {
+            return;
+        } 
+
+        // preluare autori
+        client.query("SELECT DISTINCT autor FROM carti", function(err, rezAutori) {
+            if (err) {
+                console.log(err);
+                afisareEroare(res, 2);
+                return;
+            }
+
             let conditieWhere = "";
 
             // filtrare după tip
@@ -179,11 +186,12 @@ app.get("/produse", function(req, res) {
                 } else {
                     res.render("pagini/produse", {
                         produse: rez.rows,
-                        optiuni: rezCategorie.rows
+                        optiuni: rezCategorie.rows,
+                        autori: rezAutori.rows
                     });
                 }
             });
-        }
+        });
     });
 });
 
