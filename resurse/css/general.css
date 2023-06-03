@@ -4,6 +4,7 @@ body {
     /* TODO: maybe selectat culori mai pastel */
     --culoare-principala: #18E000;
     --culoare-background: #55E645;
+    --culoare-background-deschis: white;
     --culoare-text: #0A6100;
     --culoare-border: #0F9400;
     --culoare-highlight: #11AD00;
@@ -24,6 +25,20 @@ body {
     /* spatieri */
     --spatiere-laterala: 1.25rem;
     --gap-sectiuni: 0.5rem;
+}
+
+body.dark {
+    /* colors */
+    /* TODO: maybe selectat culori mai pastel */
+    --culoare-principala: #18E000;
+    --culoare-background: #032300;
+    --culoare-background-deschis: #1a1d20;
+    --culoare-text: #6bdd91;
+    --culoare-border: #14ca00;
+    --culoare-highlight: #128d04;
+    --culoare-link: #e051ae;
+    --culoare-link-vizitat: #833869;
+    --culoare-text-contrast: #323f26;
 }
 
 /* Text */
@@ -220,7 +235,7 @@ main.home-page {
     padding: 1rem 1.5rem;
     border-radius: var(--border-radius);
     border: var(--border-size) solid var(--culoare-border);
-    background-color: white;
+    background-color: var(--culoare-background-deschis);
 }
 
 /* Stilizare imagine principala */
@@ -326,7 +341,7 @@ main a:focus {
     border-top-left-radius: var(--border-radius);
     border-top-right-radius: var(--border-radius);
     color: var(--culoare-text);
-    background-color: white;
+    background-color: var(--culoare-background-deschis);
     transition: background-color linear 0.2s;
 }
 
@@ -346,7 +361,7 @@ main a:focus {
     height: var(--top-link-size);
     border: 1px solid var(--culoare-border);
     transform: rotate(45deg);
-    background-color: white;
+    background-color: var(--culoare-background-deschis);
     opacity: 0.4;
     transition: opacity, background-color linear 0.3s;
 }

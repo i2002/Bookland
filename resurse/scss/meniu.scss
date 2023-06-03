@@ -43,7 +43,7 @@ $hamburger-line-thickness: 0.25rem;
 
 // container meniu
 nav {
-    --text-meniu: black;
+    --text-meniu: var(--culoare-text);
     position: absolute;
     left: 0;
     right: 0;
