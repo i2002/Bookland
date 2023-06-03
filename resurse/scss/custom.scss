@@ -1,3 +1,4 @@
+// Customize Bootstrap
 $primary: #11AD00;
 $secondary: #94005F;
 $border-radius: 0.2rem;
@@ -11,9 +12,16 @@ $display-font-sizes: (
   6: 2.5rem
 );
 $btn-link-color: #0A6100;
+$form-range-thumb-width: 1.5rem;
+
 
 @import '../../node_modules/bootstrap/scss/functions';
 @import '../../node_modules/bootstrap/scss/variables';
+@import '../../node_modules/bootstrap/scss/variables-dark';
+
+$form-range-thumb-bg: var(--#{$prefix}secondary);
+$form-range-thumb-active-bg: tint-color($secondary, 40%);
+$form-range-track-bg: var(--#{$prefix}info-bg-subtle);
 
 $custom-grid-breakpoints: (
     md: 700px,
