@@ -24,6 +24,13 @@ window.onload = function() {
         let val_col = document.getElementById("inp-colectie").value;
         let val_limba = Array.from(document.getElementById("inp-limba").selectedOptions).map(option => option.value);
 
+        // validare input-uri
+        if (val_descriere.match(/.*\d.*/)) {
+            document.getElementById("inp-descriere").classList.add("is-invalid");
+            document.querySelector("#inp-descriere + label").innerText = "Input invalid";
+            return;
+        }
+
         // filtrare produse
         var produse = document.getElementsByClassName("produs");
         for (let prod of produse) {
@@ -75,11 +82,21 @@ window.onload = function() {
             document.getElementById(`i_chk${i + 1}`).checked = false;
         }
         document.getElementById("infoRange").innerHTML = `(${document.getElementById("inp-pagini").min})`;
+        document.getElementById("inp-descriere").classList.remove("is-invalid");
+        document.querySelector("#inp-descriere + label").innerText = "";
 
         // afisare toate produsele
         var produse = document.getElementsByClassName("produs");
         for (let prod of produse) {
             prod.style.display = "";
+        }
+    }
+
+    // Actualizare validare texarea
+    document.getElementById("inp-descriere").oninput = function() {
+        if (!this.value.match(/.*\d.*/)) {
+            document.getElementById("inp-descriere").classList.remove("is-invalid");
+            document.querySelector("#inp-descriere + label").innerText = "";
         }
     }
 
