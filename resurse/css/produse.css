@@ -1,18 +1,12 @@
-.grid-produse {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-}
-
-.grid-produse .produs {
+.grid-produse .produs > div {
     display: grid;
     grid-template-columns: 3fr 1fr;
-    margin: 1.5rem 1rem;
     padding: 0.5rem;
     border: var(--border-size) solid var(--culoare-border);
     border-radius: var(--border-radius);
 }
 
-.grid-produse .produs .imagine-prod {
+.grid-produse .produs > div .imagine-prod {
     grid-row: 1 / span 3;
     grid-column: 2;
 }
