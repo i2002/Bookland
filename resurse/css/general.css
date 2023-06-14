@@ -393,6 +393,39 @@ footer {
     background-color: var(--culoare-link-vizitat); /* TODO: redenumit in culoare secundara */
 }
 
+/* - banner */
+#banner {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 25vw;
+    height: 25vw;
+    font-size: 2vw;
+    background-color: var(--culoare-background);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    transform-origin: bottom left;
+    animation: show-banner 5s linear;
+    animation-fill-mode: forwards;
+}
+
+@keyframes show-banner {
+    0% {
+        transform: scale(0);
+        opacity: 0;
+        background-color: var(--culoare-link-vizitat);
+    }
+
+    100% {
+        transform: scale(1);
+        opacity: 0.75;
+        background-color: var(--culoare-background);
+    }
+}
+
 /* Responsive media */
 img, video, iframe {
     width: 100%;
