@@ -21,9 +21,9 @@ obGlobal = {
 app = express();
 app.set("view engine", "ejs");
 
-console.log("Folder proiect", __dirname);
-console.log("Cale fisier", __filename);
-console.log("Director de lucru", process.cwd());
+console.log("- Folder proiect:", `'${__dirname}'`);
+console.log("- Cale fisier:", `'${__filename}'`);
+console.log("- Director de lucru:", `'${process.cwd()}'`);
 
 // - preluare tipuri produse pentru meniu
 AccesBD.getInstanta().select({
@@ -303,4 +303,4 @@ initImagini();
 
 // Pornire server
 app.listen(8080);
-console.log("Serverul a pornit: http://localhost:8080/");
+console.log("> Serverul a pornit: http://localhost:8080/");
