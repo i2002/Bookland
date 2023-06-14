@@ -3,7 +3,7 @@ const fs = require("fs");
 const path = require("path");
 const sharp = require("sharp");
 const sass = require("sass");
-const { Client } = require("pg");
+const AccesBD = require("./module_proprii/accesbd.js");
 
 
 // Date aplicatie
@@ -25,18 +25,11 @@ console.log("Folder proiect", __dirname);
 console.log("Cale fisier", __filename);
 console.log("Director de lucru", process.cwd());
 
-// - conexiune baza de date
-var client = new Client({ //FIXME: datele de conectare în env
-    database: "Bookland",
-    user: "tudor",
-    password: "password",
-    host: "localhost",
-    port: 5432
-});
-client.connect();
-
 // - preluare tipuri produse pentru meniu
-client.query("SELECT * FROM UNNEST(ENUM_RANGE(NULL::TIPURI_CARTI))", function(err, rezCategorie) {
+AccesBD.getInstanta().select({
+    tabel: 'UNNEST(ENUM_RANGE(NULL::TIPURI_CARTI))',
+    campuri: ['*']
+}, function(err, rezCategorie) {
     if (err) {
         console.log(err);
     } else {
@@ -155,7 +148,12 @@ app.get("/biblioteca-virtuala", function(req, res) {
 app.get("/produse", function(req, res) {
     // preluare colecții carte
     // FIXME: probabil mai frumos cu async și promise-uri
-    client.query("SELECT * FROM unnest(enum_range(null::colectii_carte))", function(err, rezCategorie) {
+    let context = AccesBD.getInstanta();
+
+    context.select({
+        tabel: 'unnest(enum_range(null::colectii_carte))',
+        campuri: ['*']
+    }, function(err, rezCategorie) {
         // eroare cerere baza de date
         if (err) {
             console.log(err);
@@ -164,22 +162,19 @@ app.get("/produse", function(req, res) {
         } 
 
         // preluare autori
-        client.query("SELECT DISTINCT autor FROM carti", function(err, rezAutori) {
+        context.query("SELECT DISTINCT autor FROM carti", function(err, rezAutori) {
             if (err) {
                 console.log(err);
                 afisareEroare(res, 2);
                 return;
             }
 
-            let conditieWhere = "";
-
-            // filtrare după tip
-            if (req.query.tip) {
-                conditieWhere = ` WHERE tip_carte='${req.query.tip}'`; // FIXME: SQL injection
-            }
-
             // preluare listă de cărți
-            client.query("SELECT * FROM carti" + conditieWhere, function(err, rez) {
+            context.select({
+                tabel: 'carti',
+                campuri: ['*'],
+                conditiiAnd: req.query.tip ? [`tip_carte='${req.query.tip}'`] : []
+            }, function(err, rez) {
                 if (err) {
                     console.log(err);
                     afisareEroare(res, 2);
@@ -196,7 +191,11 @@ app.get("/produse", function(req, res) {
 });
 
 app.get("/produs/:id", function(req, res) {
-     client.query(`SELECT * FROM carti WHERE id=${req.params.id}`, function(err, rezultat) {
+    AccesBD.getInstanta().select({
+        tabel: 'carti',
+        campuri: ['*'],
+        conditiiAnd: [`id=${req.params.id}`]
+    }, function(err, rezultat) {
         if (err) {
             console.log(err);
             afisareEroare(res, 2);
