@@ -132,9 +132,20 @@ app.get("/favicon.ico", function(req, res) {
 
 // - pagina principala cu alias
 app.get(["/index", "/", "/home"], function(req, res) {
+    AccesBD.getInstanta().select({
+        tabel: 'carti',
+        campuri: ['*']
+    }, function(err, carti) {
+        if (err) {
+            afisareEroare(res, 2);
+            return;
+        }
+
     res.render("pagini/index", {
         ip: req.ip,
-        galerie_statica: obGlobal.obImagini.imagini
+            galerie_statica: obGlobal.obImagini.imagini,
+            carti: JSON.stringify(carti.rows)
+        });
     });
 });
 

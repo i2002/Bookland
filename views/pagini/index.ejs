@@ -98,6 +98,56 @@
                 <div class="banner"></div>
                 <hr>
                 <span class="reflection" data-message="Începe o aventură de neuitat în lumea cărților!"></span>
+
+                <div id="caruselCarti" class="carousel slide container my-3" style="max-width: 400px;">
+                    <div class="carousel-indicators">
+                        <% for (let i = 0; i < 5; i++) { %>
+                            <button type="button" data-bs-target="#caruselCarti" data-bs-slide-to="<%= i %>" <%- i == 0 ? ' class="active" aria-current="true" ' : '' %> aria-label="Slide <%= i + 1 %>"></button>
+                        <% } %>
+                    </div>
+                    <div class="carousel-inner">
+                        <% for (let i = 0; i < 5; i++) { %>
+                            <div class="carousel-item bg-dark<%= i == 0 ? ' active' : '' %>">
+                                <img src="" class="d-block" alt="">
+                                <div class="carousel-caption d-none d-md-block bg-dark rounded-3" style="--bs-bg-opacity: .3">
+                                    <h5>Titlu</h5>
+                                    <p>Autor</p>
+                                </div>
+                            </div>
+                        <% } %>
+                    </div>
+                    <button class="carousel-control-prev" type="button" data-bs-target="#caruselCarti" data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Anterior</span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#caruselCarti" data-bs-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Următor</span>
+                    </button>
+                </div>
+                <script>
+                    let produse = JSON.parse('<%- carti %>');
+                    
+                    function selectieAleatoare() {
+                        let ids = [];
+                        while(ids.length < 5) {
+                            let index = Math.floor(Math.random() * produse.length);
+                            if (ids.indexOf(index) == -1) {
+                                ids.push(index);
+                            }
+                        }
+
+                        for (let i = 0; i < 5; i++) {
+                            let produs = produse[ids[i]];
+                            document.querySelector(`#caruselCarti .carousel-item:nth-child(${i + 1}) img`).src = produs.imagine ? produs.imagine : '/resurse/img/produse/book-cover.jpg';
+                            document.querySelector(`#caruselCarti .carousel-item:nth-child(${i + 1}) h5`).innerText = produs.titlu;
+                            document.querySelector(`#caruselCarti .carousel-item:nth-child(${i + 1}) p`).innerText = produs.autor;
+                        }
+                    }
+
+                    selectieAleatoare();
+                    setInterval(selectieAleatoare, 15000);
+                </script>
             </section>
             <aside>
                 <h2><i class="fa-solid fa-list"></i> Categorii cărți</h2>
