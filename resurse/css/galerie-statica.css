@@ -25,8 +25,12 @@
 }
 
 #grid-galerie figure:hover figcaption {
-    background-color: var(--culoare-highlight);
-    color: white;
+    background-color: var(--culoare-accent-dark-background);
+    color: var(--culoare-background);
+}
+
+#grid-galerie figure:hover figcaption a {
+    color: var(--culoare-background);
 }
 
 #grid-galerie figure:nth-child(1) {
