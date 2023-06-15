@@ -42,7 +42,7 @@ ul.meniu {
 
         // efect hover
         &:hover {
-            background-color: var(--culoare-text);
+            background-color: var(--culoare-accent-text);
 
             // afisare submeniu pe hover
             > ul {
@@ -51,7 +51,7 @@ ul.meniu {
 
             // tranzitie hover meniu nivele secundare
             > a, > div {
-                color: var(--culoare-text-contrast);
+                color: var(--culoare-accent-dark-text);
             }
         }
     }

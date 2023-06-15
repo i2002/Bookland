@@ -1,17 +1,28 @@
 /* Variabile */
 body {
     /* colors */
-    /* TODO: maybe selectat culori mai pastel */
-    --culoare-principala: #18E000;
-    --culoare-background: #55E645;
-    --culoare-background-deschis: white;
-    --culoare-text: #0A6100;
+    --culoare-accent: #55E645;
+    --culoare-accent-text: #1A593F;
+    --culoare-accent-text-important: #1A593F;
+    --culoare-accent-background: #34AE49;
+    --culoare-accent-dark-text: #A4E380;
+    --culoare-accent-dark-background: #123C31;
+
+    --culoare-secundara: #94005F;
+    --culoare-secundara-text: #9D2782;
+    --culoare-secundara-background: #A74F74;
+    --culoare-secundara-dark-text: #C9B4D1;
+    --culoare-secundara-dark-background: #4C0006;
+
     --culoare-border: #0F9400;
     --culoare-highlight: #11AD00;
-    --culoare-link: #94005F;
-    --culoare-link-vizitat: #E00090;
-    --culoare-text-contrast: #CCFF9A;
+
+    --culoare-background: white;
+    --culoare-text: black;
     
+    --culoare-link: #460018;
+    --culoare-link-vizitat: #6D0036;
+
     /* borders */
     --border-size: 1px;
     --border-radius: 0.5rem;
@@ -23,22 +34,32 @@ body {
     --top-link-arrow-height: 1.25rem;
 
     /* spatieri */
-    --spatiere-laterala: 1.25rem;
-    --gap-sectiuni: 0.5rem;
+    --spatiere-laterala: 3.5rem;
+    --gap-sectiuni: 1.25rem;
 }
 
 body.dark {
-    /* colors */
-    /* TODO: maybe selectat culori mai pastel */
-    --culoare-principala: #18E000;
-    --culoare-background: #032300;
-    --culoare-background-deschis: #1a1d20;
-    --culoare-text: #6bdd91;
-    --culoare-border: #14ca00;
-    --culoare-highlight: #128d04;
+    /* colors */    
+    --culoare-accent: #1b2419;
+    --culoare-accent-text: #E4ECCC;
+    --culoare-accent-background: #123C31;
+    --culoare-accent-dark-text: #123C31;
+    --culoare-accent-dark-background: #A4E380;
+    
+    --culoare-secundara: #6D0036;
+    --culoare-secundara-text: #9D2782;
+    --culoare-secundara-background: #32000E;
+    --culoare-secundara-dark-text: #C9B4D1;
+    --culoare-secundara-dark-background: #4C0006;
+    
     --culoare-link: #e051ae;
-    --culoare-link-vizitat: #833869;
-    --culoare-text-contrast: #323f26;
+    --culoare-link-vizitat: #bd6da1;
+
+    --culoare-border: #0b6601;
+    --culoare-highlight: #128d04;
+    
+    --culoare-background: #121212;
+    --culoare-text: #8b8b8b;
 }
 
 /* Text */
@@ -51,7 +72,7 @@ html {
 /* Pagina */
 body {
     padding: 0 var(--spatiere-laterala);
-    background-color: var(--culoare-text-contrast);
+    background-color: var(--culoare-accent-dark-text);
     min-width: 450px;
 }
 
@@ -183,7 +204,7 @@ main.home-page {
     /* culori bordere */
     --base-color: black;
     --c1: var(--culoare-border);
-    --c2: var(--culoare-link);
+    --c2: var(--culoare-secundara);
 
     /* dimensiuni bordere */
     --border-width: 0.125rem;
@@ -221,7 +242,7 @@ main.home-page {
 
 /* Box shadow pe hover */
 #table table tr:hover {
-    box-shadow: 0 0 1.5rem var(--culoare-text);
+    box-shadow: 0 0 1.5rem var(--culoare-accent-text);
     transition: 0.5s;
 }
 
@@ -235,7 +256,16 @@ main.home-page {
     padding: 1rem 1.5rem;
     border-radius: var(--border-radius);
     border: var(--border-size) solid var(--culoare-border);
-    background-color: var(--culoare-background-deschis);
+    background-color: var(--culoare-background);
+}
+
+section p {
+    margin-top: 0.5rem;
+    margin-bottom: 0.75rem;
+}
+
+section h2, aside h2 {
+    margin-bottom: 1.25rem;
 }
 
 /* Stilizare imagine principala */
@@ -254,7 +284,7 @@ main.home-page {
     margin: 0;
     text-align: center;
     font-size: 3rem;
-    color: var(--culoare-text-contrast);
+    color: var(--culoare-accent-dark-text);
 }
 
 #welcome figure {
@@ -276,7 +306,7 @@ main.home-page {
     top: calc(50% - 4rem + 3rem);
     width: 100%;
     margin-top: 2rem;
-    color: white;
+    color: var(--culoare-background);
 }
 
 #welcome .messages p {
@@ -304,7 +334,7 @@ a[href^="http"]:hover:before {
 }
 
 main a {
-    background: radial-gradient(var(--culoare-text-contrast) 0%, var(--culoare-text-contrast) 40%, transparent 80%, transparent 100%);
+    background: radial-gradient(var(--culoare-accent-dark-text) 0%, var(--culoare-accent-dark-text) 40%, transparent 80%, transparent 100%);
     background-size: 0;
     background-position: center;
     background-repeat: no-repeat;
@@ -340,13 +370,13 @@ main a:focus {
     box-shadow: 0 0 0.5rem var(--culoare-border);
     border-top-left-radius: var(--border-radius);
     border-top-right-radius: var(--border-radius);
-    color: var(--culoare-text);
-    background-color: var(--culoare-background-deschis);
+    color: var(--culoare-accent-text);
+    background-color: var(--culoare-background);
     transition: background-color linear 0.2s;
 }
 
 .iframe-tabs li a:hover {
-    background-color: var(--culoare-text-contrast);
+    background-color: var(--culoare-accent-dark-text);
 }
 
 /* Stilizare link top */
@@ -361,7 +391,7 @@ main a:focus {
     height: var(--top-link-size);
     border: 1px solid var(--culoare-border);
     transform: rotate(45deg);
-    background-color: var(--culoare-background-deschis);
+    background-color: var(--culoare-background);
     opacity: 0.4;
     transition: opacity, background-color linear 0.3s;
 }
@@ -390,7 +420,7 @@ footer {
     margin-top: 1rem;
     padding-left: var(--spatiere-laterala);
     padding-right: var(--spatiere-laterala);
-    background-color: var(--culoare-link-vizitat); /* TODO: redenumit in culoare secundara */
+    background-color: var(--culoare-secundara-background);
 }
 
 /* - banner */
@@ -401,7 +431,7 @@ footer {
     width: 25vw;
     height: 25vw;
     font-size: 2vw;
-    background-color: var(--culoare-background);
+    background-color: var(--culoare-accent-background);
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -416,13 +446,13 @@ footer {
     0% {
         transform: scale(0);
         opacity: 0;
-        background-color: var(--culoare-link-vizitat);
+        background-color: var(--culoare-accent);
     }
 
     100% {
         transform: scale(1);
         opacity: 0.75;
-        background-color: var(--culoare-background);
+        background-color: var(--culoare-accent-background);
     }
 }
 

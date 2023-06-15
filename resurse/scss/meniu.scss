@@ -4,7 +4,7 @@
 body {
     --inaltime-meniu: 48px;
     --latime-buton: 160px;
-    --culoare-meniu: var(--culoare-background);
+    --culoare-meniu: var(--culoare-accent);
     /* --culoare-border: var(--culoare-border); */
 }
 
@@ -43,7 +43,7 @@ $hamburger-line-thickness: 0.25rem;
 
 // container meniu
 nav {
-    --text-meniu: var(--culoare-text);
+    --text-meniu: var(--culoare-accent-text);
     position: absolute;
     left: 0;
     right: 0;
@@ -69,7 +69,7 @@ ul.meniu {
         height: var(--inaltime-meniu);
         overflow: hidden;
         text-align: center;
-        background-color: var(--culoare-background);
+        background-color: var(--culoare-meniu);
         transition: background-color 0.5s ease-out;
 
         // afisare submeniu pe hover
@@ -115,8 +115,8 @@ ul.meniu {
             right: 0;
             bottom: 0;
             height: 0.3rem;
-            /* background-color: var(--culoare-text); */
-            background: linear-gradient(90deg, rgba(0,0,0,0) 0%, var(--culoare-text) 100%);
+            /* background-color: var(--culoare-accent-text); */
+            background: linear-gradient(90deg, rgba(0,0,0,0) 0%, var(--culoare-accent-text) 100%);
             transition: width 0.3s linear;
         }
 
@@ -144,10 +144,10 @@ ul.meniu {
 
             // efect hover
             &:hover {
-                background-color: var(--culoare-text);
+                background-color: var(--culoare-accent-text);
     
                 > a {
-                    color: var(--culoare-text-contrast);
+                    color: var(--culoare-accent-dark-text);
                 }
             }
         }
