@@ -3,6 +3,7 @@ const fs = require("fs");
 const path = require("path");
 const sharp = require("sharp");
 const sass = require("sass");
+const ejs = require("ejs");
 const AccesBD = require("./module_proprii/accesbd.js");
 
 
@@ -144,11 +145,45 @@ app.get(["/index", "/", "/home"], function(req, res) {
     res.render("pagini/index", {
         ip: req.ip,
             galerie_statica: obGlobal.obImagini.imagini,
+            imagini: obGlobal.obImagini.imagini,
             carti: JSON.stringify(carti.rows)
         });
     });
 });
 
+// - generare stiluri galerie animata
+app.get("*/galerie-animata.css", function(req, res) {
+    let stiluriScss = fs.readFileSync(path.join(__dirname, "/resurse/scss_ejs/galerie-animata.scss.ejs")).toString("utf8");
+
+    let nr_imagini = 7 + Math.floor(Math.random() * 4);
+    if (nr_imagini == 10) {
+        nr_imagini++;
+    }
+
+    let stiluriScssPrelucrate = ejs.render(stiluriScss, {nr_imagini});
+    let caleScss = path.join(__dirname, "/temp/galerie_animata.scss");
+    fs.writeFileSync(caleScss, stiluriScssPrelucrate);
+
+    try {
+        let stiluriCss = sass.compile(caleScss, {sourceMap: true});
+
+        let caleCss = path.join(__dirname, "/temp/galerie_animata.css");
+        fs.writeFileSync(caleCss, stiluriCss.css);
+
+        res.setHeader("Content-Type", "text/css");
+        res.sendFile(caleCss);
+    }
+    catch (err) {
+        console.error(err);
+        afisareEroare(res, 500);
+    }
+});
+
+app.get("*/galerie-animata.css.map", function(req, res) {
+    res.sendFile(path.join(__dirname, "/temp/galerie-animata.css.map"));
+});
+
+// - afisare galerie statica
 app.get("/biblioteca-virtuala", function(req, res) {
     res.render("pagini/biblioteca-virtuala", {
         galerie_statica: obGlobal.obImagini.imagini

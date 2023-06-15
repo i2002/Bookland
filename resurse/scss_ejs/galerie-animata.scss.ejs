@@ -1,0 +1,97 @@
+@use "sass:math";
+$nr_imagini: <%= nr_imagini %>;
+$durata_imagine: 3s;
+
+.galerie-a {
+    width: 450px;
+    height: 300px;
+    // border: 4px inset var(--culoare-border);
+    border-image: url("/resurse/img/romb.png") 30 25 / 20px 20px / 1rem round space;
+    position: relative;
+    overflow: hidden;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    box-sizing: content-box;
+}
+
+.galerie-a figure {
+    width: 450px;
+    height: 300px;
+    position:absolute;
+	left:0;
+	top:0;
+	z-index:0;
+
+	animation-name: tranzitie_galerie;
+	animation-timing-function: linear;
+	animation-iteration-count: infinite;
+	animation-fill-mode: forwards;
+	animation-duration: $durata_imagine * $nr_imagini;
+	transform-origin: left center;
+}
+
+.galerie-a:hover figure {
+    animation-play-state: paused;
+}
+
+@for $i from 1 through $nr_imagini {
+    #galerie-animata figure:nth-of-type(#{$nr_imagini - $i + 1}){
+        animation-delay: $durata_imagine * ($i - 1);
+    }
+}
+
+.galerie-a figcaption {
+    position: absolute;
+    width: 100%;
+    text-align: center;
+    bottom: 0;
+    background: var(--culoare-background);
+}
+
+
+$slide_hide: math.div(1, $nr_imagini) * 100%;
+$slide_transition: math.div($slide_hide, 2);
+$slide_mid_transition: $slide_transition + math.div($slide_hide,4);
+$slide_show: 100 - $slide_hide;
+
+@keyframes tranzitie_galerie { 
+	0% {
+        z-index:10;
+        opacity:1;
+    } /* perioada 0-5% in care se afiseaza fara efect */
+	
+    #{$slide_transition} {
+        transform: scaleY(100%);
+    } /* transformare inceput disparitie */
+	
+    #{$slide_mid_transition} {
+        transform: scaleY(50%);
+        opacity:1;
+    } /* de aici doresc se roteste imaginea */
+	
+    #{$slide_hide} {
+        z-index:10;
+        transform: scaleY(50%) rotate(180deg);
+    }
+	
+    #{$slide_hide + 0.000001%} {
+        z-index:-10;
+    } /* il ascund cat mai in spate sa nu vina peste imaginile care erau mai sus in html decat el */
+	
+	#{$slide_show} {
+        opacity:0;
+        transform: unset;
+        z-index:-10;
+    }
+	
+	#{$slide_show + 0.000001%} {
+        z-index:0;
+    } /* setez z-index la 0 ca sa revina la ordinea normala de afisare */
+	
+    100% {
+        opacity:1;
+        z-index:0;
+    }
+}
