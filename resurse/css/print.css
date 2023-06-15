@@ -42,7 +42,7 @@ main, #content, #content section.suport {
 }
 
 /* disable media */
-iframe, img, picture, figure, figcaption, #welcome {
+iframe, img, picture, figure, figcaption, #welcome, .banner, .carousel, .galerie-a, video {
     display: none !important;
 }
 
@@ -76,4 +76,15 @@ body::after {
 @page :right {
     margin-left: 0.5cm;
     margin-right: 2.5cm;
+}
+
+/* no colors */
+* {
+    color: black !important;
+    border-color: black !important;
+    box-shadow: none !important;
+}
+
+html, header, body, section {
+    background-color: white !important;
 }
