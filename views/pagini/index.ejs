@@ -126,7 +126,7 @@
                     </button>
                 </div>
                 <script>
-                    let produse = JSON.parse('<%- carti %>');
+                    let produse = JSON.parse(`<%- carti %>`);
                     
                     function selectieAleatoare() {
                         let ids = [];
@@ -139,7 +139,7 @@
 
                         for (let i = 0; i < 5; i++) {
                             let produs = produse[ids[i]];
-                            document.querySelector(`#caruselCarti .carousel-item:nth-child(${i + 1}) img`).src = produs.imagine ? produs.imagine : '/resurse/img/produse/book-cover.jpg';
+                            document.querySelector(`#caruselCarti .carousel-item:nth-child(${i + 1}) img`).src = '/resurse/img/produse/' + (produs.imagine ? produs.imagine : 'book-cover.jpg');
                             document.querySelector(`#caruselCarti .carousel-item:nth-child(${i + 1}) h5`).innerText = produs.titlu;
                             document.querySelector(`#caruselCarti .carousel-item:nth-child(${i + 1}) p`).innerText = produs.autor;
                         }
