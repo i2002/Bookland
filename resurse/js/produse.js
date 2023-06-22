@@ -65,6 +65,20 @@ window.onload = function() {
             return;
         }
 
+        // salvare inputuri    
+        if(getCookie("acceptat_banner") && document.getElementById("salvare-filtre").checked) {
+            setCookie("filtre_produse", JSON.stringify({
+                val_titlu,
+                val_autor,
+                val_descriere,
+                val_oferta,
+                val_formate,
+                val_pagini,
+                val_col,
+                val_limba
+            }), 100000);
+        }
+
         // filtrare produse
         var produse = document.getElementsByClassName("produs");
         for (let prod of produse) {
@@ -102,6 +116,46 @@ window.onload = function() {
         paginate();
     }
 
+    // Initializare filtrare
+    function initializare_filtre() {
+        // preluare valori din cookie
+        let valori = getCookie("filtre_produse")
+        if(!valori) {
+            return;
+        }
+        
+        const {val_titlu, val_autor, val_descriere, val_oferta, val_formate, val_pagini, val_col, val_limba} = JSON.parse(valori);
+        
+        // preluare valori formular filtrare
+        document.getElementById("inp-titlu").value = val_titlu;
+        document.getElementById("inp-autor").value = val_autor;
+        document.getElementById("inp-descriere").value = val_descriere;
+        let radio_buttons = document.getElementsByName("gr_rad");
+        for (let r of radio_buttons) {
+            if (r.value == val_oferta) {
+                r.checked = true;
+                break;
+            }
+        }
+        let checkbox_buttons = document.getElementsByName("gr_chk");
+        for (let c of checkbox_buttons) {
+            if (val_formate.includes(c.value)) {
+                c.checked = true;
+            }
+        }
+        document.getElementById("inp-pagini").value = val_pagini;
+        document.getElementById("inp-colectie").value = val_col;
+        Array.from(document.getElementById("inp-limba").options).forEach(option => {
+            if (val_limba.includes(option.value)) {
+                option.selected = true;
+            }
+        });
+        
+        // aplicare filtrare
+        filter();
+    }
+    initializare_filtre();
+    
     // Executare filtrare
     document.getElementById("filtrare").onclick = filter;
     document.getElementById("inp-titlu").onchange = filter;
@@ -116,6 +170,7 @@ window.onload = function() {
     document.getElementById("inp-pagini").oninput = filter;
     document.getElementById("inp-colectie").onchange = filter;
     document.getElementById("inp-limba").onchange = filter;
+    document.getElementById("salvare-filtre").onchange = filter;
 
     // Resetare filtrare
     document.getElementById("resetare").onclick = function() {
@@ -138,6 +193,7 @@ window.onload = function() {
         document.getElementById("infoRange").innerHTML = `(${document.getElementById("inp-pagini").min})`;
         document.getElementById("inp-descriere").classList.remove("is-invalid");
         document.querySelector("#inp-descriere + label").innerText = "";
+        document.getElementById("salvare-filtre").checked = false;
 
         // afisare toate produsele
         var produse = document.getElementsByClassName("produs");
@@ -145,6 +201,9 @@ window.onload = function() {
             prod.style.display = "";
             prod.dataset.filtered = "false";
         }
+
+        // stergere cookie
+        deleteCookie("filtre_produse");
 
         // recalculare paginare
         paginate();

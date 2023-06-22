@@ -1,4 +1,3 @@
-//setCookie("a",10, 1000)
 function setCookie(nume, val, timpExpirare) { //timpExpirare in milisecunde
     d = new Date();
     d.setTime(d.getTime() + timpExpirare)
@@ -31,7 +30,3 @@ window.addEventListener("load", function() {
         document.getElementById("banner").style.display = "none";
     }
 });
-
-if(getCookie("acceptat_banner")) {
-    setCookie("last_accessed_product") = 'a';
-}
