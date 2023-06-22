@@ -191,49 +191,61 @@ app.get("/biblioteca-virtuala", function(req, res) {
 });
 
 // - listare produse
-app.get("/produse", function(req, res) {
-    // preluare colecții carte
-    // FIXME: probabil mai frumos cu async și promise-uri
+app.get("/produse", async function(req, res) {
     let context = AccesBD.getInstanta();
 
-    context.select({
-        tabel: 'unnest(enum_range(null::colectii_carte))',
-        campuri: ['*']
-    }, function(err, rezCategorie) {
-        // eroare cerere baza de date
-        if (err) {
-            console.log(err);
-            afisareEroare(res, 2);
-            return;
-        } 
-
-        // preluare autori
-        context.query("SELECT DISTINCT autor FROM carti", function(err, rezAutori) {
-            if (err) {
-                console.log(err);
-                afisareEroare(res, 2);
-                return;
-            }
-
-            // preluare listă de cărți
-            context.select({
-                tabel: 'carti',
-                campuri: ['*'],
-                conditiiAnd: req.query.tip ? [`tip_carte='${req.query.tip}'`] : []
-            }, function(err, rez) {
-                if (err) {
-                    console.log(err);
-                    afisareEroare(res, 2);
-                } else {
-                    res.render("pagini/produse", {
-                        produse: rez.rows,
-                        optiuni: rezCategorie.rows,
-                        autori: rezAutori.rows
-                    });
-                }
-            });
+    try {
+        let carti = await context.selectAsync({
+            tabel: "carti",
+            campuri: ["*"],
+            conditiiAnd: req.query.tip ? [`tip_carte='${req.query.tip}'`] : []
         });
+
+        let colectii = await context.selectAsync({
+            tabel: "unnest(enum_range(null::colectii_carte))",
+            campuri: ["*"]
+        });
+
+        let autori = await context.selectAsync({
+            tabel: "carti",
+            campuri: ["distinct autor"]
+                    });
+        autori = autori.rows.map(row => row.autor);
+
+        let limba = await context.selectAsync({
+            tabel: "carti",
+            campuri: ["distinct limba"]
+            });
+        limba = limba.rows.map(row => row.limba);
+
+        let pagini = await context.selectAsync({
+            tabel: "carti",
+            campuri: ["nr_pagini"]
+        });
+        pagini = pagini.rows.map(row => row.nr_pagini)
+        let minPagini = Math.min(...pagini);
+        let maxPagini = Math.max(...pagini);
+
+        let formate = await context.selectAsync({
+            tabel: "carti",
+            campuri: ["format"]
+        });
+        formate = formate.rows.reduce((res, row) => res.concat(...row.format), []);
+        formate = [...new Set(formate)];
+
+        res.render("pagini/produse", {
+            produse: carti.rows,
+            optiuni: colectii.rows,
+            autori,
+            limba,
+            minPagini,
+            maxPagini,
+            formate
     });
+    } catch(err) {
+        console.log(err);
+        afisareEroare(res, 2);
+    }
 });
 
 app.get("/produs/:id", function(req, res) {

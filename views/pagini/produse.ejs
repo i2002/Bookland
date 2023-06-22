@@ -31,7 +31,7 @@
                     <input type="text" class="form-control" id="inp-autor" list="optiuni-autori">
                     <datalist id="optiuni-autori">
                         <% for (let autor of locals.autori) { %>
-                            <option value="<%- autor.autor %>">
+                            <option value="<%- autor %>">
                         <% } %>
                     </datalist>
                 </div>
@@ -55,7 +55,7 @@
                         <label class="form-check-label" for="i_rad2">Nu</label>
                     </div>
                     <div class="form-check">
-                        <input class="form-check-input" type="radio" name="gr_rad" id="i_rad3" value="toate">
+                        <input class="form-check-input" type="radio" name="gr_rad" id="i_rad3" value="toate" checked>
                         <label class="form-check-label" for="i_rad3">Toate</label>
                     </div>
                 </div>
@@ -63,40 +63,26 @@
             <div class="row mb-3">
                 <label for="gr_chk" class="col-sm-2 col-form-label pt-1">Formate disponibile</label>
                 <div class="col-sm-10">
-                    <div class="form-check-inline">
-                        <input class="btn-check" type="checkbox" name="gr_chk" id="i_chk1" value="bookland">
-                        <label class="btn btn-sm btn-outline-primary" for="i_chk1">Bookland</label>
-                    </div>
-                    <div class="form-check-inline">
-                        <input class="btn-check btn-check" type="checkbox" name="gr_chk" id="i_chk2" value="pdf">
-                        <label class="btn btn-sm btn-outline-primary" for="i_chk2">pdf</label>
-                    </div>
-                    <div class="form-check-inline">
-                        <input class="btn-check" type="checkbox" name="gr_chk" id="i_chk3" value="epub">
-                        <label class="btn btn-sm btn-outline-primary" for="i_chk3">epub</label>
-                    </div>
-                    <div class="form-check-inline">
-                        <input class="btn-check" type="checkbox" name="gr_chk" id="i_chk4" value="mobi">
-                        <label class="btn btn-sm btn-outline-primary" for="i_chk4">mobi</label>
-                    </div>
-                    <div class="form-check-inline">
-                        <input class="btn-check" type="checkbox" name="gr_chk" id="i_chk5" value="mp3">
-                        <label class="btn btn-sm btn-outline-primary" for="i_chk5">mp3</label>
-                    </div>
+                    <% for(let i = 0; i < formate.length; i++) { %>
+                        <div class="form-check-inline">
+                            <input class="btn-check" type="checkbox" name="gr_chk" id="i_chk<%= i + 1 %>" value="<%= formate[i] %>">
+                            <label class="btn btn-sm btn-outline-primary" for="i_chk<%= i + 1 %>"><%= formate[i] %></label>
+                        </div>
+                    <% } %>
                 </div>
             </div>
             <div class="row mb-3">
                 <label for="inp-pagini" class="col-sm-2 col-form-label pt-0">Număr minim pagini</label>
                 <div class="col-sm-10 d-flex">
-                    <input type="range" class="form-range" id="inp-pagini" step="10" value="100" min="100" max="400">
-                    <span class="ms-3" id="infoRange">(100)</span>
+                    <input type="range" class="form-range" id="inp-pagini" step="10" value="<%= minPagini %>" min="<%= minPagini %>" max="<%= maxPagini %>">
+                    <span class="ms-3" id="infoRange">(<%= minPagini %>)</span>
                 </div>
             </div>
             <div class="row mb-3">
                 <label for="inp-colectie" class="col-sm-2 col-form-label">Colecție</label>
                 <div class="col-sm-10">
                     <select class="form-select" id="inp-colectie">
-                        <option id="sel-toate" value="toate" selected>toate</option>
+                        <option id="sel-toate" value="toate" selected>Toate</option>
                         <% for (let opt of locals.optiuni) { %>
                             <option value="<%- opt.unnest %>"><%- opt.unnest %></option>
                         <% } %>
@@ -107,8 +93,9 @@
                 <label for="inp-colectie" class="col-sm-2 col-form-label">Limba</label>
                 <div class="col-sm-10">
                     <select id="inp-limba" class="form-select" size="2" multiple>
-                        <option id="romana" value="română">Română</option>
-                        <option id="engleza" value="engleză">Engleză</option>
+                        <% for (let l of locals.limba) { %>
+                            <option id="<%= l %>" value="<%= l %>"><%= l[0].toUpperCase() + l.slice(1) %></option>
+                        <% } %>
                     </select>
                 </div>
             </div>
@@ -186,11 +173,6 @@
                                 <a href="/produs/<%- prod.id %>">
                                 <span class="val-titlu"><%- prod.titlu %></span></a>
                             </h3>
-                            <!-- <div class="info-prod">
-                                <p class="pret">Pret: <span class="val-pret"><%- prod.pret%></span></p>
-                                <p class="calorii">Calorii: <span class="val-calorii"><%- prod.calorii%></span></p>
-                                <p class="gramaj">Gramaj: <span class="val-gramaj"><%- prod.gramaj%></span></p>
-                            </div> -->
                             <div class="info-prod">
                                 <table>
                                     <tr>
