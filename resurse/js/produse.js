@@ -1,10 +1,20 @@
 // paginare
 const k = 4; // numar de elemente afisate pe o pagina
 
+function check_removed_prod(id) {
+    let rem = sessionStorage.getItem("removed_prods");
+    return rem == null ? false : rem.split(",").includes(id);
+}
+
+function ignored_prod(prod) {
+    let id = prod.id.split("_")[1];
+    return prod.dataset.filtered == "true" || prod.dataset.hidden == "true" || check_removed_prod(id);
+}
+
 function paginate(page = 1) {
     // compute number of products
     let produse = document.getElementsByClassName("produs");
-    let len = Array.from(produse).reduce((res, prod) => res += prod.dataset.filtered == "true" ? 0 : 1, 0);
+    let len = Array.from(produse).reduce((res, prod) => res += ignored_prod(prod) ? 0 : 1, 0);
     let nrl = Math.ceil(len / k);
 
     // pagination buttons
@@ -20,13 +30,70 @@ function paginate(page = 1) {
     for (let i = 0, j = 0; i < produse.length; i++) {
         let prod = produse[i];
         prod.style.display = "none";
-        if (prod.dataset.filtered != "true") {
+        if (!ignored_prod(prod)) {
             if (j >= start && j <= end) {
                 prod.style.display = "";
             }
             j++;
         }
     }
+}
+
+function pin_product(prod_id) {
+    // setare informatie produs
+    let prod = document.getElementById("elem_" + prod_id);
+    prod.dataset.pinned = "true";
+    prod.querySelector("div").classList.add("bg-secondary-subtle");
+
+    // modificare buton
+    let btn = document.querySelector(`#elem_${prod_id} .pin-prod`);
+    let icon = document.querySelector(`#elem_${prod_id} .pin-prod i`);
+    icon.classList.remove("bi-pin-angle-fill");
+    icon.classList.add("bi-pin-fill");
+    btn.classList.remove("btn-outline-primary");
+    btn.classList.add("btn-primary");
+
+    // actualizare callback
+    btn.setAttribute("onclick", `unpin_product(${prod_id})`);
+}
+
+function unpin_product(prod_id) {
+    // setare informatie produs
+    let prod = document.getElementById("elem_" + prod_id);
+    prod.dataset.pinned = "false";
+    prod.querySelector("div").classList.remove("bg-secondary-subtle");
+
+    // modificare buton
+    let btn = document.querySelector(`#elem_${prod_id} .pin-prod`);
+    let icon = document.querySelector(`#elem_${prod_id} .pin-prod i`);
+    icon.classList.add("bi-pin-angle-fill");
+    icon.classList.remove("bi-pin-fill");
+    btn.classList.add("btn-outline-primary");
+    btn.classList.remove("btn-primary");
+
+    // actualizare callback
+    btn.setAttribute("onclick", `pin_product(${prod_id})`);
+}
+
+function hide_product(prod_id) {
+    // setare informatie produs
+    let prod = document.getElementById("elem_" + prod_id);
+    prod.dataset.hidden = "true";
+    prod.style.display = "none";
+    paginate();
+}
+
+function remove_product(prod_id) {
+    if (!confirm("Doriți să ștergeți produsul pentru sesiunea curentă?")) {
+        return;
+    }
+
+    rem = sessionStorage.getItem("removed_prods");
+    new_rem = rem != null ? [...rem.split(","), prod_id].join(",") : String(prod_id);
+    sessionStorage.setItem("removed_prods", new_rem)
+    
+    // refresh produse
+    paginate();
 }
 
 window.onload = function() {
@@ -85,6 +152,7 @@ window.onload = function() {
         for (let prod of produse) {
             prod.style.display = "none";
             prod.dataset.filtered = "true";
+            prod.dataset.hidden = "false";
 
             // preluare informatii produse
             let titlu = prod.getElementsByClassName("val-titlu")[0].innerHTML.toLowerCase();
@@ -105,9 +173,14 @@ window.onload = function() {
             let cond6 = val_col == "toate" || (val_col == colectie);
             let cond7 = val_formate.length == 0 || formate.reduce((found, value) => found || val_formate.includes(value), false);
             let cond8 = val_limba.length == 0 || val_limba.includes(limba);
+            let filter = cond1 && cond2 && cond3 && cond4 && cond5 && cond6 && cond7 && cond8
+
+            // verificare daca este exclus din sesiune
+            let id = prod.id.split("_")[1];
+            let excluded = check_removed_prod(id);
 
             // afisare produs daca corespunde conditiilor
-            if (cond1 && cond2 && cond3 && cond4 && cond5 && cond6 && cond7 && cond8) {
+            if (!excluded && (prod.dataset.pinned == "true" || filter)) {
                 prod.style.display = "";
                 prod.dataset.filtered = "false";
                 fara_produse = false;
@@ -269,9 +342,11 @@ window.onload = function() {
         // calculare medie
         var produse = document.getElementsByClassName("produs");
         for (let prod of produse) {
-            let pret = parseFloat(prod.getElementsByClassName("val-pret")[0].innerHTML);
-            suma += pret;
-            nr++;
+            if (!ignored_prod(prod)) {
+                let pret = parseFloat(prod.getElementsByClassName("val-pret")[0].innerHTML);
+                suma += pret;
+                nr++;
+            }
         }
         let medie = suma / nr;
 
