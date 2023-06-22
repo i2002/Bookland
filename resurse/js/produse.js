@@ -305,12 +305,8 @@ window.onload = function() {
     }
 
     // Sortare
-    function sortare(semn) {
-        // preluare lista produse
-        var produse = document.getElementsByClassName("produs");
-        var v_produse = Array.from(produse);
-
-        v_produse.sort(function (a, b) {
+    function comp_standard(semn) {
+        return (a, b) => {
             // preluare informatii produse de comparat
             let pret_a = parseFloat(a.getElementsByClassName("val-pret")[0].innerHTML);
             let pagini_a = parseInt(a.getElementsByClassName("val-pagini")[0].innerHTML);
@@ -329,20 +325,73 @@ window.onload = function() {
             }
             
             return (raport_a - raport_b) * semn;
-        });
+        }
+    }
+    function sortare(comp) {
+        // preluare lista produse
+        var produse = document.getElementsByClassName("produs");
+        var v_produse = Array.from(produse);
+
+        v_produse.sort(comp);
 
         // actualizare lista produse cu noua ordine
         for (let prod of v_produse) {
             prod.parentElement.appendChild(prod);
         }
+
+        // refresh paginare
+        paginate();
     }
 
     document.getElementById("sortCresc").onclick = function() {
-        sortare(1);
+        sortare(comp_standard(1));
     }
 
     document.getElementById("sortDescresc").onclick = function() {
-        sortare(-1);
+        sortare(comp_standard(-1));
+    }
+
+    document.getElementById("sortCustom").onclick = function() {
+        let crit1 = document.getElementById("sort-crit1").value;
+        let crit2 = document.getElementById("sort-crit2").value;
+        let sort_dir = document.getElementById("sort-dir").value == "asc" ? 1 : -1;
+
+        let getVal = function(prod, crit) {
+            switch(crit) {
+                case "pret":
+                    return parseFloat(prod.getElementsByClassName("val-pret")[0].innerHTML);
+                case "nr_pagini":
+                    return parseInt(prod.getElementsByClassName("val-pagini")[0].innerHTML);
+                case "titlu":
+                    return prod.getElementsByClassName("val-titlu")[0].innerHTML;
+                case "autor":
+                    return prod.getElementsByClassName("val-autor")[0].innerHTML;
+            }
+        }
+
+        let compVal = function(val_a, val_b, dir, crit) {
+            switch(crit) {
+                case "pret":
+                case "nr_pagini":
+                    return (val_a - val_b) * dir;
+                case "titlu":
+                case "autor":
+                    return val_a.localeCompare(val_b) * dir;
+            }
+        }
+
+        let comp = (a, b) => {
+            let val1_a = getVal(a, crit1);
+            let val1_b = getVal(b, crit1);
+            let val2_a = getVal(a, crit2);
+            let val2_b = getVal(b, crit2);
+
+            let comp1 = compVal(val1_a, val1_b, sort_dir, crit1);
+            let comp2 = compVal(val2_a, val2_b, sort_dir, crit2); 
+            return comp1 == 0 ? comp2 : comp1;
+        }
+        
+        sortare(comp);
     }
 
     // Calculare medie preturi
