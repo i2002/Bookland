@@ -120,6 +120,7 @@ fs.watch(obGlobal.folderScss, function(eveniment, numeFis) {
 // - incarcare resurse statice
 app.use("/resurse", express.static(path.join(__dirname, "resurse")));
 app.use("/node_modules", express.static(path.join(__dirname, "node_modules")));
+app.use("/poze_uploadate", express.static(path.join(__dirname, "poze_uploadate")));
 
 // - informatii pentru toate paginile (categorii meniu, utilizator logat)
 app.use("/*", function(req, res, next) {

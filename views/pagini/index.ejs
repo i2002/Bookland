@@ -87,7 +87,14 @@
             <p>
                 IP: <%- locals.ip %>
             </p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Alias, et nulla aliquam velit repellat, quasi cumque sunt doloremque tenetur placeat vitae, eligendi nesciunt commodi illum aliquid saepe expedita quia odit.
+            <p>
+                <% if (locals.utilizator) { %>
+                    Utilizator curent: <%= locals.utilizator.username %> (Nume: <%= locals.utilizator.nume %>, prenume: <%= locals.utilizator.prenume %>)
+                    <img src="<%= locals.utilizator.poza %>">
+                <% } else { %>
+                    Sesiunea nu are utilizator logat.
+                <% } %>
+            </p>
         </section>
         <section id="site-info">
             <h2><i class="fa-solid fa-server"></i> Stare site</h2>
