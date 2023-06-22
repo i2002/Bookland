@@ -10,7 +10,7 @@ function paginate(page = 1) {
     // pagination buttons
     let pagination = "";
     for (let i = 0; i < nrl; i++) {
-        pagination += `<button type="button" class="btn btn-secondary" href="#" onclick="paginate(${i + 1})">${i + 1}</button>`;
+        pagination += `<button type="button" class="btn btn-outline-secondary${i + 1 == page ? " active" : ""}" href="#" onclick="paginate(${i + 1})">${i + 1}</button>`;
     }
     document.querySelector(".pagination").innerHTML = pagination;
 
@@ -80,6 +80,7 @@ window.onload = function() {
         }
 
         // filtrare produse
+        let fara_produse = true;
         var produse = document.getElementsByClassName("produs");
         for (let prod of produse) {
             prod.style.display = "none";
@@ -109,8 +110,12 @@ window.onload = function() {
             if (cond1 && cond2 && cond3 && cond4 && cond5 && cond6 && cond7 && cond8) {
                 prod.style.display = "";
                 prod.dataset.filtered = "false";
+                fara_produse = false;
             }
         }
+
+        // afisare mesaj fara produse
+        document.querySelector(".fara-produse").style.display = fara_produse ? "" : "none";
 
         // recalculare paginare
         paginate();
@@ -196,17 +201,10 @@ window.onload = function() {
         document.getElementById("salvare-filtre").checked = false;
 
         // afisare toate produsele
-        var produse = document.getElementsByClassName("produs");
-        for (let prod of produse) {
-            prod.style.display = "";
-            prod.dataset.filtered = "false";
-        }
+        filter();
 
         // stergere cookie
         deleteCookie("filtre_produse");
-
-        // recalculare paginare
-        paginate();
     }
 
     // Actualizare validare texarea
