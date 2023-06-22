@@ -423,6 +423,13 @@ footer {
     background-color: var(--culoare-secundara-background);
 }
 
+#theme-switch {
+    position: fixed;
+    top: 0.8rem;
+    right: 1rem;
+    z-index: 100;
+}
+
 /* - banner */
 #banner {
     position: fixed;
