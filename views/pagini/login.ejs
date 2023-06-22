@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <title>Bookland | Autentificare</title>
+    <meta name="keywords" content="bookland, cărți digitale, ebook, bibliotecă virtuală, produse">
+    <meta name="description" content="Magazin online de cărți digitale. Oferte. Bestsellere. Cărți nou apărute.">
+
+    <%- include("../fragmente/head") %>    
+</head>
+<body>
+    <!-- Header -->
+    <%- include("../fragmente/header") %>
+    
+    <!-- Main content -->
+    <main class="container">
+        <h1 class="mt-3">Autentificare</h1>
+        <section>
+            <% if(!locals.utilizator) { %>
+                <form id="form_login"  method="post" class="date"  action="/login"  enctype="multipart/form-data">
+                    <div class="mb-3">
+                        <label for="inp-username" class="form-label">Username</label>
+                        <input type="text" class="form-control" name="username" id="inp-username" value="" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="parl" class="form-label">Parolă</label>
+                        <input id="parl" class="form-control" type="password" name="parola" value="" required>
+                    </div>
+                    <div>
+                        <input class="btn btn-secondary" type="submit" value="Autentificare">
+                    </div>
+                </form>
+                <% if (locals.eroareLogin) { %>
+                    <div class="alert alert-danger mt-3 mb-0" role="alert">
+                        <%- locals.eroareLogin %>
+                    </div>
+                <% } %>
+            <% } else {%>
+                <div class="alert alert-success my-0" role="alert">
+                    Ai fost autentificat cu succes.
+                </div>
+            <% } %> 
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <%- include("../fragmente/footer") %>
+</body>
+</html>

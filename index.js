@@ -374,6 +374,44 @@ app.get("/confirmare_inreg/:token1/:username/:token2", function(req, res) {
         renderError(res, 2);
     }
 });
+
+// - login utilizator
+app.post("/login", function(req, res) {
+    var username;
+    var formular = new formidable.IncomingForm();
+    formular.parse(req, function(err, campuriText, campuriFile) {
+        Utilizator.getUtilizDupaUsername(campuriText.username, {req, res, parola: campuriText.parola}, function(u, obparam) {
+            let parola_criptata = Utilizator.criptareParola(obparam.parola);
+            
+            console.log(u);
+            if (u.parola == parola_criptata && u.confirmat_mail && !u.blocat) {
+                u.poza = u.poza ? path.join("poze_uploadate", u.username, u.poza) : "";
+                obparam.req.session.utilizator = u;
+                obparam.req.session.mesajLogin = "Bravo! Te-ai logat!";
+                obparam.res.redirect("/index");
+            } else {
+                console.error("Eroare login");
+                obparam.req.session.mesajLogin = "Date de logare incorecte sau utilizatorul este blocat!";
+                obparam.res.redirect("/login");
+            }
+        });
+    });
+});
+
+// - afisare mesaje login
+app.get("/login", function(req, res, next) {
+    res.locals.eroareLogin = req.session.mesajLogin;
+    req.session.mesajLogin = "";
+    next();
+});
+
+// - logout utilizator
+app.get("/logout", function(req, res) {
+    req.session.destroy();
+    res.locals.utilizator = null;
+    res.render("pagini/logout");
+});
+
 // - afisare pagini dinamic + mesaje de eroare daca nu sunt gasite
 app.get("/*", function(req, res) {
     try {

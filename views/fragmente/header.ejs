@@ -49,9 +49,13 @@
             <li>
                 <a href="#">Contul meu</a>
                 <ul>
-                    <li><a href="#">Autentificare</a></li>
-                    <li><a href="#">Profil</a></li>
-                    <li><a href="#">Dezautentificare</a></li>
+                    <% if (locals.utilizator) { %>
+                        <li><a href="/profil">Profil <%= locals.utilizator.username %></a></li>
+                        <li><a href="/logout">Dezautentificare</a></li>
+                    <% } else { %>
+                        <li><a href="/login">Autentificare</a></li>
+                        <li><a href="/inregistrare">Înregistrare</a></li>
+                    <% } %>
                 </ul>
             </li>
             <li>
