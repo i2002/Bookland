@@ -34,7 +34,7 @@ window.onload = function() {
     paginate();
 
     // Filtrare
-    document.getElementById("filtrare").onclick = function() {
+    let filter = function() {
         // preluare valori formular filtrare
         let val_titlu = document.getElementById("inp-titlu").value.toLowerCase();
         let val_autor = document.getElementById("inp-autor").value.toLowerCase();
@@ -101,6 +101,21 @@ window.onload = function() {
         // recalculare paginare
         paginate();
     }
+
+    // Executare filtrare
+    document.getElementById("filtrare").onclick = filter;
+    document.getElementById("inp-titlu").onchange = filter;
+    document.getElementById("inp-autor").onchange = filter;
+    document.getElementById("inp-descriere").onchange = filter;
+    for (let r of document.getElementsByName("gr_rad")) {
+        r.onchange = filter;
+    }
+    for (let c of document.getElementsByName("gr_chk")) {
+        c.onchange = filter;
+    }
+    document.getElementById("inp-pagini").oninput = filter;
+    document.getElementById("inp-colectie").onchange = filter;
+    document.getElementById("inp-limba").onchange = filter;
 
     // Resetare filtrare
     document.getElementById("resetare").onclick = function() {
