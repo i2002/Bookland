@@ -346,6 +346,34 @@ app.post("/inregistrare", function(req, res) {
     });
 });
 
+// - verificare utilizator
+app.get("/confirmare_inreg/:token1/:username/:token2", function(req, res) {
+    console.log(req.params);
+    let username = req.params.username.split("").reverse().join("");
+    let token = `${req.params.token1}${req.params.token2}`;
+    try {
+        Utilizator.getUtilizDupaUsername(username, {res: res, token}, function(u, obparam) {
+            AccesBD.getInstanta().update({
+                tabel: "utilizatori",
+                campuri: {
+                    confirmat_mail: 'true'
+                }, 
+                conditii: [[`cod='${obparam.token}'`]]
+            }, function (err, rezUpdate) {
+                if(err || rezUpdate.rowCount == 0) {
+                    console.log("Cod:", err);
+                    afisareEroare(res, 3);
+                } else {
+                    res.render("pagini/confirmare.ejs");
+                }
+            });
+        });
+    }
+    catch (e) {
+        console.log(e);
+        renderError(res, 2);
+    }
+});
 // - afisare pagini dinamic + mesaje de eroare daca nu sunt gasite
 app.get("/*", function(req, res) {
     try {
