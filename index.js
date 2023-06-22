@@ -157,8 +157,8 @@ app.get(["/index", "/", "/home"], function(req, res) {
             return;
         }
 
-    res.render("pagini/index", {
-        ip: req.ip,
+        res.render("pagini/index", {
+            ip: req.ip,
             galerie_statica: obGlobal.obImagini.imagini,
             imagini: obGlobal.obImagini.imagini,
             carti: JSON.stringify(carti.rows)
@@ -224,13 +224,13 @@ app.get("/produse", async function(req, res) {
         let autori = await context.selectAsync({
             tabel: "carti",
             campuri: ["distinct autor"]
-                    });
+        });
         autori = autori.rows.map(row => row.autor);
 
         let limba = await context.selectAsync({
             tabel: "carti",
             campuri: ["distinct limba"]
-            });
+        });
         limba = limba.rows.map(row => row.limba);
 
         let pagini = await context.selectAsync({
@@ -256,7 +256,7 @@ app.get("/produse", async function(req, res) {
             minPagini,
             maxPagini,
             formate
-    });
+        });
     } catch(err) {
         console.log(err);
         afisareEroare(res, 2);
