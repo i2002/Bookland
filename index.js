@@ -4,6 +4,7 @@ const path = require("path");
 const sharp = require("sharp");
 const sass = require("sass");
 const ejs = require("ejs");
+const formidable = require("formidable");
 const session = require('express-session');
 const AccesBD = require("./module_proprii/accesbd.js");
 const { Utilizator } = require("./module_proprii/utilizator.js");
@@ -51,7 +52,7 @@ AccesBD.getInstanta().select({
 
 // Organizare foldere
 // - creare foldere
-vectorFoldere = ["temp", "backup"];
+vectorFoldere = ["temp", "backup", "poze_uploadate"];
 for (let folder of vectorFoldere) {
     caleFolder = path.join(__dirname, folder)
     if (! fs.existsSync(caleFolder)) {
@@ -277,6 +278,71 @@ app.get("/produs/:id", function(req, res) {
                 prod: rezultat.rows[0]
             });
         }
+    });
+});
+
+// - inregistrare utilizator
+app.post("/inregistrare", function(req, res) {
+    // date user
+    var username;
+    var poza;
+
+    // prelucrare formulare
+    var formular = new formidable.IncomingForm();
+    formular.parse(req, function(err, campuriText, campuriFisier) { //4
+        var eroare = "";
+        console.log(campuriText);
+
+        var utilizNou = new Utilizator();
+        try {
+            utilizNou.setareUsername = campuriText.username;
+            utilizNou.setareNume = campuriText.nume;
+            utilizNou.setarePrenume = campuriText.prenume
+            utilizNou.setareEmail = campuriText.email
+            utilizNou.setareParola = campuriText.parola;
+            utilizNou.setareDataNastere = campuriText.data_nastere;
+            utilizNou.culoare_chat = campuriText.culoare_chat;
+            utilizNou.poza = poza;
+
+            Utilizator.getUtilizDupaUsername(campuriText.username, {}, function(u, parametru, eroareUser) {
+                if (eroareUser == -1) { // nu exista username-ul in BD
+                    utilizNou.salvareUtilizator();
+                } else {
+                    eroare += "Mai exista username-ul";
+                }
+
+                if (!eroare) {
+                    res.render("pagini/inregistrare", {raspuns: "Inregistrare cu succes!"})
+                } else {
+                    res.render("pagini/inregistrare", {err: "Eroare: " + eroare});
+                }
+            });
+        }
+        catch(e) { 
+            console.error(e);
+            eroare += e.message;
+            res.render("pagini/inregistrare", {err: "Eroare: " + eroare});
+        }
+    });
+
+    formular.on("field", function(nume, val) { // 1 
+        if (nume == "username") {
+            username = val;
+        }
+    });
+
+    formular.on("fileBegin", function(nume, fisier) { //2
+        let folderUser = path.join(__dirname, "poze_uploadate", username);
+        if (!fs.existsSync(folderUser)) {
+            fs.mkdirSync(folderUser);
+        }
+
+        fisier.filepath = path.join(folderUser, fisier.originalFilename);
+        poza = fisier.originalFilename;
+        // FIXME: trebuie copiată imaginea?
+    });
+
+    formular.on("file", function(nume, fisier) { //3
     });
 });
 

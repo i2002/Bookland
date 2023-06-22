@@ -1,0 +1,46 @@
+<form id="form_inreg" method="post" class="date container" action="<%= locals.action %>" enctype="multipart/form-data">
+    <div class="mb-3">
+        <label for="inp-username" class="form-label">Username</label>
+        <input type="text" class="form-control" name="username" id="inp-username" value="client<%= Math.floor(Math.random()*100000) %>" required pattern="[A-Za-z0-9#_./]+">
+    </div>
+    <div class="mb-3">
+        <label for="inp-nume" class="form-label">Nume</label>
+        <input type="text" class="form-control" name="nume" id="inp-nume" value="Popescu" required pattern="[A-ZĂÎĂȘȚ][a-zăâîșț]*">
+    </div>
+    <div class="mb-3">
+        <label for="inp-prenume" class="form-label">Prenume</label>
+        <input type="text" class="form-control" name="prenume" id="inp-prenume" value="Mitică" required>
+    </div>
+    <div class="mb-3">
+        <label for="parl" class="form-label">Parola</label>
+        <input id="parl" class="form-control" type="password" name="parola" value="" required pattern=".*[0-9].*">
+    </div>
+    <div class="mb-3" id="p-reintrod">
+        <label for="rparl" class="form-label">Reintroduceti parola</label>
+        <input id="rparl" class="form-control" type="password" name="rparola" value="" required pattern=".*[0-9].*">
+    </div>
+    <div class="mb-3">
+        <label for="inp-email" class="form-label">Email</label>
+        <input type="text" class="form-control" name="email" id="inp-email" value="tudorbutufei@gmail.com" size="50" pattern="[A-Za-z0-9\-_]*@[a-zA-Z0-9]*.[a-zA-Z]{2,3}" required>
+    </div>
+    <div class="mb-3">
+        <label for="inp-data" class="form-label">Data nașterii</label>
+        <input type="date" class="form-control" name="data_nastere" id="inp-data-nastere" value="2000-01-01">
+    </div>
+    <div class="mb-3">
+        <label for="sel-culoare" class="form-label">Culoare text chat</label>
+        <select name="culoare_chat" class="form-control" id="sel-culoare">
+            <option value="red" selected>roșu</option>
+            <option value="green">verde</option>
+            <option value="blue">albastru</option>
+        </select>
+    </div>
+    <div class="mb-3">
+        <label for="inp-poza" class="form-label">Poza</label>
+        <input type="file" class="form-control" id="inp-poza" name="poza">
+    </div>
+    <div>
+        <input class="btn btn-primary" type="submit" value="Trimite">
+        <input class="btn btn-danger" type="reset" value="Reseteaza">
+    </div>
+</form>

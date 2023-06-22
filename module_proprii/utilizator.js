@@ -12,7 +12,7 @@ class Utilizator {
     static tipConexiune = "local";
     static tabel = "utilizatori"
     static parolaCriptare = "tehniciweb";
-    static emailServer = ""; // FIXME: conexiune gmail
+    static emailServer = "i2002.mailer@gmail.com";
     static lungimeCod = 64;
     static numeDomeniu = "localhost:8080";
     #eroare;
@@ -23,7 +23,7 @@ class Utilizator {
      * 
      * @param {ObiectUtilizator} obj
      */
-    constructor({id, username, nume, prenume, email, parola, rol, culoare_chat = "black", poza} = {}) {
+    constructor({id, username, nume, prenume, email, parola, rol, data_nastere, culoare_chat = "black", poza} = {}) {
         this.id = id;
 
         try {
@@ -43,8 +43,21 @@ class Utilizator {
             this.rol = this.rol.cod ? RolFactory.creeazaRol(this.rol.cod) : RolFactory.creeazaRol(this.rol);
         }
 
-        console.log(this.rol);
         this.#eroare = "";
+    }
+
+
+    /**
+     * Setter proprietatea username (folosita doar la inregistrare si modificare profil)
+     * 
+     * @param {string} username - username-ul dorit
+     */
+    set setareUsername(username) {
+        if (this.checkUsername(username)) {
+            this.username = username;
+        } else {
+            throw new Error("Username greșit");
+        }
     }
 
     /**
@@ -56,32 +69,62 @@ class Utilizator {
         if (this.checkName(nume)) {
             this.nume = nume;
         } else {
-            throw new Error("Nume gresit");
+            throw new Error("Prenume greșit");
         }
     }
 
     /**
-     * Setter proprietatea username (folosita doar la inregistrare si modificare profil)
-     * 
-     * @param {string} username - username-ul dorit
-     */
-    set setareUsername(username) {
-        if (this.checkUsername(username)) {
-            this.username = username;
-        } else {
-            throw new Error("Username gresit");
-        }
-    }
-
-    /**
-     * Verifica daca numele corespunde formatului dorit
+     * Setter proprietatea prenume
      *
-     * @param {string} nume - numele de verificat
-     * @returns {boolean}
+     * @param {string} prenume - prenumele dorit
      */
-    checkName(nume) {
-        return nume != "" && nume.match(new RegExp("^[A-Z][a-z]+$"));
+    set setarePrenume(prenume) {
+        if (this.checkName(prenume)) {
+            this.prenume = prenume;
+        } else {
+            throw new Error("Prenume greșit");
+        }
     }
+
+    /**
+     * Setter proprietatea email
+     *
+     * @param {string} email - email-ul dorit
+     */
+    set setareEmail(email) {
+        if (this.checkEmail(email)) {
+            this.email = email;
+        } else {
+            throw new Error("Format email greșit");
+        }
+    }
+
+    /**
+     * Setter proprietatea parola
+     *
+     * @param {string} parola - parola dorita
+     */
+    set setareParola(parola) {
+        if (this.checkParola(parola)) {
+            this.parola = parola;
+        } else {
+            throw new Error("Parola trebuie să conțină cel puțin o cifră");
+        }
+    }
+
+    /**
+     * Setter proprietatea parola
+     *
+     * @param {string} data_nastere - parola dorita
+     */
+    set setareDataNastere(data_nastere) {
+        if (data_nastere != "") {
+            this.data_nastere = data_nastere;
+        } else {
+            throw new Error("Data nașterii este obligatorie");
+        }
+    }
+
 
     /**
      * Verifica daca username-ul corespunde formatului dorit
@@ -94,6 +137,37 @@ class Utilizator {
     }
 
     /**
+     * Verifica daca numele corespunde formatului dorit
+     *
+     * @param {string} nume - numele de verificat
+     * @returns {boolean}
+     */
+    checkName(nume) {
+        return nume != "" && nume.match(new RegExp("^[A-ZĂÂÎȘȚ][a-zăâîșț]+$"));
+    }
+
+    /**
+     * Verifica daca email-ul corespunde formatului dorit
+     * 
+     * @param {string} email - email-ul de verificat
+     * @returns {boolean}
+     */
+    checkEmail(email) {
+        return email != "" && email.match(new RegExp("^[A-Za-z0-9\-_]*@[a-zA-Z0-9]*.[a-zA-Z]{2,3}$"));
+    }
+
+    /**
+     * Verifica daca parola corespunde formatului dorit
+     * 
+     * @param {string} parola - parola de verificat
+     * @returns {boolean}
+     */
+    checkParola(parola) {
+        return parola != "" && parola.match(new RegExp("^.*[0-9].*$"));
+    }
+
+
+    /**
      * Cripteaza parola data
      * 
      * @param {string} parola - parola in cleartext
@@ -104,12 +178,25 @@ class Utilizator {
     }
 
     /**
+     * Genereaza link-ul de confirmare pe baza tokenului salvat
+     * 
+     * @param {string} token - tokenul generat
+     * @returns {string}
+     */
+    generareLinkConfirmare(token) {
+        let token1 = token.slice(0, 10);
+        let token2 = token.slice(10);
+        let username = this.username.split("").reverse().join("");
+        return `http://${Utilizator.numeDomeniu}/confirmare_inreg/${token1}/${username}/${token2}`;
+    }
+
+    /**
      * Salveaza datele despre utilizator in baza de date
      */
     salvareUtilizator() {
         let parolaCriptata = Utilizator.criptareParola(this.parola);
         let utiliz = this;
-        let token = parole.genereazaToken(100);
+        let token = parole.genereazaToken(this.username);
 
         AccesBD.getInstanta(Utilizator.tipConexiune).insert({
             tabel: Utilizator.tabel,
@@ -119,6 +206,7 @@ class Utilizator {
                 prenume: this.prenume,
                 parola: parolaCriptata,
                 email: this.email,
+                data_nastere: this.data_nastere,
                 culoare_chat: this.culoare_chat,
                 cod: token,
                 poza: this.poza
@@ -128,9 +216,9 @@ class Utilizator {
                 console.log(err);
             } else {
                 utiliz.trimiteMail(
-                    "Te-ai inregistrat cu succes",
+                    `Bună, ${utiliz.username}`,
                     "Username-ul tau este " + utiliz.username,
-                    `<h1>Salut!</h1><p style='color:blue'>Username-ul tau este ${utiliz.username}.</p><p><a href='http://${Utilizator.numeDomeniu}/cod/${utiliz.username}/${token}'>Click aici pentru confirmare</a></p>`,
+                    `<p><span style='font-size:1.25rem;background-color:lightblue;'>Bine ai venit<span> în comunitatea Bookland!</p><p>Username-ul tau este ${utiliz.username}.</p><p><a href='${utiliz.generareLinkConfirmare(token)}'>Click aici pentru a confirma contul</a></p>`,
                 );
             }
         });
@@ -206,7 +294,7 @@ class Utilizator {
             secure: false,
             auth: {
                 user: Utilizator.emailServer,
-                pass: "" // FIXME: conexiune gmail
+                pass: "wreoigzypqarvivu"
             },
             tls: {
                 rejectUnauthorized: false
@@ -222,7 +310,7 @@ class Utilizator {
             attachments: atasamente
         });
 
-        console.log(`> email trimis catre ${this.email}`);
+        console.log(`> Email trimis catre "${this.email}"`);
     }
 
 
