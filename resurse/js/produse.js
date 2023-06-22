@@ -102,10 +102,21 @@ window.onload = function() {
 
     // Filtrare
     let filter = function() {
+        // functii ajutatoare
+        let parseText = function(str) {
+            return str.toLowerCase()
+                .replaceAll(' ', '_')
+                .replaceAll('ă', 'a')
+                .replaceAll('â', 'a')
+                .replaceAll('î', 'i')
+                .replaceAll('ș', 's')
+                .replaceAll('ț', 't');
+        }
+
         // preluare valori formular filtrare
-        let val_titlu = document.getElementById("inp-titlu").value.toLowerCase();
-        let val_autor = document.getElementById("inp-autor").value.toLowerCase();
-        let val_descriere = document.getElementById("inp-descriere").value.toLowerCase();
+        let val_titlu = document.getElementById("inp-titlu").value;
+        let val_autor = document.getElementById("inp-autor").value;
+        let val_descriere = document.getElementById("inp-descriere").value;
         let radio_buttons = document.getElementsByName("gr_rad");
         let val_oferta = "";
         for (let r of radio_buttons) {
@@ -155,9 +166,9 @@ window.onload = function() {
             prod.dataset.hidden = "false";
 
             // preluare informatii produse
-            let titlu = prod.getElementsByClassName("val-titlu")[0].innerHTML.toLowerCase();
-            let autor = prod.getElementsByClassName("val-autor")[0].innerHTML.toLowerCase();
-            let descriere = prod.getElementsByClassName("descriere-prod")[0].innerHTML.toLowerCase();
+            let titlu = parseText(prod.getElementsByClassName("val-titlu")[0].innerHTML);
+            let autor = parseText(prod.getElementsByClassName("val-autor")[0].innerHTML);
+            let descriere = parseText(prod.getElementsByClassName("descriere-prod")[0].innerHTML);
             let oferta = prod.getElementsByClassName("val-oferta")[0].innerHTML;
             let pagini = parseFloat(prod.getElementsByClassName("val-pagini")[0].innerHTML);
             let colectie = prod.getElementsByClassName("val-colectie")[0].innerHTML;
@@ -165,9 +176,9 @@ window.onload = function() {
             let limba = prod.getElementsByClassName("val-limba")[0].innerHTML;
 
             // calculare conditii filtrare
-            let cond1 = titlu.startsWith(val_titlu);
-            let cond2 = autor.startsWith(val_autor);
-            let cond3 = descriere.startsWith(val_descriere);
+            let cond1 = titlu.startsWith(parseText(val_titlu));
+            let cond2 = autor.startsWith(parseText(val_autor));
+            let cond3 = descriere.startsWith(parseText(val_descriere));
             let cond4 = val_oferta == "toate" || (val_oferta == "1" && oferta == "Da" || val_oferta == "0" && oferta == "Nu");
             let cond5 = pagini >= val_pagini;
             let cond6 = val_col == "toate" || (val_col == colectie);
