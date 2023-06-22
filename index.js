@@ -198,7 +198,7 @@ app.get("/produse", async function(req, res) {
         let carti = await context.selectAsync({
             tabel: "carti",
             campuri: ["*"],
-            conditiiAnd: req.query.tip ? [`tip_carte='${req.query.tip}'`] : []
+            conditii: req.query.tip ? [[`tip_carte='${req.query.tip}'`]] : []
         });
 
         let colectii = await context.selectAsync({
@@ -252,7 +252,7 @@ app.get("/produs/:id", function(req, res) {
     AccesBD.getInstanta().select({
         tabel: 'carti',
         campuri: ['*'],
-        conditiiAnd: [`id=${req.params.id}`]
+        conditii: [[`id=${req.params.id}`]]
     }, function(err, rezultat) {
         if (err) {
             console.log(err);

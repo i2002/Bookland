@@ -89,10 +89,24 @@ class AccesBD {
 
 
     /**
+     * Prelucreaza conditia de filtrare
+     * 
+     * @param {string[][]} conditii - matrice ce contine conditiile and pe vectorii interni si or pe vectorul extern
+     */
+    parseConditions(conditii = []) {
+        if (conditii.length == 0) {
+            return "";
+        }
+
+        return " where " + conditii.map(condAnd => condAnd.join(" and ")).join(" or ");
+    }
+
+
+    /**
      * @typedef {object} ObiectQuerySelect Obiect primit de functiile care realizeaza un query
      * @property {string} tabel - numele tabelului
      * @property {string[]} campuri - o lista de stringuri cu numele coloanelor afectate de query; poate cuprinde si elementul "*"
-     * @property {string[]} conditiiAnd - lista de stringuri cu conditii pentru where
+     * @property {string[][]} conditii - matrice de conditii de filtrare
      */
 
     /**
@@ -107,12 +121,8 @@ class AccesBD {
      * @param {ObiectQuerySelect} obj - un obiect cu datele pentru query
      * @param {QueryCallBack} callback - o functie callback cu 2 parametri: eroare si rezultatul query-ului
      */
-    select({tabel = "", campuri = [], conditiiAnd = []} = {}, callback, parametriQuery = []) {
-        let conditieWhere = "";
-        if (conditiiAnd.length > 0) {
-            conditieWhere = `where ${conditiiAnd.join(" and ")}`; 
-        }
-
+    select({tabel = "", campuri = [], conditii = []} = {}, callback, parametriQuery = []) {
+        let conditieWhere = this.parseConditions(conditii);
         let comanda = `select ${campuri.join(",")} from ${tabel} ${conditieWhere}`;
         console.log("select:", comanda);
         this.client.query(comanda, parametriQuery, callback);
@@ -126,18 +136,13 @@ class AccesBD {
      * @param {ObiectQuerySelect} obj - un obiect cu datele pentru query
      * @returns {QueryResult}
      */
-    async selectAsync({tabel = "", campuri = [], conditiiAnd = []} = {}) {
-        let conditieWhere = "";
-        if (conditiiAnd.length > 0) {
-            conditieWhere = `where ${conditiiAnd.join(" and ")}`;
-        }
-        
+    async selectAsync({tabel = "", campuri = [], conditii = []} = {}) {
+        let conditieWhere = this.parseConditions(conditii);
         let comanda = `select ${campuri.join(",")} from ${tabel} ${conditieWhere}`;
         console.log("selectAsync:", comanda);
 
         try {
             let rez = await this.client.query(comanda);
-            console.log("selectasync:", rez);
             return rez;
         } catch (e) {
             console.log(e);
@@ -171,7 +176,7 @@ class AccesBD {
      * @typedef {object} ObiectQueryUpdate - obiect primit de functiile care realizeaza un query de update
      * @property {string} tabel - numele tabelului
      * @property {object} campuri - un obiect cu asocierea nume coloana si valoare pentru coloanele ce vor fi modificate
-     * @property {string[]} conditiiAnd - lista de stringuri cu conditii pentru where
+     * @property {string[][]} conditii - matrice de string-uri cu conditii de filtrare
      */
     
     /**
@@ -180,17 +185,13 @@ class AccesBD {
      * @param {ObiectQueryUpdate} obj - un obiect cu datele pentru update
      * @param {QueryCallBack} callback - o functie callback cu parametri de eroare si rezultatul query-ului
      */
-    update({tabel = "", campuri = {}, conditiiAnd = []} = {}, callback) {
+    update({tabel = "", campuri = {}, conditii = []} = {}, callback) {
         let campuriActualizate = [];
         for (let prop in campuri) {
             campuriActualizate.push(`${prop}='${campuri[prop]}'`);
         }
 
-        let conditieWhere = "";
-        if (conditiiAnd.length > 0) {
-            conditieWhere = `where ${conditiiAnd.join(" and ")}`;
-        }
-
+        let conditieWhere = this.parseConditions(conditii);
         let comanda = `update ${tabel} set ${campuriActualizate.join(", ")} ${conditieWhere}`;
         console.log(comanda);
 
@@ -201,7 +202,7 @@ class AccesBD {
     /**
      * @typedef {object} ObiectQueryDelete - obiect primit de functiile care realizeaza un query de update
      * @property {string} tabel - numele tabelului
-     * @property {string[]} conditiiAnd - lista de stringuri cu conditii pentru where
+     * @property {string[][]} conditii - matrice de stringuri cu conditiile de filtrare
      */
 
     /**
@@ -210,12 +211,8 @@ class AccesBD {
      * @param {ObiectQueryDelete} obj - un obiect cu datele pentru delete
      * @param {QueryCallBack} callback - functie de callback pentru rezultat
      */
-    delete({tabel = "", conditiiAnd = []} = {}, callback) {
-        let conditieWhere = "";
-        if (conditiiAnd.length > 0) {
-            conditieWhere = `where ${conditiiAnd.join(" and ")}`;
-        }
-        
+    delete({tabel = "", conditii = []} = {}, callback) {
+        let conditieWhere = this.parseConditions(conditii);
         let comanda = `delete from ${tabel} ${conditieWhere}`;
         console.log(comanda);
         this.client.query(comanda, callback)

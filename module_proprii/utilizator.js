@@ -152,7 +152,7 @@ class Utilizator {
             AccesBD.getInstanta(Utilizator.tipConexiune).update({
                 tabel: Utilizator.tabel,
                 campuri: obParam,
-                conditiiAnd: [`username='${this.username}'`]
+                conditii: [[`username='${this.username}'`]]
             }, function(err, rez) {
                 if (err) {
                     console.error("Modificare utilizator:", err);
@@ -181,7 +181,7 @@ class Utilizator {
 
             AccesBD.getInstanta(Utilizator.tipConexiune).delete({
                 tabel: Utilizator.tabel,
-                conditiiAnd: [`username='${this.username}'`]
+                conditii: [[`username='${this.username}'`]]
             }, function(err, rez) {
                 if (err) {
                     console.error("Stergere utilizator:", err);
@@ -252,7 +252,7 @@ class Utilizator {
             let rezSelect = await AccesBD.getInstanta(Utilizator.tipConexiune).selectAsync({
                 tabel: "utilizatori",
                 campuri: ['*'],
-                conditiiAnd: [`username='${username}'`]
+                conditii: [[`username='${username}'`]]
             });
 
             if(rezSelect.rowCount != 0) {
@@ -293,7 +293,7 @@ class Utilizator {
         AccesBD.getInstanta(Utilizator.tipConexiune).select({
             tabel: "utilizatori",
             campuri: ['*'],
-            conditiiAnd: [`username='${username}'`]
+            conditii: [[`username='${username}'`]]
         }, function (err, rezSelect) {
             if (err) {
                 console.error("Utilizator:", err);
@@ -330,7 +330,7 @@ class Utilizator {
         AccesBD.getInstanta(Utilizator.tipConexiune).select({
             tabel: Utilizator.tabel,
             campuri: ['*'],
-            conditiiAnd: campuriCautare
+            conditii: [campuriCautare]
         }, function(err, rez) {
             if (err) {
                 console.error("Cautare utilizatori:", err);
@@ -354,7 +354,7 @@ class Utilizator {
             let res = await AccesBD.getInstanta(Utilizator.tipConexiune).selectAsync({
                 tabel: Utilizator.tabel,
                 campuri: ['*'],
-                conditiiAnd: campuriCautare
+                conditii: [campuriCautare]
             });
 
             return res.map(row => new Utilizator(row));
