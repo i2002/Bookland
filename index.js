@@ -4,7 +4,10 @@ const path = require("path");
 const sharp = require("sharp");
 const sass = require("sass");
 const ejs = require("ejs");
+const session = require('express-session');
 const AccesBD = require("./module_proprii/accesbd.js");
+const { Utilizator } = require("./module_proprii/utilizator.js");
+const Drepturi = require("./module_proprii/drepturi.js");
 
 
 // Date aplicatie
@@ -25,6 +28,13 @@ app.set("view engine", "ejs");
 console.log("- Folder proiect:", `'${__dirname}'`);
 console.log("- Cale fisier:", `'${__filename}'`);
 console.log("- Director de lucru:", `'${process.cwd()}'`);
+
+// - sesiune utilizator
+app.use(session({
+    secret: 'abcdefg',
+    resave: true,
+    saveUninitialized: false
+}));
 
 // - preluare tipuri produse pentru meniu
 AccesBD.getInstanta().select({
@@ -110,9 +120,13 @@ fs.watch(obGlobal.folderScss, function(eveniment, numeFis) {
 app.use("/resurse", express.static(path.join(__dirname, "resurse")));
 app.use("/node_modules", express.static(path.join(__dirname, "node_modules")));
 
-// - categorii produse pentru meniu
+// - informatii pentru toate paginile (categorii meniu, utilizator logat)
 app.use("/*", function(req, res, next) {
     res.locals.optiuniMeniu = obGlobal.optiuniMeniu;
+    res.locals.Drepturi = Drepturi;
+    if (req.session.utilizator) {
+        req.utilizator = res.locals.utilizator = new Utilizator(req.session.utilizator);
+    }
     next();
 });
 
