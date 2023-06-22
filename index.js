@@ -382,16 +382,21 @@ app.post("/login", function(req, res) {
     formular.parse(req, function(err, campuriText, campuriFile) {
         Utilizator.getUtilizDupaUsername(campuriText.username, {req, res, parola: campuriText.parola}, function(u, obparam) {
             let parola_criptata = Utilizator.criptareParola(obparam.parola);
-            
-            console.log(u);
-            if (u.parola == parola_criptata && u.confirmat_mail && !u.blocat) {
+            if (u.parola == parola_criptata && u.confirmat_mail) {
+                if (u.blocat) {
+                    console.error("Utilizator blocat");
+                    obparam.req.session.mesajLogin = "Utilizatorul este blocat!";
+                    obparam.res.redirect("/login");
+                    return;
+                }
+
                 u.poza = u.poza ? path.join("poze_uploadate", u.username, u.poza) : "";
                 obparam.req.session.utilizator = u;
-                obparam.req.session.mesajLogin = "Bravo! Te-ai logat!";
+                obparam.req.session.mesajLogin = "";
                 obparam.res.redirect("/index");
             } else {
                 console.error("Eroare login");
-                obparam.req.session.mesajLogin = "Date de logare incorecte sau utilizatorul este blocat!";
+                obparam.req.session.mesajLogin = "Date de logare incorecte sau nu ați confirmat adresa de email!";
                 obparam.res.redirect("/login");
             }
         });
