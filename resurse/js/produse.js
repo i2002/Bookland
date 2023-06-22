@@ -1,4 +1,38 @@
+// paginare
+const k = 4; // numar de elemente afisate pe o pagina
+
+function paginate(page = 1) {
+    // compute number of products
+    let produse = document.getElementsByClassName("produs");
+    let len = Array.from(produse).reduce((res, prod) => res += prod.dataset.filtered == "true" ? 0 : 1, 0);
+    let nrl = Math.ceil(len / k);
+
+    // pagination buttons
+    let pagination = "";
+    for (let i = 0; i < nrl; i++) {
+        pagination += `<button type="button" class="btn btn-secondary" href="#" onclick="paginate(${i + 1})">${i + 1}</button>`;
+    }
+    document.querySelector(".pagination").innerHTML = pagination;
+
+    // show only selected page
+    let start = (page - 1) * k;
+    let end = page * k - 1;
+    for (let i = 0, j = 0; i < produse.length; i++) {
+        let prod = produse[i];
+        prod.style.display = "none";
+        if (prod.dataset.filtered != "true") {
+            if (j >= start && j <= end) {
+                prod.style.display = "";
+            }
+            j++;
+        }
+    }
+}
+
 window.onload = function() {
+    // Initializare paginare
+    paginate();
+
     // Filtrare
     document.getElementById("filtrare").onclick = function() {
         // preluare valori formular filtrare
@@ -35,6 +69,7 @@ window.onload = function() {
         var produse = document.getElementsByClassName("produs");
         for (let prod of produse) {
             prod.style.display = "none";
+            prod.dataset.filtered = "true";
 
             // preluare informatii produse
             let titlu = prod.getElementsByClassName("val-titlu")[0].innerHTML.toLowerCase();
@@ -59,8 +94,12 @@ window.onload = function() {
             // afisare produs daca corespunde conditiilor
             if (cond1 && cond2 && cond3 && cond4 && cond5 && cond6 && cond7 && cond8) {
                 prod.style.display = "";
+                prod.dataset.filtered = "false";
             }
         }
+
+        // recalculare paginare
+        paginate();
     }
 
     // Resetare filtrare
@@ -89,7 +128,11 @@ window.onload = function() {
         var produse = document.getElementsByClassName("produs");
         for (let prod of produse) {
             prod.style.display = "";
+            prod.dataset.filtered = "false";
         }
+
+        // recalculare paginare
+        paginate();
     }
 
     // Actualizare validare texarea
