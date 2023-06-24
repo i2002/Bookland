@@ -207,7 +207,7 @@ app.get("/biblioteca-virtuala", function(req, res) {
 });
 
 // - listare produse
-app.get("/produse", async function(req, res) {
+app.get(["/produse", "/produse-fetch"], async function(req, res) {
     let context = AccesBD.getInstanta();
 
     try {
@@ -249,7 +249,7 @@ app.get("/produse", async function(req, res) {
         formate = formate.rows.reduce((res, row) => res.concat(...row.format), []);
         formate = [...new Set(formate)];
 
-        res.render("pagini/produse", {
+        res.render("pagini" + req.path, {
             produse: carti.rows,
             optiuni: colectii.rows,
             autori,
@@ -262,6 +262,135 @@ app.get("/produse", async function(req, res) {
         console.log(err);
         afisareEroare(res, 2);
     }
+});
+
+app.get("/api/produse", async function(req, res) {
+    // preluare parametri
+    let titlu = req.query.val_titlu;
+    let autor = req.query.val_autor;
+    let descriere = req.query.val_descriere;
+    let oferta = req.query.val_oferta;
+    let formate = req.query.val_formate;
+    let pagini = req.query.val_pagini;
+    let col = req.query.val_col;
+    let limba = req.query.val_limba;
+    let sort_crit1 = req.query.sort_crit1;
+    let sort_crit2 = req.query.sort_crit2;
+    let sort_dir = req.query.sort_dir;
+    let pinned = req.query.pinned;
+    let removed = req.query.removed;
+
+    // functie ajutatoare
+    let text_query = function(column, value) {
+        let parsed = value.toLowerCase()
+            .replaceAll('ă', 'a')
+            .replaceAll('â', 'a')
+            .replaceAll('î', 'i')
+            .replaceAll('ș', 's')
+            .replaceAll('ț', 't');
+
+        return `translate(lower(${column}), 'ăâîșț', 'aaist') like '${parsed}%'`;
+    }
+
+    // verificare pinned
+    let check_pinned = "";
+    if (pinned && pinned != "") {
+        check_pinned = `id in (${pinned})`;
+    }
+
+    // verificare removed
+    let check_removed = "";
+    if (removed && removed != "null") {
+        check_removed = `id in (${removed})`;
+    }
+
+    // criterii filtrare
+    let criterii = [];
+    if (titlu && titlu != "") {
+        criterii.push(text_query("titlu", titlu));
+    }
+
+    if (autor && autor != "") {
+        criterii.push(text_query("autor", autor));
+    }
+
+    if (descriere && descriere != "") {
+        criterii.push(text_query("descriere", descriere));
+    }
+
+    if (oferta && oferta != "toate") {
+        criterii.push(`oferta = ${oferta == "1" ? "TRUE" : "FALSE"}`);
+    }
+
+    if (formate && formate != "") {
+        formate.split(",").forEach(format => {
+            criterii.push(`'${format}' = any (format)`);
+        });
+    }
+
+    if (pagini) {
+        criterii.push(`nr_pagini >= ${pagini}`);
+    }
+
+    if (col && col != "toate") {
+        criterii.push(`colectie = '${col}'`);
+    }
+
+    if (limba && limba != "") {
+        let conditie = limba.split(",").map(l => `limba = '${l}'`).join(' or ');
+        criterii.push(`(${conditie})`);
+    }
+
+    if (check_removed != "") {
+        criterii.push(`not ${check_removed}`);
+    }
+
+    // conditii pinned
+    let conditii_pinned = [];
+    if (check_pinned != "") {
+        conditii_pinned.push(check_pinned);
+    }
+
+    if (check_removed != "" && conditii_pinned.length > 0) {
+        conditii_pinned.push(`not ${check_removed}`);
+    }
+
+    // conditii filtrare
+    let conditii = [];
+    if (criterii.length > 0) {
+        conditii.push(criterii);
+    }
+
+    if (conditii_pinned.length > 0) {
+        conditii.push(conditii_pinned);
+    }
+
+    // criterii sortare
+    let sort = [];
+    if (!sort_dir) {
+        sort_dir = "asc";
+    }
+
+    if (sort_crit1) {
+        sort.push(sort_crit1);
+    }
+
+    if (sort_crit2 && sort_crit1 != sort_crit2) {
+        sort.push(sort_crit2);
+    }
+
+    // efectuare query
+    let context = AccesBD.getInstanta();
+    let carti = await context.selectAsync({
+        tabel: "carti",
+        campuri: ["*"],
+        conditii: conditii,
+        orderby: sort,
+        orderdir: sort_dir
+    });
+
+    // intoarcere date
+    res.json(carti);
 });
 
 app.get("/produs/:id", function(req, res) {

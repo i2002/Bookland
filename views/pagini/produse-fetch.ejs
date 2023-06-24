@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <title>Bookland | Produse</title>
+    <meta name="keywords" content="bookland, cărți digitale, ebook, bibliotecă virtuală, produse">
+    <meta name="description" content="Magazin online de cărți digitale. Oferte. Bestsellere. Cărți nou apărute.">
+
+    <%- include("../fragmente/head") %>
+    <link rel="stylesheet" href="/resurse/css/produse.css" type="text/css" />
+    <script type="text/javascript" src=/resurse/js/produse-fetch.js></script>
+</head>
+<body>
+    <!-- Header -->
+    <%- include("../fragmente/header") %>
+
+    <!-- Main content -->
+    <main>
+        <h1 style="margin-top: 2rem">Produse</h1>
+        
+        <!-- Product filtering -->
+        <section class="container bg-light-subtle">
+            <div class="row mb-3">
+                <label for="inp-titlu" class="col-sm-2 col-form-label">Titlu</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="inp-titlu">
+                </div>
+            </div>
+            <div class="row mb-3">
+                <label for="inp-autor" class="col-sm-2 col-form-label">Autor</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="inp-autor" list="optiuni-autori">
+                    <datalist id="optiuni-autori">
+                        <% for (let autor of locals.autori) { %>
+                            <option value="<%- autor %>">
+                        <% } %>
+                    </datalist>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <label for="inp-descriere" class="col-sm-2 col-form-label">Descriere</label>
+                <div class="col-sm-10 form-floating">
+                    <textarea class="form-control" id="inp-descriere" rows="4"></textarea>
+                    <label for="inp-descriere" class="ms-2"></label>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <label for="gr_rad" class="col-sm-2 col-form-label pt-0">Produse la ofertă</label>
+                <div class="col-sm-10">
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="gr_rad" id="i_rad1" value="1">
+                        <label class="form-check-label" for="i_rad1">Da</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="gr_rad" id="i_rad2" value="0">
+                        <label class="form-check-label" for="i_rad2">Nu</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="gr_rad" id="i_rad3" value="toate" checked>
+                        <label class="form-check-label" for="i_rad3">Toate</label>
+                    </div>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <label for="gr_chk" class="col-sm-2 col-form-label pt-1">Formate disponibile</label>
+                <div class="col-sm-10">
+                    <% for(let i = 0; i < formate.length; i++) { %>
+                        <div class="form-check-inline">
+                            <input class="btn-check" type="checkbox" name="gr_chk" id="i_chk<%= i + 1 %>" value="<%= formate[i] %>">
+                            <label class="btn btn-sm btn-outline-primary" for="i_chk<%= i + 1 %>"><%= formate[i] %></label>
+                        </div>
+                    <% } %>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <label for="inp-pagini" class="col-sm-2 col-form-label pt-0">Număr minim pagini</label>
+                <div class="col-sm-10 d-flex">
+                    <input type="range" class="form-range" id="inp-pagini" step="10" value="<%= minPagini %>" min="<%= minPagini %>" max="<%= maxPagini %>">
+                    <span class="ms-3" id="infoRange">(<%= minPagini %>)</span>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <label for="inp-colectie" class="col-sm-2 col-form-label">Colecție</label>
+                <div class="col-sm-10">
+                    <select class="form-select" id="inp-colectie">
+                        <option id="sel-toate" value="toate" selected>Toate</option>
+                        <% for (let opt of locals.optiuni) { %>
+                            <option value="<%- opt.unnest %>"><%- opt.unnest %></option>
+                        <% } %>
+                    </select>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <label for="inp-colectie" class="col-sm-2 col-form-label">Limba</label>
+                <div class="col-sm-10">
+                    <select id="inp-limba" class="form-select" size="2" multiple>
+                        <% for (let l of locals.limba) { %>
+                            <option id="<%= l %>" value="<%= l %>"><%= l[0].toUpperCase() + l.slice(1) %></option>
+                        <% } %>
+                    </select>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <label for="salvare-filtre" class="col-sm-2 col-form-label pt-0">Salvare filtre</label>
+                <div class="col-sm-10">
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" name="salvare-filtre" id="salvare-filtre" value="salvare-filtre">
+                    </div>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col">
+                    <button id="filtrare" class="btn btn-primary w-100">
+                        <i class="bi bi-filter"></i>
+                        <span class="d-none d-md-inline">Filtrează</span>
+                    </button>
+                </div>
+                <div class="col">
+                    <button id="resetare" class="btn btn-danger w-100">
+                        <i class="bi bi-arrow-counterclockwise"></i>
+                        <span class="d-none d-md-inline">Resetează</span>
+                    </button>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-md">
+                    <select class="form-select" id="sort-crit1">
+                        <option value="">Implicit</option>
+                        <option value="pret">Preț</option>
+                        <option value="nr_pagini">Număr pagini</option>
+                        <option value="titlu">Titlu</option>
+                        <option value="autor">Autor</option>
+                    </select>
+                </div>
+                <div class="col-md">
+                    <select class="form-select" id="sort-crit2">
+                        <option value="">Implicit</option>
+                        <option value="pret">Preț</option>
+                        <option value="nr_pagini">Număr pagini</option>
+                        <option value="titlu">Titlu</option>
+                        <option value="autor">Autor</option>
+                    </select>
+                </div>
+                <div class="col-md">
+                    <select class="form-select" id="sort-dir">
+                        <option value="">Implicit</option>
+                        <option value="asc">Crescător</option>
+                        <option value="desc">Descrescător</option>
+                    </select>
+                </div>
+                <div class="col-md">
+                    <button id="sortCustom" class="btn btn-secondary w-100">
+                        <i class="bi bi-funnel-fill"></i>
+                        <span class="d-none d-md-inline">Sortează</span>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Product listing -->
+        <template id="template-produs">
+            <article id="" class="produs col">
+                <div class="h-100">
+                    <h3 class="titlu">
+                        <a href=""><span class="val-titlu"></span></a>
+                    </h3>
+                    <div class="info-prod">
+                        <table>
+                            <tr>
+                                <td>Autor</td>
+                                <td class="val-autor"></td>
+                            </tr>
+                            <tr>
+                                <td>Preț</td>
+                                <td class="val-pret"></td>
+                            </tr>
+                            <tr>
+                                <td>Număr pagini</td>
+                                <td class="val-pagini"></td>
+                            </tr>
+                            <tr>
+                                <td>Limba</td>
+                                <td class="val-limba"></td>
+                            </tr>
+                            <tr>
+                                <td>Formate</td>
+                                <td class="val-formate"></td>
+                            </tr>
+                            <tr>
+                                <td>Data adăugării</td>
+                                <td>
+                                    <time datetime=""></time>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Ofertă</td>
+                                <td class="val-oferta"></td>
+                            </tr>
+                            <tr>
+                                <td>Anul apariției</td>
+                                <td class="val-an-aparitie"></td>
+                            </tr>
+                        </table>
+                    </div>
+                    <figure class="imagine-prod">
+                        <a href="/produs/">
+                            <img src="" style="width:150px;height:auto;" alt=""/>
+                        </a>
+                    </figure>
+                    <div class="descriere-prod"></div>
+                    <p class="colectie">Colecție: <span class="val-colectie"></span></p>
+                    <div class="btn-toolbar" role="toolbar">
+                        <button class="btn btn-outline-primary mx-2 pin-prod" title="Afișează produsul indiferent de filtre" onclick="pin_product()"><i class="bi bi-pin-angle-fill"></i></button>
+                        <button class="btn btn-outline-primary mx-2 hide-prod" title="Ascunde temporar produsul" onclick="hide_product()"><i class="bi bi-eye-slash-fill"></i></button>
+                        <button class="btn btn-outline-primary mx-2 remove-prod" title="Ascunde produsul pe parcursul sesiunii curente" onclick="remove_product()"><i class="bi bi-trash-fill"></i></button>
+                    </div>
+                    <!-- <label class="selecteaza-cos">
+                        Selectează:<br/>
+                        <input type="checkbox" class="select-cos" value="" autocomplete="off">
+                    </label> -->
+                </div>
+            </article>
+        </template>
+        <section id="produse">
+            <h2>Produse</h2>
+            <div class="grid-produse row row-cols-1 row-cols-md-2 g-3">
+            </div>
+            <p class="fara-produse d-none">Nu există produse care să se potrivească filtrării curente</p>
+            <div class="btn-toolbar mt-2" role="toolbar">
+                <div class="btn-group pagination" role="group">
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <%- include("../fragmente/footer") %>
+</body>
+</html>
