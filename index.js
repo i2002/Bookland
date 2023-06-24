@@ -642,6 +642,18 @@ app.post("/profil", function(req, res) {
             fs.mkdirSync(folderUser);
         }
 
+        // - cale poza
+        fisier.filepath = path.join(folderUser, fisier.originalFilename);
+    });
+
+    formular.on("file", function(nume, fisier) {
+        let folderUser = path.join(__dirname, "poze_uploadate", username);
+
+        // - fisier gol
+        if (fisier.originalFilename == '' || fisier.size == 0) {
+            return;
+        }
+        
         // - backup poza veche
         let poza_veche = req.utilizator.poza;
         if (fs.existsSync(poza_veche)) {
@@ -649,7 +661,6 @@ app.post("/profil", function(req, res) {
         }
 
         // - poza noua
-        fisier.filepath = path.join(folderUser, fisier.originalFilename);
         poza = fisier.originalFilename;
     });
 });
