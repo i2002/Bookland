@@ -61,7 +61,6 @@ class AccesBD {
      * @returns {AccesBD}
      */
     static getInstanta({init = "local"} = {}) {
-        // console.log(this); // this-ul e clasa nu instanta pt ca metoda statica
         if (!this.#instanta) {
             this.#initializat = true;
             this.#instanta = new AccesBD();
@@ -141,7 +140,7 @@ class AccesBD {
         let conditieWhere = this.parseConditions(conditii);
         let order = this.parseOrder(orderby, orderdir);
         let comanda = `select ${campuri.join(",")} from ${tabel} ${conditieWhere} ${order}`;
-        console.log("select:", comanda);
+        console.log("== select:", comanda);
         this.client.query(comanda, parametriQuery, callback);
         /*comanda = `select id, camp1, camp2 from tabel where camp1=$1 and camp2=$2`;
         this.client.query(comanda,[val1, val2],callback) */
@@ -157,13 +156,13 @@ class AccesBD {
         let conditieWhere = this.parseConditions(conditii);
         let order = this.parseOrder(orderby, orderdir);
         let comanda = `select ${campuri.join(",")} from ${tabel} ${conditieWhere} ${order}`;
-        console.log("selectAsync:", comanda);
+        console.log("== selectAsync:", comanda);
 
         try {
             let rez = await this.client.query(comanda);
             return rez;
         } catch (e) {
-            console.log(e);
+            console.error(e);
             return null;
         }
     }
@@ -185,7 +184,7 @@ class AccesBD {
         let strCampuri = Object.keys(campuri).join(",");
         let strValori = Object.values(campuri).map((x) => `'${x}'`).join(",");
         let comanda = `insert into ${tabel} (${strCampuri}) values (${strValori})`;
-        console.log(comanda);
+        console.log("== insert:", comanda);
         this.client.query(comanda,callback)
     }
 
@@ -211,7 +210,7 @@ class AccesBD {
 
         let conditieWhere = this.parseConditions(conditii);
         let comanda = `update ${tabel} set ${campuriActualizate.join(", ")} ${conditieWhere}`;
-        console.log(comanda);
+        console.log("== update:", comanda);
 
         this.client.query(comanda, callback)
     }
@@ -232,7 +231,7 @@ class AccesBD {
     delete({tabel = "", conditii = []} = {}, callback) {
         let conditieWhere = this.parseConditions(conditii);
         let comanda = `delete from ${tabel} ${conditieWhere}`;
-        console.log(comanda);
+        console.log("== delete:", comanda);
         this.client.query(comanda, callback)
     }
 
