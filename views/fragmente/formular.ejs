@@ -37,12 +37,10 @@
             <option value="blue">albastru</option>
         </select>
     </div>
-    <% if (locals.action == "/inregistrare") { %>
-        <div class="mb-3">
-            <label for="inp-poza" class="form-label">Poza</label>
-            <input type="file" class="form-control" id="inp-poza" name="poza">
-        </div>
-    <% } %>
+    <div class="mb-3">
+        <label for="inp-poza" class="form-label">Poza</label>
+        <input type="file" class="form-control" id="inp-poza" name="poza">
+    </div>
     <div>
         <input class="btn btn-primary" type="submit" value="Trimite">
         <input class="btn btn-danger" type="reset" value="Reseteaza">

@@ -469,7 +469,6 @@ app.post("/inregistrare", function(req, res) {
 
         fisier.filepath = path.join(folderUser, fisier.originalFilename);
         poza = fisier.originalFilename;
-        // FIXME: trebuie copiată imaginea?
     });
 
     formular.on("file", function(nume, fisier) { //3
@@ -549,11 +548,17 @@ app.get("/logout", function(req, res) {
 
 // - actualizare profil utilizator
 app.post("/profil", function(req, res) {
+    // nu se permite utilizatorilor neinregistrati
     if (!req.session.utilizator) {
         afisareEroare(res, 403, undefined, "Nu sunteți logat.");
         return;
     }
 
+    // date user
+    var poza = "";
+    var username = "";
+
+    // prelucrare date formular
     var formular = new formidable.IncomingForm();
     formular.parse(req, function(err, campuriText, campuriFile) {
         var parola_criptata = Utilizator.criptareParola(campuriText.parola);
@@ -572,14 +577,22 @@ app.post("/profil", function(req, res) {
             return;
         }
 
+        // setare campuri
+        let campuri = {
+            nume: campuriText.nume,
+            prenume: campuriText.prenume,
+            email: campuriText.email,
+            culoare_chat: campuriText.culoare_chat,
+        };
+
+        // daca a fost uploadata o alta poza
+        if (poza != "") {
+            campuri.poza = poza;
+        }
+
         AccesBD.getInstanta().update({
             tabel: "utilizatori",
-            campuri: {
-                nume: campuriText.nume,
-                prenume: campuriText.prenume,
-                email: campuriText.email,
-                culoare_chat: campuriText.culoare_chat,
-            },
+            campuri: campuri,
             conditii: [[`parola='${parola_criptata}'`, `username='${campuriText.username}'`]]
         }, function(err, rez) {
             if (err) {
@@ -597,11 +610,40 @@ app.post("/profil", function(req, res) {
             req.session.utilizator.prenume = campuriText.prenume;
             req.session.utilizator.email = campuriText.email;
             req.session.utilizator.culoare_chat = campuriText.culoare_chat;
+            if (poza != "") {
+                req.session.utilizator.poza = path.join("poze_uploadate", campuriText.username, poza);
+            }
             res.locals.utilizator = req.session.utilizator;
 
             console.log("> sesiune actualizata");
             res.render("pagini/profil", {mesaj: "Date actualizate cu succes."});
         });
+    });
+
+    // preluare username
+    formular.on("field", function(nume, val) { // 1 
+        if (nume == "username") {
+            username = val;
+        }
+    });
+
+    // actualizare poza de profil
+    formular.on("fileBegin", function(nume, fisier) {
+        // - verificare folder user
+        let folderUser = path.join(__dirname, "poze_uploadate", username);
+        if (!fs.existsSync(folderUser)) {
+            fs.mkdirSync(folderUser);
+        }
+
+        // - backup poza veche
+        let poza_veche = req.utilizator.poza;
+        if (fs.existsSync(poza_veche)) {
+            fs.renameSync(poza_veche, path.join(folderUser, "poza" + path.extname(poza_veche)));
+        }
+
+        // - poza noua
+        fisier.filepath = path.join(folderUser, fisier.originalFilename);
+        poza = fisier.originalFilename;
     });
 });
 
