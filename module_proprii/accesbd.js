@@ -101,12 +101,28 @@ class AccesBD {
         return " where " + conditii.map(condAnd => condAnd.join(" and ")).join(" or ");
     }
 
+    /**
+     * Prelucreaza conditia de ordonare
+     * 
+     * @param {string[]} orderby - coloanele dupa care se sorteaza
+     * @param {string} orderdir - directia de sortare ("asc" sau "desc")
+     */
+    parseOrder(orderby = [], orderdir = "asc") {
+        if (orderby.length == 0) {
+            return "";
+        }
+
+        return " order by " + orderby.map(col => `${col} ${orderdir}`).join(",");
+    }
+
 
     /**
      * @typedef {object} ObiectQuerySelect Obiect primit de functiile care realizeaza un query
      * @property {string} tabel - numele tabelului
      * @property {string[]} campuri - o lista de stringuri cu numele coloanelor afectate de query; poate cuprinde si elementul "*"
      * @property {string[][]} conditii - matrice de conditii de filtrare
+     * @property {string[]} orderby - lista de coloane dupa care sa se ordoneze rezultatul
+     * @property {string} orderdir - directia de sortare ("asc" sau "desc")
      */
 
     /**
@@ -121,9 +137,10 @@ class AccesBD {
      * @param {ObiectQuerySelect} obj - un obiect cu datele pentru query
      * @param {QueryCallBack} callback - o functie callback cu 2 parametri: eroare si rezultatul query-ului
      */
-    select({tabel = "", campuri = [], conditii = []} = {}, callback, parametriQuery = []) {
+    select({tabel = "", campuri = [], conditii = [], orderby = [], orderdir = "asc"} = {}, callback, parametriQuery = []) {
         let conditieWhere = this.parseConditions(conditii);
-        let comanda = `select ${campuri.join(",")} from ${tabel} ${conditieWhere}`;
+        let order = this.parseOrder(orderby, orderdir);
+        let comanda = `select ${campuri.join(",")} from ${tabel} ${conditieWhere} ${order}`;
         console.log("select:", comanda);
         this.client.query(comanda, parametriQuery, callback);
         /*comanda = `select id, camp1, camp2 from tabel where camp1=$1 and camp2=$2`;
@@ -136,9 +153,10 @@ class AccesBD {
      * @param {ObiectQuerySelect} obj - un obiect cu datele pentru query
      * @returns {QueryResult}
      */
-    async selectAsync({tabel = "", campuri = [], conditii = []} = {}) {
+    async selectAsync({tabel = "", campuri = [], conditii = [], orderby = [], orderdir = "asc"} = {}) {
         let conditieWhere = this.parseConditions(conditii);
-        let comanda = `select ${campuri.join(",")} from ${tabel} ${conditieWhere}`;
+        let order = this.parseOrder(orderby, orderdir);
+        let comanda = `select ${campuri.join(",")} from ${tabel} ${conditieWhere} ${order}`;
         console.log("selectAsync:", comanda);
 
         try {
