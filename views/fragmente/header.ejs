@@ -58,6 +58,15 @@
                     <% } %>
                 </ul>
             </li>
+            <% if (locals.utilizator && locals.utilizator.rol.cod == "admin") { %>
+                <li>
+                    <a href="#">Administrare</a>
+                    <ul>
+                        <li><a href="/admin/utilizatori">Utilizatori</a></li>
+                        <li><a href="#">Produse</a></li>
+                    </ul>
+                </li>
+            <% } %>
             <li>
                 <a href="/contact">Contact</a>
             </li>

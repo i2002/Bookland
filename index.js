@@ -264,6 +264,7 @@ app.get(["/produse", "/produse-fetch"], async function(req, res) {
     }
 });
 
+// - API preluare produse
 app.get("/api/produse", async function(req, res) {
     // preluare parametri
     let titlu = req.query.val_titlu;
@@ -702,6 +703,74 @@ app.get(["/profil"], function(req, res, next) {
         return;
     }
     next();
+});
+
+// - administrare utilizatori
+app.get("/admin/utilizatori", async function(req, res, next) {
+    // accesul doar pentru admini
+    if (!req.session.utilizator || req.session.utilizator.rol.cod != "admin") {
+        afisareEroare(res, 403, undefined, "Nu aveți dreptul de a accesa această pagină.");
+        return;
+    }
+
+    // preluare utilizatori
+    let context = AccesBD.getInstanta();
+    let data = await context.selectAsync({
+        tabel: "utilizatori",
+        campuri: ["username", "nume", "prenume", "blocat"],
+        conditii: [[`username != '${req.session.utilizator.username}'`]]
+    });
+
+    res.locals.utilizatori = data.rows;
+    res.locals.campuri = data.fields;
+    next();
+});
+
+app.post("/admin/utilizatori/blocheaza", function(req, res) {
+    // accesul doar pentru admini
+    if (!req.session.utilizator || req.session.utilizator.rol.cod != "admin") {
+        afisareEroare(res, 403, undefined, "Nu aveți dreptul de a accesa această pagină.");
+        return;
+    }
+
+    // parametri query
+    let username = req.query.username;
+    let blocat = req.query.blocat == "true";
+    
+    // actualizare utilizator
+    AccesBD.getInstanta().update({
+        tabel: "utilizatori",
+        campuri: {
+            blocat
+        },
+        conditii: [[`username='${username}'`]]
+    }, function(err, rez) {
+        if (err) {
+            console.error(err);
+            res.json({error: err});
+            return;
+        } else if (rez.rowCount != 1) {
+            // nu a fost gasit utilizatorul
+            res.json({error: "Nu a fost gasit utilizatorul"});
+            return;
+        }
+
+        // trimitere email
+        Utilizator.getUtilizDupaUsername(username, blocat, function(u, blocat, err) {
+            if (err) {
+                return;
+            }
+
+            if (blocat) {
+                let mesajText = `N-ai fost cuminte, ${u.prenume} ${u.nume}, așa că te-am blocat!`;
+                let mesajHTML = `<p>N-ai fost cuminte, ${u.prenume} ${u.nume}, așa că te-am blocat!</p>`;
+                u.trimiteMail("Contul tău Bookland a fost blocat", mesajText, mesajHTML);
+            }
+        });
+
+        // actualizare cu succes
+        res.json({state: blocat});
+    });
 });
 
 // - afisare pagini dinamic + mesaje de eroare daca nu sunt gasite
