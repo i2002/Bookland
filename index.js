@@ -561,6 +561,7 @@ app.post("/profil", function(req, res) {
     var formular = new formidable.IncomingForm();
     formular.parse(req, function(err, campuriText, campuriFile) {
         var parola_criptata = Utilizator.criptareParola(campuriText.parola);
+        var modificari = false;
 
         // verificare campuri server-side
         try {
@@ -595,6 +596,7 @@ app.post("/profil", function(req, res) {
         // daca a fost completata o parola noua
         if (campuriText.parola_noua != "") {
             campuri.parola = Utilizator.criptareParola(campuriText.parola_noua);
+            modificari = true;
         }
 
         AccesBD.getInstanta().update({
@@ -611,18 +613,46 @@ app.post("/profil", function(req, res) {
                 res.render("pagini/profil", {err: "Parolă incorectă"});
                 return;
             }
+
+            // actualizare cu succes
+            console.log("> sesiune actualizata");
             
             // actualizare sesiune
-            req.session.utilizator.nume = campuriText.nume;
-            req.session.utilizator.prenume = campuriText.prenume;
-            req.session.utilizator.email = campuriText.email;
-            req.session.utilizator.culoare_chat = campuriText.culoare_chat;
+            if (req.session.utilizator.nume != campuriText.nume) {
+                req.session.utilizator.nume = campuriText.nume;
+                modificari = true;
+            }
+            
+            if (req.session.utilizator.prenume != campuriText.prenume) {
+                req.session.utilizator.prenume = campuriText.prenume;
+                modificari = true;
+            }
+
+            if (req.session.utilizator.email != campuriText.email) {
+                req.session.utilizator.email = campuriText.email;
+                modificari = true;
+            }
+
+            if (req.session.utilizator.culoare_chat != campuriText.culoare_chat) {
+                req.session.utilizator.culoare_chat = campuriText.culoare_chat;
+                modificari = true;
+            }
+
             if (poza != "") {
                 req.session.utilizator.poza = path.join("poze_uploadate", campuriText.username, poza);
+                modificari = true;
             }
+
             res.locals.utilizator = req.session.utilizator;
 
-            console.log("> sesiune actualizata");
+            // trimitere notificare date actualizate
+            if (modificari) {
+                let mesajText = `Bună, ${campuriText.username}! Noile tale date sunt: nume: ${campuriText.nume}, prenume: nume: ${campuriText.prenume}, email: nume: ${campuriText.email} și culoare chat: nume: ${campuriText.culoare_chat}`;
+                let mesajHTML = `<h2>Date actualizate pentru ${campuriText.username}</h2><p>Noile date sunt: <ul><li>Nume: ${campuriText.nume}</li><li>Prenume: ${campuriText.prenume}</li><li>Email: ${campuriText.email}</li><li>Culoare chat: ${campuriText.culoare_chat}</li></p>`;
+                utilizNou.trimiteMail("Ți-ai modificat datele cu succes", mesajText, mesajHTML);
+            }
+
+            // intoarcere formular
             res.render("pagini/profil", {mesaj: "Date actualizate cu succes."});
         });
     });
