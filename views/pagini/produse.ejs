@@ -257,14 +257,63 @@
                             <div class="descriere-prod"><%- prod.descriere %></div>
                             <p class="colectie">Colecție: <span class="val-colectie"><%- prod.colectie %></span></p>
                             <div class="btn-toolbar" role="toolbar">
-                                <button class="btn btn-outline-primary mx-2 pin-prod" title="Afișează produsul indiferent de filtre" onclick="pin_product(<%= prod.id %>)"><i class="bi bi-pin-angle-fill"></i></button>
-                                <button class="btn btn-outline-primary mx-2 hide-prod" title="Ascunde temporar produsul" onclick="hide_product(<%= prod.id %>)"><i class="bi bi-eye-slash-fill"></i></button>
-                                <button class="btn btn-outline-primary mx-2 remove-prod" title="Ascunde produsul pe parcursul sesiunii curente" onclick="remove_product(<%= prod.id %>)"><i class="bi bi-trash-fill"></i></button>
+                                <button class="btn btn-outline-primary mx-2 pin-prod" title="Afișează produsul indiferent de filtre" onclick=<%- `"pin_product(${prod.id})"` %>><i class="bi bi-pin-angle-fill"></i></button>
+                                <button class="btn btn-outline-primary mx-2 hide-prod" title="Ascunde temporar produsul" onclick=<%- `"hide_product(${prod.id})"` %>><i class="bi bi-eye-slash-fill"></i></button>
+                                <button class="btn btn-outline-primary mx-2 remove-prod" title="Ascunde produsul pe parcursul sesiunii curente" onclick=<%- `"remove_product(${prod.id})"` %>><i class="bi bi-trash-fill"></i></button>
                             </div>
+                            <script>
+                                document.querySelector("#elem_<%= prod.id %>").addEventListener("click", (e) => {
+                                    console.log(e.target, e.target.tagName)
+                                    if(e.target.tagName != "BUTTON") {
+                                        let res = new bootstrap.Modal("#modal_prod<%= prod.id %>", {
+                                            shown: true
+                                        });
+                                        res.show();
+                                        console.log("Hi", res);
+                                    }
+                                });
+
+                                document.querySelector("#elem_<%= prod.id %> .btn-toolbar").addEventListener("click", e => {
+                                    e.stopPropagation();
+                                })
+                            </script>
                             <!-- <label class="selecteaza-cos">
                                 Selectează:<br/>
                                 <input type="checkbox" class="select-cos" value="<%- prod.id %>" autocomplete="off">
                             </label> -->
+                            
+                            <div class="modal fade" id="modal_prod<%= prod.id %>" tabindex="-1" aria-labelledby="modal_prod<%= prod.id %>_title" aria-hidden="true">
+                                <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h1 class="modal-title fs-5" id="modal_prod<%= prod.id %>_title"><%= prod.titlu %></h1>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body row">
+                                            <figure class="imag-produs col-md-4">
+                                                <img src="/resurse/img/produse/<%= prod.imagine %>" alt="[imagine <%= prod.titlu %>]" style="max-width: 400px"/>
+                                            </figure>
+                                            <div class="col-md-8">
+                                                <p>Pret: <span class="pret"><%= prod.pret %> </span>lei</p>
+                                                <p>ISBN: <span class="isbn"><%= prod.isbn %> </span></p>
+                                                <p>Autor: <span class="autor"><%= prod.autor %> </span></p>
+                                                <p>Editura: <span class="editura"><%= prod.editura %> </span></p>
+                                                <p>Descriere: <span class="descriere"><%- prod.descriere %> </span></p>
+                                                <p>Limba: <span class="limba"><%= prod.limba %> </span></p>
+                                                <p>Număr pagini: <span class="nr_pagini"><%= prod.nr_pagini %> </span></p>
+                                                <p>Formate: <span class="limba"><%= prod.format %> </span></p>
+                                                <p>Anul apariției: <span class="anul_aparitiei"><%= prod.anul_aparitiei %> </span></p>
+                                                <p>Categorie: <span class="colectie"><%= prod.colectie %> </span></p>
+                                                <p>La ofertă: <span class="oferta"><%= prod.oferta ? "Da" : "Nu" %> </span></p>
+                                                <p>Data adăugare: <span class="data_adaugare"><%= prod.data_adaugare %> </span></p>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </article>
                 <% } %>
