@@ -24,6 +24,20 @@
                 }
             }
         });
+
+        window.onload = function() {
+            var formular = document.getElementById("form_inreg");
+            if (formular) {
+                formular.onsubmit = function() {
+                    if (document.getElementById("nparl").value != document.getElementById("nrparl").value) {
+                        alert("Nu ati introdus același șir pentru câmpurile \"Parolă nouă\" și \"Reintroducere parolă nouă\".");
+                        return false;
+                    }
+
+                    return true;
+                }
+            }
+        }
     </script>
 </head>
 <body>

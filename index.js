@@ -421,7 +421,6 @@ app.post("/inregistrare", function(req, res) {
     var formular = new formidable.IncomingForm();
     formular.parse(req, function(err, campuriText, campuriFisier) { //4
         var eroare = "";
-        console.log(campuriText);
 
         var utilizNou = new Utilizator();
         try {
@@ -570,6 +569,9 @@ app.post("/profil", function(req, res) {
             utilizNou.setareNume = campuriText.nume;
             utilizNou.setarePrenume = campuriText.prenume
             utilizNou.setareEmail = campuriText.email
+            if(campuriText.parola_noua != "") {
+                utilizNou.setareParola = campuriText.parola_noua;
+            }
             utilizNou.setareDataNastere = campuriText.data_nastere;
         } catch(e) {
             console.error(e);
@@ -588,6 +590,11 @@ app.post("/profil", function(req, res) {
         // daca a fost uploadata o alta poza
         if (poza != "") {
             campuri.poza = poza;
+        }
+
+        // daca a fost completata o parola noua
+        if (campuriText.parola_noua != "") {
+            campuri.parola = Utilizator.criptareParola(campuriText.parola_noua);
         }
 
         AccesBD.getInstanta().update({

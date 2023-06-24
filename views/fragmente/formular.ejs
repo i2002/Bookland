@@ -20,6 +20,15 @@
             <label for="rparl" class="form-label">Reintroduceti parola</label>
             <input id="rparl" class="form-control" type="password" name="rparola" value="" required pattern=".*[0-9].*">
         </div>
+    <% } else { %>
+        <div class="mb-3">
+            <label for="nparl" class="form-label">Parola nouă</label>
+            <input id="nparl" class="form-control" type="password" name="parola_noua" value="" pattern=".*[0-9].*">
+        </div>
+        <div class="mb-3" id="p-reintrod">
+            <label for="nrparl" class="form-label">Reintroduceti parola nouă</label>
+            <input id="nrparl" class="form-control" type="password" name="rparola_noua" value="" pattern=".*[0-9].*">
+        </div>
     <% } %>
     <div class="mb-3">
         <label for="inp-email" class="form-label">Email</label>
