@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <title>Bookland | Profil utilizator</title>
+    <meta name="keywords" content="bookland, cărți digitale, ebook, bibliotecă virtuală">
+    <meta name="description" content="Magazin online de cărți digitale. Oferte. Bestsellere. Cărți nou apărute.">
+    
+    <%- include("../fragmente/head") %>     
+    <script type="text/javascript" src="/resurse/js/inregistrare.js"></script>
+
+    <!-- Populare inputuri -->
+    <script>
+        window.addEventListener("DOMContentLoaded", function() {
+            document.getElementById("inp-username").value = "<%= locals.utilizator.username %>";
+            document.getElementById("inp-username").readOnly = true;
+            document.getElementById("inp-nume").value = "<%= locals.utilizator.nume %>";
+            document.getElementById("inp-prenume").value = "<%= locals.utilizator.prenume %>";
+            document.getElementById("inp-email").value = "<%= locals.utilizator.email %>";
+            
+            var optiuni = document.getElementById("sel-culoare").options;
+            for (let opt of optiuni) {
+                if (opt.value == "<%= locals.utilizator.culoare_chat %>") {
+                    opt.selected = true;
+
+                }
+            }
+        });
+    </script>
+</head>
+<body>
+    <!-- Header -->
+    <%- include("../fragmente/header") %>
+
+    <!-- Main content -->
+    <main class="container">
+        <h1 class="mt-3">Profil utilizator <%= locals.utilizator.nume %></h1>
+        <section>
+            <% if (locals.mesaj) { %>
+                <div class="alert alert-success mb-3" role="alert">
+                    <%= locals.mesaj %>
+                </div>
+            <% } %>
+            <% if (locals.err) { %>
+                <div class="alert alert-danger mb-3" role="alert">
+                    <%= locals.err %>
+                </div>
+            <% } %>
+            <%- include("../fragmente/formular", {action: "/profil"}) %>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <%- include("../fragmente/footer") %>
+</body>
+</html>

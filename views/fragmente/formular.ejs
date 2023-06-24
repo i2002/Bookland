@@ -15,10 +15,12 @@
         <label for="parl" class="form-label">Parola</label>
         <input id="parl" class="form-control" type="password" name="parola" value="" required pattern=".*[0-9].*">
     </div>
-    <div class="mb-3" id="p-reintrod">
-        <label for="rparl" class="form-label">Reintroduceti parola</label>
-        <input id="rparl" class="form-control" type="password" name="rparola" value="" required pattern=".*[0-9].*">
-    </div>
+    <% if (locals.action == "/inregistrare") { %>
+        <div class="mb-3" id="p-reintrod">
+            <label for="rparl" class="form-label">Reintroduceti parola</label>
+            <input id="rparl" class="form-control" type="password" name="rparola" value="" required pattern=".*[0-9].*">
+        </div>
+    <% } %>
     <div class="mb-3">
         <label for="inp-email" class="form-label">Email</label>
         <input type="text" class="form-control" name="email" id="inp-email" value="tudorbutufei@gmail.com" size="50" pattern="[A-Za-z0-9\-_]*@[a-zA-Z0-9]*.[a-zA-Z]{2,3}" required>
@@ -35,10 +37,12 @@
             <option value="blue">albastru</option>
         </select>
     </div>
-    <div class="mb-3">
-        <label for="inp-poza" class="form-label">Poza</label>
-        <input type="file" class="form-control" id="inp-poza" name="poza">
-    </div>
+    <% if (locals.action == "/inregistrare") { %>
+        <div class="mb-3">
+            <label for="inp-poza" class="form-label">Poza</label>
+            <input type="file" class="form-control" id="inp-poza" name="poza">
+        </div>
+    <% } %>
     <div>
         <input class="btn btn-primary" type="submit" value="Trimite">
         <input class="btn btn-danger" type="reset" value="Reseteaza">

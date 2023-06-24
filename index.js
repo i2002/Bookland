@@ -547,6 +547,73 @@ app.get("/logout", function(req, res) {
     res.render("pagini/logout");
 });
 
+// - actualizare profil utilizator
+app.post("/profil", function(req, res) {
+    if (!req.session.utilizator) {
+        afisareEroare(res, 403, undefined, "Nu sunteți logat.");
+        return;
+    }
+
+    var formular = new formidable.IncomingForm();
+    formular.parse(req, function(err, campuriText, campuriFile) {
+        var parola_criptata = Utilizator.criptareParola(campuriText.parola);
+
+        // verificare campuri server-side
+        try {
+            var utilizNou = new Utilizator();
+            utilizNou.setareUsername = campuriText.username;
+            utilizNou.setareNume = campuriText.nume;
+            utilizNou.setarePrenume = campuriText.prenume
+            utilizNou.setareEmail = campuriText.email
+            utilizNou.setareDataNastere = campuriText.data_nastere;
+        } catch(e) {
+            console.error(e);
+            res.render("pagini/profil", {err: "Eroare: " + e.message});
+            return;
+        }
+
+        AccesBD.getInstanta().update({
+            tabel: "utilizatori",
+            campuri: {
+                nume: campuriText.nume,
+                prenume: campuriText.prenume,
+                email: campuriText.email,
+                culoare_chat: campuriText.culoare_chat,
+            },
+            conditii: [[`parola='${parola_criptata}'`, `username='${campuriText.username}'`]]
+        }, function(err, rez) {
+            if (err) {
+                console.error(err);
+                afisareEroare(res, 2);
+                return;
+            } else if (rez.rowCount != 1) {
+                // nu a fost gasit niciun utilizator cu userul si parola respectiva
+                res.render("pagini/profil", {err: "Parolă incorectă"});
+                return;
+            }
+            
+            // actualizare sesiune
+            req.session.utilizator.nume = campuriText.nume;
+            req.session.utilizator.prenume = campuriText.prenume;
+            req.session.utilizator.email = campuriText.email;
+            req.session.utilizator.culoare_chat = campuriText.culoare_chat;
+            res.locals.utilizator = req.session.utilizator;
+
+            console.log("> sesiune actualizata");
+            res.render("pagini/profil", {mesaj: "Date actualizate cu succes."});
+        });
+    });
+});
+
+// - prevenire acces pagini neautorizate
+app.get(["/profil"], function(req, res, next) {
+    if (!req.session.utilizator) {
+        afisareEroare(res, 403, undefined, "Nu sunteți logat.");
+        return;
+    }
+    next();
+});
+
 // - afisare pagini dinamic + mesaje de eroare daca nu sunt gasite
 app.get("/*", function(req, res) {
     try {
